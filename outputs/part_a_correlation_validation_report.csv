@@ -1,0 +1,4 @@
+column_1,column_2,actual_correlation,reference_correlation,absolute_difference,tolerance,status
+delivery_hours,promised_hours,0.8372,0.8370,0.0002,0.0100,PASS
+delivery_hours,distance_km,0.4013,0.4010,0.0003,0.0100,PASS
+is_delayed,distance_km,0.5455,0.5460,0.0005,0.0100,PASS

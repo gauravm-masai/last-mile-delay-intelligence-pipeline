@@ -50,6 +50,8 @@ def clean_data(raw, hubs):
         index=False,
     )
 
+    print("Modelling table saved to data/modelling_table.csv")
+
     return clean, medians, modelling_table
 
 # Function 3: Generate metrics after cleanup
@@ -254,6 +256,65 @@ def generate_delay_evidence(modelling_table):
 
     return result
 
+def compare_delay_evidence(delay_evidence):
+    reference = pd.read_csv("references/part_a_delay_by_group_reference.csv")
+
+    delay_evidence["group"] = delay_evidence["group"].astype(str).str.strip()
+    reference["group"] = reference["group"].astype(str).str.strip()
+
+    delay_evidence["dimension"] = delay_evidence["dimension"].astype(str).str.strip()
+    reference["dimension"] = reference["dimension"].astype(str).str.strip()
+
+    keys = ["dimension", "group"]
+    compare_columns = ["shipments", "delayed", "delay_rate"]
+
+    #print("Computed duplicate groups:")
+    #print(delay_evidence[delay_evidence.duplicated(["dimension", "group"], keep=False)])
+
+    #print("Reference duplicate groups:")
+    #print(reference[reference.duplicated(["dimension", "group"], keep=False)])
+
+    comparison = delay_evidence.merge(
+        reference,
+        on=keys,
+        how="outer",
+        suffixes=("_actual", "_reference"),
+        indicator=True,
+        validate="one_to_one",
+    )
+
+    comparison["counts_match"] = (
+            comparison["shipments_actual"]
+            .eq(comparison["shipments_reference"])
+            & comparison["delayed_actual"].eq(comparison["delayed_reference"])
+    )
+
+    comparison["rate_matches"] = (
+            (comparison["delay_rate_actual"] - comparison["delay_rate_reference"])
+            .abs() < 0.00005
+    )
+
+    comparison["status"] = "PASS"
+    comparison.loc[
+        (comparison["_merge"] != "both")
+        | ~comparison["counts_match"]
+        | ~comparison["rate_matches"],
+        "status",
+    ] = "FAIL"
+
+    comparison.to_csv(
+        "outputs/part_a_delay_validation_report.csv",
+        index=False,
+        float_format="%.4f",
+    )
+
+    #print(comparison[keys + ["status"]].to_string(index=False))
+
+    if not comparison["status"].eq("PASS").all():
+        raise ValueError("Delay evidence does not match the reference table.")
+    else:
+        print("Delay evidence match the reference table.")
+
 def generate_correlations(modelling_table):
     numeric_df = modelling_table.select_dtypes(include="number")
 
@@ -266,9 +327,65 @@ def generate_correlations(modelling_table):
         float_format="%.4f",
     )
 
-    print("Saved correlation matrix to outputs/part_a_correlations.csv")
+    print("Correlation matrix saved to outputs/part_a_correlations.csv")
 
     return correlations
+
+def compare_correlations(correlations):
+    reference_correlations = [
+        {
+            "column_1": "delivery_hours",
+            "column_2": "promised_hours",
+            "reference_value": 0.837,
+        },
+        {
+            "column_1": "delivery_hours",
+            "column_2": "distance_km",
+            "reference_value": 0.401,
+        },
+        {
+            "column_1": "is_delayed",
+            "column_2": "distance_km",
+            "reference_value": 0.546,
+        },
+    ]
+
+    tolerance = 0.01
+    results = []
+
+    for check in reference_correlations:
+        column_1 = check["column_1"]
+        column_2 = check["column_2"]
+
+        actual_value = correlations.loc[column_1, column_2]
+        reference_value = check["reference_value"]
+        difference = abs(actual_value - reference_value)
+
+        results.append({
+            "column_1": column_1,
+            "column_2": column_2,
+            "actual_correlation": actual_value,
+            "reference_correlation": reference_value,
+            "absolute_difference": difference,
+            "tolerance": tolerance,
+            "status": "PASS" if difference <= tolerance else "FAIL",
+        })
+
+    comparison = pd.DataFrame(results)
+
+    comparison.to_csv(
+        "outputs/part_a_correlation_validation_report.csv",
+        index=False,
+        float_format="%.4f",
+    )
+
+    if not comparison["status"].eq("PASS").all():
+        raise ValueError(
+            "One or more correlation spot checks failed. "
+            "See outputs/part_a_correlation_validation_report.csv"
+        )
+    else:
+        print("Correlation spot values match the reference values")
 
 # Run the four functions in sequence
 raw_shipments = pd.read_csv("data/raw_shipments.csv")
@@ -289,4 +406,8 @@ compare_metrics(all_metrics)
 
 delay_evidence = generate_delay_evidence(modelling_table)
 
+compare_delay_evidence(delay_evidence)
+
 correlations = generate_correlations(modelling_table)
+
+compare_correlations(correlations)
