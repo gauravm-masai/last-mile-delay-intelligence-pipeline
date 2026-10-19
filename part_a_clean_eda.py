@@ -107,10 +107,8 @@ def generate_metrics_after_cleanup(
 
     return metrics
 
-# Function 4: Compare actual metrics with the reference and save reports
-def compare_metrics(metrics):
-    reference = pd.read_csv("references/part_a_reference_metrics.csv")
-
+# Function 4: Save actual metrics reports
+def save_part_a_metrics(metrics):
     actual = pd.DataFrame(
         [{"metric": name, "value": value}
          for name, value in metrics.items()]
@@ -122,79 +120,6 @@ def compare_metrics(metrics):
         index=False,
         float_format="%.4f",
     )
-
-    actual_values = actual.set_index("metric")["value"].to_dict()
-    reference_values = reference.set_index("metric")["value"].to_dict()
-    tolerances = reference.set_index("metric")["tolerance"].to_dict()
-
-    report_rows = []
-
-    # Compare every reference metric, including missing actual metrics.
-    for metric, expected in reference_values.items():
-        if metric not in actual_values:
-            observed = np.nan
-            tolerance = tolerances[metric]
-            difference = np.nan
-            status = "MISMATCH"
-        else:
-            observed = actual_values[metric]
-            tolerance = tolerances[metric]
-            difference = abs(observed - expected)
-            status = (
-                "PASS" if difference <= tolerance else "MISMATCH"
-            )
-
-        report_rows.append({
-            "metric": metric,
-            "actual_value": observed,
-            "reference_value": expected,
-            "absolute_difference": difference,
-            "tolerance": tolerance,
-            "status": status,
-        })
-
-    # Report unexpected generated metrics too.
-    for metric, observed in actual_values.items():
-        if metric not in reference_values:
-            report_rows.append({
-                "metric": metric,
-                "actual_value": observed,
-                "reference_value": np.nan,
-                "absolute_difference": np.nan,
-                "tolerance": np.nan,
-                "status": "UNEXPECTED",
-            })
-
-    report = pd.DataFrame(report_rows)
-    report.to_csv(
-        "outputs/part_a_validation_report.csv",
-        index=False,
-        float_format="%.4f",
-    )
-
-    mismatches = report[report["status"] != "PASS"]
-
-    if mismatches.empty:
-        print("All Part A metrics match the reference values.")
-    else:
-        print("Part A metric differences found:")
-        print(
-            mismatches[
-                [
-                    "metric",
-                    "actual_value",
-                    "reference_value",
-                    "absolute_difference",
-                    "tolerance",
-                    "status",
-                ]
-            ].to_string(index=False)
-        )
-        print(
-            "Review outputs/part_a_validation_report.csv "
-            "for the complete comparison."
-        )
-
 
 def generate_delay_evidence(modelling_table):
     # Define the required distance bands.
@@ -256,65 +181,6 @@ def generate_delay_evidence(modelling_table):
 
     return result
 
-def compare_delay_evidence(delay_evidence):
-    reference = pd.read_csv("references/part_a_delay_by_group_reference.csv")
-
-    delay_evidence["group"] = delay_evidence["group"].astype(str).str.strip()
-    reference["group"] = reference["group"].astype(str).str.strip()
-
-    delay_evidence["dimension"] = delay_evidence["dimension"].astype(str).str.strip()
-    reference["dimension"] = reference["dimension"].astype(str).str.strip()
-
-    keys = ["dimension", "group"]
-    compare_columns = ["shipments", "delayed", "delay_rate"]
-
-    #print("Computed duplicate groups:")
-    #print(delay_evidence[delay_evidence.duplicated(["dimension", "group"], keep=False)])
-
-    #print("Reference duplicate groups:")
-    #print(reference[reference.duplicated(["dimension", "group"], keep=False)])
-
-    comparison = delay_evidence.merge(
-        reference,
-        on=keys,
-        how="outer",
-        suffixes=("_actual", "_reference"),
-        indicator=True,
-        validate="one_to_one",
-    )
-
-    comparison["counts_match"] = (
-            comparison["shipments_actual"]
-            .eq(comparison["shipments_reference"])
-            & comparison["delayed_actual"].eq(comparison["delayed_reference"])
-    )
-
-    comparison["rate_matches"] = (
-            (comparison["delay_rate_actual"] - comparison["delay_rate_reference"])
-            .abs() < 0.00005
-    )
-
-    comparison["status"] = "PASS"
-    comparison.loc[
-        (comparison["_merge"] != "both")
-        | ~comparison["counts_match"]
-        | ~comparison["rate_matches"],
-        "status",
-    ] = "FAIL"
-
-    comparison.to_csv(
-        "outputs/part_a_delay_validation_report.csv",
-        index=False,
-        float_format="%.4f",
-    )
-
-    #print(comparison[keys + ["status"]].to_string(index=False))
-
-    if not comparison["status"].eq("PASS").all():
-        raise ValueError("Delay evidence does not match the reference table.")
-    else:
-        print("Delay evidence match the reference table.")
-
 def generate_correlations(modelling_table):
     numeric_df = modelling_table.select_dtypes(include="number")
 
@@ -331,83 +197,24 @@ def generate_correlations(modelling_table):
 
     return correlations
 
-def compare_correlations(correlations):
-    reference_correlations = [
-        {
-            "column_1": "delivery_hours",
-            "column_2": "promised_hours",
-            "reference_value": 0.837,
-        },
-        {
-            "column_1": "delivery_hours",
-            "column_2": "distance_km",
-            "reference_value": 0.401,
-        },
-        {
-            "column_1": "is_delayed",
-            "column_2": "distance_km",
-            "reference_value": 0.546,
-        },
-    ]
+if __name__ == "__main__":
+    raw = pd.read_csv("data/raw_shipments.csv")
+    hubs = pd.read_csv("data/hubs.csv")
 
-    tolerance = 0.01
-    results = []
+    before_metrics = generate_metrics_before_cleanup(raw)
 
-    for check in reference_correlations:
-        column_1 = check["column_1"]
-        column_2 = check["column_2"]
+    clean, medians, modelling_table = clean_data(raw, hubs)
 
-        actual_value = correlations.loc[column_1, column_2]
-        reference_value = check["reference_value"]
-        difference = abs(actual_value - reference_value)
-
-        results.append({
-            "column_1": column_1,
-            "column_2": column_2,
-            "actual_correlation": actual_value,
-            "reference_correlation": reference_value,
-            "absolute_difference": difference,
-            "tolerance": tolerance,
-            "status": "PASS" if difference <= tolerance else "FAIL",
-        })
-
-    comparison = pd.DataFrame(results)
-
-    comparison.to_csv(
-        "outputs/part_a_correlation_validation_report.csv",
-        index=False,
-        float_format="%.4f",
+    after_metrics = generate_metrics_after_cleanup(
+        clean,
+        medians,
+        modelling_table,
+        before_metrics,
     )
 
-    if not comparison["status"].eq("PASS").all():
-        raise ValueError(
-            "One or more correlation spot checks failed. "
-            "See outputs/part_a_correlation_validation_report.csv"
-        )
-    else:
-        print("Correlation spot values match the reference values")
+    # Generate the required Part A checks file.
+    save_part_a_metrics(after_metrics)
 
-# Run the four functions in sequence
-raw_shipments = pd.read_csv("data/raw_shipments.csv")
-hubs = pd.read_csv("data/hubs.csv")
-
-before_metrics = generate_metrics_before_cleanup(raw_shipments)
-
-clean, medians, modelling_table = clean_data(raw_shipments, hubs)
-
-all_metrics = generate_metrics_after_cleanup(
-    clean,
-    medians,
-    modelling_table,
-    before_metrics
-)
-
-compare_metrics(all_metrics)
-
-delay_evidence = generate_delay_evidence(modelling_table)
-
-compare_delay_evidence(delay_evidence)
-
-correlations = generate_correlations(modelling_table)
-
-compare_correlations(correlations)
+    # Generate the delay evidence and correlation outputs.
+    generate_delay_evidence(modelling_table)
+    generate_correlations(modelling_table)

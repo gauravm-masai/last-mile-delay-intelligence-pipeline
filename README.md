@@ -58,6 +58,16 @@ The outputs include the cleaned modelling table, validation reports, delay summa
 - **Correlation with delivery hours:** The three numeric columns most strongly correlated with `delivery_hours`, ranked by absolute Pearson correlation and excluding `delivery_hours` itself, were **promised_hours (+0.8372)**, **[distance_km] (+0.4013)**, and **[n_stops] (+0.3247)**. These correlations describe linear associations and do not establish causation.
 - **Log transformation of declared value:** In the filled modelling table, `declared_value_inr` had a mean of **₹1,533.05** and a median of **₹1,121.50**, while `log_declared_value` had a mean of **7.028** and a median of **7.022**. The log transformation reduces the influence of large values and makes the distribution less right-skewed.
 
+### Validations
+
+The validation scripts are maintained separately in the `validations/` folder to keep validation logic independent of data preparation and analysis. They compare the generated outputs against the reference values provided in the assignment.
+
+- `validate_metrics` checks data-cleaning and quality metrics against the reference values and tolerances.
+- `validate_delay_evidence` compares shipment counts, delayed counts, and delay rates across service types, hub tiers, and distance bands.
+- `validate_correlations` checks three specified correlations against the reference values using a tolerance of ±0.01.
+
+The scripts save validation reports in `outputs/` and identify any checks that fail. Run them after generating the Part A outputs to verify the results.
+
 ## Results
 
 To be completed after running the analyses and evaluating the models. These will be added later.
