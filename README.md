@@ -66,7 +66,44 @@ The validation scripts are maintained separately in the `validations/` folder to
 - `validate_delay_evidence` compares shipment counts, delayed counts, and delay rates across service types, hub tiers, and distance bands.
 - `validate_correlations` checks three specified correlations against the reference values using a tolerance of ±0.01.
 
-The scripts save validation reports in `outputs/` and identify any checks that fail. Run them after generating the Part A outputs to verify the results.
+The scripts save validation reports in `validations/reports` and identify any checks that fail. Run them after generating the Part A outputs to verify the results.
+
+## Part B: Delivery-Hours Regression
+
+### Objectives
+- Establish a baseline for predicting shipment delivery hours.
+- Train and compare Linear Regression, Decision Tree, Random Forest, and Gradient Boosting models.
+- Study decision tree depth and gradient boosting learning rate to understand underfitting, overfitting, and model performance.
+- Use cross-validation to assess the stability of the best candidate models and evaluate the selected model on the test set.
+
+### High Level Approach
+- Split the modelling dataset into training (840 rows), validation (180 rows), and test (180 rows).
+- Fit `StandardScaler` on the training data only and check the scaled feature means.
+- Evaluate a mean-prediction baseline using validation data.
+- Compare decision trees across eight depth configurations and gradient boosting across three learning rates.
+- Evaluate four regression candidates using MAE, MSE, RMSE, and R².
+- Run five-fold cross-validation on the two best candidates using the same `KFold` configuration.
+- Select the model with the lowest validation RMSE and evaluate its final performance on the held-out test set.
+
+### Data Findings
+- The baseline reference R² is -0.021, indicating that the mean-prediction baseline provides little predictive value.
+- The reference results show Linear Regression and Gradient Boosting achieving R² of 0.931, followed by Random Forest at 0.914 and Decision Tree at 0.887.
+- The reference decision tree performs best at depth 6, with validation RMSE of approximately 6.28 hours. A shallow tree shows high bias, while an unlimited-depth tree shows a large training-validation error gap, indicating high variance.
+- The reference gradient boosting results favour a learning rate of 0.1, with validation R² of 0.931. A rate of 0.01 learns too slowly with 100 estimators, while 1.0 can overshoot useful solutions and reduce performance.
+- Cross-validation is used to compare the stability of the two best validation candidates. If its ranking differs from the validation ranking, the model with the lowest validation RMSE is selected according to the assignment's procedure.
+- The reference final test R² is 0.949. Actual results are recorded in the generated output files.
+
+### Validations
+Validation scripts are maintained separately in the `validations/` directory.
+
+- **Split and scaling:** Verify the exact 840/180/180 split and check that the training scaled-column mean is below `1e-9` while the test scaled-column mean is above `0.01`.
+- **Model metrics:** Verify the expected six rows in `outputs/part_b_metrics.csv`, confirm RMSE equals the square root of MSE within `0.001`, and check the reference acceptance thresholds.
+- **Decision tree:** Verify eight unique depth configurations, non-increasing training RMSE as depth grows, the required bias/variance gaps, and agreement between the selected tree's validation RMSE and the best depth experiment.
+- **Gradient boosting:** Verify three learning-rate configurations, the required validation R² ranking, and the specified R² thresholds.
+- **Cross-validation:** Verify two distinct model results and check the required mean R² and standard deviation thresholds. Confirm in the implementation that both models use the same `KFold` object.
+- **Final evaluation:** Verify that the metrics file contains only one test result for the selected model and that its test R² meets the required threshold.
+
+These checks validate the generated outputs and relevant implementation details against the Part B acceptance criteria.
 
 ## Results
 

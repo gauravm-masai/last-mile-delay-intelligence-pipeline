@@ -1,0 +1,13 @@
+Item,Reference,Pass band
+Baseline R² (validation),-0.021,-0.10 to 0.02
+Linear regression R² (validation),0.931,>= 0.88
+Gradient boosting R² (validation),0.931,>= 0.88
+Random forest R² (validation),0.914,>= 0.86
+Decision tree R² (validation),0.887,>= 0.82
+Best tree depth / its val_rmse,6 / 6.28,Best depth is 4 or more or unlimited
+Depth 1: val_rmse - train_rmse,0.50,<= 2.5 (high bias: both errors high)
+No depth limit: train_rmse / val_rmse - train_rmse,0.00 / 7.79,Gap >= 5.0 (high variance)
+Depth 1 val_rmse minus best val_rmse,5.85,>= 4.0
+Learning rate 0.01 / 0.1 / 1.0: validation R²,0.713 / 0.931 / 0.844,R²(0.1) >= 0.90; R²(0.01) <= 0.80
+Cross-validated mean R² (each of the two models),0.926 and 0.935,Mean R² >= 0.90; std_r2 <= 0.03
+Final model R² on test,0.949,>= 0.88
