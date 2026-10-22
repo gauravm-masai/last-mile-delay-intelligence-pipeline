@@ -105,6 +105,41 @@ Validation scripts are maintained separately in the `validations/` directory.
 
 These checks validate the generated outputs and relevant implementation details against the Part B acceptance criteria.
 
+## Part C - Delay Classifier and Alert Threshold
+
+### Objectives
+- Establish a blind baseline for predicting parcel delays.
+- Compare Logistic Regression, Decision Tree and Random Forest classifiers using validation metrics.
+- Evaluate feature importance, identify noise features and study the effect of feature selection.
+- Compare default and tuned Random Forest models and select a classification threshold using validation results.
+- Evaluate the final model on the held-out test set.
+
+### High Level Approach
+- Split the data into training, validation and test sets using two-stage stratified splitting.
+- Evaluate the blind baseline and trained models using confusion matrices, accuracy, precision, recall and F1-score.
+- Rank features using F-scores and Random Forest feature importance, including the combined importance of the five noise columns.
+- Compare validation F1-scores for different values of `k` in the feature-selection experiment.
+- Compare the default Random Forest with grid search and randomized search.
+- Evaluate thresholds from 0.1 to 0.9 and select the highest threshold that achieves validation recall of at least 0.80, using 0.1 if none qualifies.
+- Evaluate the selected configuration once on the held-out test set.
+
+### Data Findings
+- **Blind baseline:** The baseline achieved an accuracy of **0.7667** by predicting every parcel as on time. Although this accuracy appears reasonable, the model identifies no delayed parcels, giving it zero recall and zero F1-score for the delayed class. It is therefore not useful for identifying parcels that need attention.
+- **Noise features:** The five noise columns together accounted for **22.45%** of the Random Forest's total feature importance. **Yes**, all five noise columns ranked outside the top seven by F-score. This helps assess whether the model relies mainly on meaningful delivery-related features.
+- **Feature selection:** The `k` table compares validation F1-scores when selecting 5, 7, 10, 12 and 17 features. The best result occurred at **k = 7**, with a validation F1-score of **0.8333**. This shows how feature selection affected the model's ability to identify delayed parcels.
+- **Hyperparameter tuning:** The default Random Forest achieved a validation F1-score of **0.8333**, compared with **0.7750** for grid search and **0.7848** for randomized search. **Tuning did not improve** the validation result over the untuned forest. With only 180 validation rows, small score differences may reflect variation in the sample and should not be treated as conclusive evidence that one configuration will generalize better.
+- **Threshold selection:** The selected threshold was **0.5**. The threshold was chosen using validation recall, prioritizing the detection of delayed parcels while considering the trade-off between precision and recall. Lower thresholds generally identify more delayed parcels but may also produce more false positives; higher thresholds may improve precision while missing more delays.
+- **Final test results:** On the held-out test set, the final model achieved precision of **0.6889**, recall of **0.7561** and F1-score of **0.7209**. Validation recall was **0.8333**, compared with test recall of **0.7561**. The difference was **7.72%**. The test set contains only 41 delayed parcels, so each additional missed or correctly identified delayed parcel can noticeably change recall. The test result should therefore be interpreted with this limitation in mind.
+
+### Validations
+- Verified the required training, validation and test split sizes and delayed-parcel counts.
+- Checked the model-results table, confusion matrices and calculated classification metrics.
+- Confirmed the expected feature-score structure, the seven leading features and the rankings of the five noise columns.
+- Checked the Random Forest noise-importance share against the reference pass band.
+- Verified the feature-selection table and the candidate counts, cross-validation folds and total fits recorded for tuning.
+- Checked that threshold results contain all nine thresholds, that recall does not increase as the threshold rises, and that the saved threshold follows the selection rule.
+- Confirmed that the final-test confusion matrix contains 180 observations, including 41 delayed parcels, that its metrics match the confusion matrix, and that precision, recall and F1 meet the reference requirements.
+
 ## Results
 
 To be completed after running the analyses and evaluating the models. These will be added later.

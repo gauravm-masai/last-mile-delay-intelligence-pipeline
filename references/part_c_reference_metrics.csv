@@ -1,0 +1,11 @@
+Item,Reference,Pass band
+"Delayed parcels in train / validation / test","195 / 42 / 41","exact"
+"Blind baseline accuracy (validation)","0.7667","exact (±0.001)"
+"Logistic regression: F1 (validation)","0.805","≥ 0.65"
+"Best decision tree: depth / F1","6 / 0.747","F1 ≥ 0.60"
+"Default random forest F1 (validation)","0.800","≥ 0.65"
+"Accuracy of every trained model (validation)","0.883–0.911","above the blind baseline's 0.7667"
+"Noise columns' share of forest importance (17 columns)","0.225","0.15 to 0.30"
+"Grid / randomized best_cv_accuracy","0.8952 / 0.8905","each 0.86 to 0.93"
+"val_f1 of each row in part_c_tuning.csv","0.775 / 0.790 / 0.833","each ≥ 0.65"
+"Chosen threshold; test precision / recall / F1","0.5; 0.689 / 0.756 / 0.721","threshold per rule; F1 ≥ 0.60, recall ≥ 0.55, precision ≥ 0.45"

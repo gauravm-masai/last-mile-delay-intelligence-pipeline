@@ -304,7 +304,8 @@ def predict_analyse_best_model(models, metrics_df, best_model_name):
     final_model = models[best_model_name]
 
     #As per standard practice, final model should be retrained on train + val sets
-    final_model.fit(X_train_val, y_train_val)
+    #However, as mentioned in the assignment, this step needs to be avoided.
+    #final_model.fit(X_train_val, y_train_val)
 
     # Evaluate the selected model on the test set exactly once
     test_pred = final_model.predict(X_test)
