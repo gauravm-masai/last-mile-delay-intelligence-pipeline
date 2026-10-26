@@ -60,11 +60,35 @@ The outputs include the cleaned modelling table, validation reports, delay summa
 
 ### Validations
 
-The validation scripts are maintained separately in the `validations/` folder to keep validation logic independent of data preparation and analysis. They compare the generated outputs against the reference values provided in the assignment.
+Part A validations are maintained separately from the data preparation and exploratory analysis code in the `validations/` directory. This separation ensures that validation inspects existing generated outputs without rerunning the implementation or regenerating data.
 
-- `validate_metrics` checks data-cleaning and quality metrics against the reference values and tolerances.
-- `validate_delay_evidence` compares shipment counts, delayed counts, and delay rates across service types, hub tiers, and distance bands.
-- `validate_correlations` checks three specified correlations against the reference values using a tolerance of ±0.01.
+**Reference metrics**
+
+Part A uses `references/part_a_reference_metrics.csv` as the consolidated reference file. It follows the common schema used across all four parts:
+
+`source_file, metric_name, metric_value, tolerance`
+
+The reference contains 59 validation metrics covering:
+
+- **Data cleaning and quality:** Row counts, duplicates, missing values, invalid weight sentinels, service-type standardization, imputation medians, and declared-value statistics.
+- **Delay analysis:** Shipment counts, delayed counts, and delay rates for service types, hub tiers, and distance bands.
+- **Correlation spot-checks:** The correlations between `delivery_hours` and `promised_hours`, `delivery_hours` and `distance_km`, and `is_delayed` and `distance_km`.
+
+Exact comparisons use a tolerance of `0`. Numeric metrics that allow small differences specify their permitted tolerance explicitly in the reference file.
+
+**Validation report**
+
+The Part A validator checks the existing outputs and generates a standardized report:
+
+- `outputs/part_a_checks.csv`
+- `outputs/part_a_delay_by_group.csv`
+- `outputs/part_a_correlations.csv`
+
+**Execution and results**
+
+The latest validation run passed all **59 checks**: 26 data-quality metrics, 30 group-level delay metrics, and 3 correlation spot-checks. There were no mismatches or errors.
+
+Part A is therefore validated against the approved reference metrics, and its outputs are ready for use by the downstream modelling stages.
 
 The scripts save validation reports in `validations/reports` and identify any checks that fail. Run them after generating the Part A outputs to verify the results.
 

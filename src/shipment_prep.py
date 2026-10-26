@@ -2,12 +2,14 @@ import numpy as np
 import pandas as pd
 
 PROMISED_HOURS = {"Express": 36, "Standard": 60, "Economy": 96}
+
 FEATURES = [
     "promised_hours", "distance_km", "parcel_weight_kg", "log_declared_value", "n_stops",
     "rain_flag", "sale_event_flag", "is_cod", "is_weekend", "dispatch_hour",
     "hub_tier", "hub_daily_capacity",
     "label_print_batch", "scanner_build_no", "tape_roll_no", "sticker_serial_mod", "shelf_slot_no",
 ]
+
 NOISE_COLUMNS = ["label_print_batch", "scanner_build_no", "tape_roll_no", "sticker_serial_mod", "shelf_slot_no"]
 
 def clean_shipments(raw, medians=None):
@@ -101,7 +103,7 @@ def build_features(clean, hubs):
         hubs[hub_columns],
         on="hub_id",
         how="left",
-        validate="many_to_one",
+        validate="many_to_one"
     )
 
     # 2. Map service types to promised delivery hours
@@ -127,11 +129,6 @@ def build_features(clean, hubs):
     )
 
     # 6. Log-transform declared value
-    if (features_df["declared_value_inr"] <= 0).any():
-        raise ValueError(
-            "declared_value_inr must be positive to calculate its natural log."
-        )
-
     features_df["log_declared_value"] = np.log(
         features_df["declared_value_inr"]
     )

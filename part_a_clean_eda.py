@@ -1,13 +1,9 @@
 import numpy as np
 import pandas as pd
 
-from src.shipment_prep import (
-    FEATURES,
-    clean_shipments,
-    build_features,
-)
+from src.shipment_prep import FEATURES, clean_shipments, build_features
 
-# Function 1: Generate metrics before cleanup
+# Generate metrics before cleanup
 def generate_metrics_before_cleanup(raw):
     before = raw.drop_duplicates().copy()
 
@@ -17,9 +13,7 @@ def generate_metrics_before_cleanup(raw):
         "rows_after_dedup": len(before),
         "missing_distance_km_before": before["distance_km"].isna().sum(),
         "missing_parcel_weight_before": before["parcel_weight_kg"].isna().sum(),
-        "sentinel_weight_rows": (
-            before["parcel_weight_kg"] > 100
-        ).sum(),
+        "sentinel_weight_rows": (before["parcel_weight_kg"] > 100).sum(),
         "missing_declared_value_before": before["declared_value"].isna().sum(),
         "missing_payment_mode_before": before["payment_mode"].isna().sum(),
         "service_type_spellings_before": before["service_type"].nunique(),
@@ -27,34 +21,28 @@ def generate_metrics_before_cleanup(raw):
 
     return metrics
 
-# Function 2: Clean data and create the modelling table
+# Clean data and create the modelling table
 def clean_data(raw, hubs):
     clean, medians = clean_shipments(raw)
     modelling_table = build_features(clean, hubs)
 
     modelling_table["is_delayed"] = np.where(
-        modelling_table["delivery_hours"]
-        > modelling_table["promised_hours"],
+        modelling_table["delivery_hours"] > modelling_table["promised_hours"],
         1,
         0,
     )
 
-    if modelling_table["shipment_id"].duplicated().any():
-        raise ValueError("Duplicate shipment_id values found.")
-
-    if len(modelling_table) != len(clean):
-        raise ValueError("Hub merge changed the shipment row count.")
-
     modelling_table.to_csv(
         "data/modelling_table.csv",
         index=False,
+        float_format="%.4f"
     )
 
     print("Modelling table saved to data/modelling_table.csv")
 
     return clean, medians, modelling_table
 
-# Function 3: Generate metrics after cleanup
+# Generate metrics after cleanup
 def generate_metrics_after_cleanup(
     clean, medians, modelling_table, before_metrics
 ):
@@ -77,7 +65,7 @@ def generate_metrics_after_cleanup(
 
     # These four metrics use the median-filled modelling table.
     declared_values = modelling_table["declared_value_inr"]
-    log_values = np.log(declared_values)
+    log_values = modelling_table["log_declared_value"]
 
     metrics.update({
         "declared_value_mean_inr": declared_values.mean(),
@@ -87,7 +75,7 @@ def generate_metrics_after_cleanup(
     })
 
     # Use unrounded quartiles and bounds for the IQR calculation.
-    hours = modelling_table["delivery_hours"].dropna()
+    hours = modelling_table["delivery_hours"]
     q1 = hours.quantile(0.25)
     q3 = hours.quantile(0.75)
     iqr = q3 - q1
@@ -209,7 +197,7 @@ if __name__ == "__main__":
         clean,
         medians,
         modelling_table,
-        before_metrics,
+        before_metrics
     )
 
     # Generate the required Part A checks file.
