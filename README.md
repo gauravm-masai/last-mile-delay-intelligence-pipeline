@@ -55,7 +55,7 @@ The outputs include the cleaned modelling table, validation reports, delay summa
 - **Delay rate by service type:** Express shipments had the highest delay rate at **48.97%**, compared with 20.56% for Standard and 8.57% for Economy shipments.
 - **Delay rate by hub tier:** The delay rate increased from **4.00% at Tier 1** to **21.50% at Tier 2** and **44.00% at Tier 3**, indicating substantially higher delays at higher-tier hubs in this dataset.
 - **Delay rate by distance band:** The delay rate increased with distance: **2.19%** for 0-200 km, **13.68%** for 201-400 km, **43.64%** for 401-600 km, and **85.23%** for distances above 600 km.
-- **Correlation with delivery hours:** The three numeric columns most strongly correlated with `delivery_hours`, ranked by absolute Pearson correlation and excluding `delivery_hours` itself, were **promised_hours (+0.8372)**, **[distance_km] (+0.4013)**, and **[n_stops] (+0.3247)**. These correlations describe linear associations and do not establish causation.
+- **Correlation with delivery hours:** The three numeric columns most strongly correlated with `delivery_hours`, ranked by absolute Pearson correlation and excluding `delivery_hours` itself, were **promised_hours (+0.8372)**, **distance_km (+0.4013)**, and **n_stops (+0.3247)**. These correlations describe linear associations and do not establish causation.
 - **Log transformation of declared value:** In the filled modelling table, `declared_value_inr` had a mean of **₹1,533.05** and a median of **₹1,121.50**, while `log_declared_value` had a mean of **7.028** and a median of **7.022**. The log transformation reduces the influence of large values and makes the distribution less right-skewed.
 
 ### Validations
