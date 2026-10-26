@@ -90,7 +90,7 @@ The latest validation run passed all **59 checks**: 26 data-quality metrics, 30 
 
 Part A is therefore validated against the approved reference metrics, and its outputs are ready for use by the downstream modelling stages.
 
-The scripts save validation reports in `validations/reports` and identify any checks that fail. Run them after generating the Part A outputs to verify the results.
+If Part A is run again, the same validations can be run to verify the results against the reference values.
 
 ## Part B: Delivery-Hours Regression
 

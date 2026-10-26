@@ -34,8 +34,7 @@ def clean_data(raw, hubs):
 
     modelling_table.to_csv(
         "data/modelling_table.csv",
-        index=False,
-        float_format="%.4f"
+        index=False
     )
 
     print("Modelling table saved to data/modelling_table.csv")
