@@ -1,0 +1,14 @@
+Item,Reference,Tolerance
+"hub_profile.csv, HUB01",hours 45.685 · delay rate 0.0200 · distance 185.061 · stops 54.70,±0.01
+"hub_profile.csv, HUB13",hours 66.074 · delay rate 0.4600 · distance 473.320 · stops 83.92,±0.01
+"hub_profile.csv, HUB17",hours 60.851 · delay rate 0.4600 · distance 443.285 · stops 84.18,±0.01
+part_d_separation.csv K = 2 / 3: cluster_sizes,15-9 / 9-8-7,exact
+part_d_separation.csv K = 2 / 3: across_over_within,2.894 / 5.393,±0.01
+part_d_separation.csv K = 4 / 5: cluster_sizes,8-7-5-4 / 8-7-4-3-2,"exact for random_state=42 , n_init=10 and ascending hub_id order; see the note below the table"
+part_d_separation.csv K = 4 / 5: across_over_within,6.305 / 6.887,±0.01 for the pinned order and seed; otherwise graded on consistency with your own file
+Segment Standard : hubs · hours · delay rate · distance · stops,7 · 47.24 · 0.0257 · 188.93 · 55.37,±0.01
+Segment Watch,8 · 56.81 · 0.1550 · 314.18 · 70.72,±0.01
+Segment Escalate,9 · 64.65 · 0.4600 · 470.48 · 84.34,±0.01
+Tier-versus-segment mismatches,"HUB07 Kolkata (Tier 1, Watch );HUB13 Nagpur (Tier 2,Escalate ); HUB15 Kochi (Tier 2,Escalate ); HUB22 Dehradun (Tier 3, Watch )",exact
+new_shipments.csv before cleaning,48 rows · 3 missing distance_km; 2 missing parcel_weight_kg; 1 missing declared_value; 2 missing payment_mode; 8 service_type spellings,exact
+reload_max_abs_probability_diff,0,≤ 1e-9

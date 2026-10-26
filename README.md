@@ -140,6 +140,47 @@ These checks validate the generated outputs and relevant implementation details 
 - Checked that threshold results contain all nine thresholds, that recall does not increase as the threshold rises, and that the saved threshold follows the selection rule.
 - Confirmed that the final-test confusion matrix contains 180 observations, including 41 delayed parcels, that its metrics match the confusion matrix, and that precision, recall and F1 meet the reference requirements.
 
+## Part D - Hub Segments, Packaging and Operations Playbook
+
+### Objectives
+
+- Group delivery hubs into three operational segments based on their delivery performance, delay rates, distance, and number of stops.
+- Compare the resulting segments with the official hub tiers to identify hubs whose operational performance does not match their assigned tier.
+- Package the final classification model from Part C so it can be loaded and used without retraining during prediction.
+- Score new shipments, estimate their delay probabilities, flag shipments that meet the saved alert threshold, and recommend appropriate operational actions.
+
+### High Level Approach
+
+- **Hub profiling:** Aggregate historical shipment data by hub to calculate shipment count, mean delivery time, delay rate, mean distance, and mean number of stops.
+- **Hub segmentation:** Standardize the four operational performance metrics and apply K-Means clustering. Evaluate cluster separation for K values from 2 to 5. Retain three clusters to balance separation quality with practical cluster sizes.
+- **Segment naming:** Rank the clusters by their mean delay rate and assign the names Standard, Watch, and Escalate, from lowest to highest delay rate.
+- **Tier comparison:** Compare each hub's operational segment with its official tier to identify mismatches that may require further investigation.
+- **Model packaging:** Rebuild the final Part C classification pipeline using the prescribed data split and configuration. Save the fitted model, alert threshold, feature order, and imputation values for reuse.
+- **New shipment scoring:** Load the saved model and supporting files, prepare new shipment data using the shared preprocessing and feature engineering functions, calculate delay probabilities, apply the saved threshold, join the hub segments, and assign recommended actions.
+
+### Data Findings
+
+- The hub profile contains 24 hubs, with 50 historical shipments per hub.
+- The segmentation analysis compares K-Means solutions for K = 2, 3, 4, and 5 using the ratio of average between-cluster distance to average within-cluster distance.
+- Although larger K values provide greater cluster separation, the three-cluster solution is retained to maintain a practical balance between separation and cluster size.
+- The three segments represent different levels of operational performance:
+  - **Standard:** Hubs with the lowest average delay rates.
+  - **Watch:** Hubs with intermediate average delay rates.
+  - **Escalate:** Hubs with the highest average delay rates.
+- The tier-versus-segment comparison identifies four mismatches: HUB07 (Kolkata), HUB13 (Nagpur), HUB15 (Kochi), and HUB22 (Dehradun). These hubs warrant review because their observed operational segments differ from what their official tiers might suggest.
+- The scoring pipeline produces a delay probability, a binary alert flag, the assigned hub segment, and a recommended action for each new shipment.
+
+### Validations
+
+- **Hub profile:** Check that the profile contains 24 hubs, each with 50 shipments, and verify selected hub metrics against the reference values.
+- **Cluster separation:** Validate the cluster sizes and between-cluster-to-within-cluster distance ratios for K = 2, 3, 4, and 5 against the reference metrics.
+- **Segment profile:** Verify the number of hubs and average operational metrics for Standard, Watch, and Escalate against the reference values.
+- **Segment naming:** Confirm that the three segment names follow ascending mean delay rate.
+- **Tier-versus-segment mismatches:** Verify that the identified mismatch hubs match the expected reference list.
+- **Model packaging:** Check that the saved model and supporting files exist, and validate the reload comparison using the prescribed test set.
+- **New shipment actions:** Validate the existing scoring output for the expected 48 shipments, required columns, shipment IDs and order, valid delay probabilities, alert flags, hub-segment assignments, and action rules.
+- **Reference comparisons:** Use the Part D reference metrics wherever applicable to check that generated outputs match the project requirements and expected values.
+
 ## Results
 
 To be completed after running the analyses and evaluating the models. These will be added later.
