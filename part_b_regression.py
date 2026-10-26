@@ -389,7 +389,7 @@ if __name__ == "__main__":
         y_train,
         y_val,
         models,
-        metrics_df
+        validation_metrics_df
     )
 
     metrics_df = test_best_model(
