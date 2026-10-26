@@ -241,9 +241,9 @@ def cross_validate_top_models(
     # Rank the four candidate models by validation RMSE
     # Exclude baseline model from further analysis
     candidate_metrics = metrics_df.loc[
-        metrics_df["model"] != "mean_baseline"
+        metrics_df["model"] != "baseline"
         ].sort_values("RMSE", ascending=True)
-    
+
     top_two_models = candidate_metrics["model"].head(2).tolist()
 
     # Create one shared KFold object
@@ -284,7 +284,7 @@ def test_best_model(
         X_test,
         y_test,
         models,
-        metrics_df,
+        validation_metrics_df,
         best_model_name
 ):
 
@@ -310,7 +310,7 @@ def test_best_model(
 
     # Add the final-test row to the existing validation metrics
     metrics_df = pd.concat(
-        [metrics_df, pd.DataFrame([test_metrics])],
+        [validation_metrics_df, pd.DataFrame([test_metrics])],
         ignore_index=True
     )
 
@@ -374,7 +374,7 @@ if __name__ == "__main__":
 
     gb_learning_rate_df = evaluate_learning_rate(X_train, X_val, y_train, y_val)
 
-    models, metrics_df = compare_regressors(
+    models, validation_metrics_df = compare_regressors(
         X_train,
         X_val,
         y_train,
@@ -396,7 +396,7 @@ if __name__ == "__main__":
         X_test,
         y_test,
         models,
-        metrics_df,
+        validation_metrics_df,
         best_model_name
     )
 
