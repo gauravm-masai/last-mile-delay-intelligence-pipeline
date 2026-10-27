@@ -16,10 +16,7 @@ from sklearn.metrics import (
 
 from src.shipment_prep import FEATURES, NOISE_COLUMNS
 
-def split_train_val_test_data():
-
-    # Load the modelling table
-    df = pd.read_csv("data/modelling_table.csv")
+def split_train_val_test_data(df):
 
     # Select features in the pinned order and target
     X = df[FEATURES]
@@ -127,7 +124,7 @@ def analyze_feature_signal(X_train, y_train):
     selector = SelectKBest(score_func=f_classif, k="all")
     selector.fit(X_train, y_train)
 
-    # 2. Transform training and validation data
+    # 2. Transform training data
     X_train_selected = selector.transform(X_train)
 
     # 3. Fit Random Forest on the transformed training data
@@ -201,7 +198,7 @@ def evaluate_selectk(X_train, X_val, y_train, y_val):
 
 def tune_random_forest(X_train, X_val, y_train, y_val):
     # 1. Create pipeline to avoid data leakage into CV folds
-    pipe_default_forest = Pipeline([
+    pipeline_default_forest = Pipeline([
         ("selector", SelectKBest(score_func=f_classif, k=7)),
         ("model", RandomForestClassifier(
             n_estimators=100,
@@ -211,7 +208,7 @@ def tune_random_forest(X_train, X_val, y_train, y_val):
         ))
     ])
 
-    pipe_searches = Pipeline([
+    pipeline_search = Pipeline([
         ("selector", SelectKBest(score_func=f_classif, k=7)),
         ("model", RandomForestClassifier(random_state=42))
     ])
@@ -226,12 +223,12 @@ def tune_random_forest(X_train, X_val, y_train, y_val):
     # 3. Define candidate searches
     searches = {
         "grid_search": GridSearchCV(
-            estimator=pipe_searches,
+            estimator=pipeline_search,
             param_grid=param_grid,
             cv=5
         ),
         "randomized_search": RandomizedSearchCV(
-            estimator=pipe_searches,
+            estimator=pipeline_search,
             param_distributions=param_grid,
             n_iter=9,
             cv=5,
@@ -258,7 +255,11 @@ def tune_random_forest(X_train, X_val, y_train, y_val):
         if val_f1 > best_f1:
             best_f1 = val_f1
             chosen_from = search_name
-            chosen_params = search.best_params_
+            chosen_params = {
+                "n_estimators": search.best_params_["model__n_estimators"],
+                "max_depth": search.best_params_["model__max_depth"],
+                "min_samples_leaf": search.best_params_["model__min_samples_leaf"],
+            }
 
         candidates = (len(search.cv_results_["params"]))
 
@@ -273,9 +274,9 @@ def tune_random_forest(X_train, X_val, y_train, y_val):
         })
 
     # 5. Evaluate the untuned forest on the same seven features
-    pipe_default_forest.fit(X_train, y_train)
+    pipeline_default_forest.fit(X_train, y_train)
 
-    default_predictions = pipe_default_forest.predict(X_val)
+    default_predictions = pipeline_default_forest.predict(X_val)
 
     default_f1 = f1_score(y_val, default_predictions, zero_division=0)
 
@@ -476,7 +477,10 @@ def save_part_c_results(
     print("Final configuration saved to outputs/part_c_final_config.csv")
 
 if __name__ == "__main__":
-    X_train, X_val, X_test, y_train, y_val, y_test = split_train_val_test_data()
+    # Load the modelling table
+    df = pd.read_csv("data/modelling_table.csv")
+
+    X_train, X_val, X_test, y_train, y_val, y_test = split_train_val_test_data(df)
 
     models, classifier_results_df = compare_classifiers(X_train, X_val, y_train, y_val)
 

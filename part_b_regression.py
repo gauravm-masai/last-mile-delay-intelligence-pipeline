@@ -11,10 +11,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from src.shipment_prep import FEATURES
 
-def split_train_val_test_data():
-
-    # Load the modelling table
-    df = pd.read_csv("data/modelling_table.csv")
+def split_train_val_test_data(df):
 
     # Select features in the pinned order and target
     X = df[FEATURES]
@@ -38,7 +35,7 @@ def split_train_val_test_data():
 
     return X_train, X_val, X_test, y_train, y_val, y_test
 
-def perform_scaling(X_train, X_val, X_test):
+def check_scaling_behavior(X_train, X_val, X_test):
     # Scale features using training data only
     scaler = StandardScaler()
 
@@ -364,9 +361,12 @@ def save_part_b_results(
     print("Performance metrics for candidate models saved in outputs/part_b_metrics.csv")
 
 if __name__ == "__main__":
-    X_train, X_val, X_test, y_train, y_val, y_test = split_train_val_test_data()
+    # Load the modelling table
+    df = pd.read_csv("data/modelling_table.csv")
 
-    part_b_checks = perform_scaling(X_train, X_val, X_test)
+    X_train, X_val, X_test, y_train, y_val, y_test = split_train_val_test_data(df)
+
+    part_b_checks = check_scaling_behavior(X_train, X_val, X_test)
 
     baseline_prediction = predict_baseline(y_train, y_val)
 
