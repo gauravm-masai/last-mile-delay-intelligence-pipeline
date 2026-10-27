@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
@@ -17,46 +16,44 @@ from sklearn.metrics import (
 
 from src.shipment_prep import FEATURES, NOISE_COLUMNS
 
-# Load the modelling table
-df = pd.read_csv("data/modelling_table.csv")
+def split_train_val_test_data():
 
-# Select features and target
-X = df[FEATURES]
-y = df["is_delayed"]
+    # Load the modelling table
+    df = pd.read_csv("data/modelling_table.csv")
 
-# Split into training (70%) and temporary (30%)
-X_train, X_temp, y_train, y_temp = train_test_split(
-    X,
-    y,
-    test_size=0.3,
-    random_state=42,
-    stratify=y
-)
+    # Select features in the pinned order and target
+    X = df[FEATURES]
+    y = df["is_delayed"]
 
-# Split the temporary data equally into validation and test sets
-X_val, X_test, y_val, y_test = train_test_split(
-    X_temp,
-    y_temp,
-    test_size=0.5,
-    random_state=42,
-    stratify=y_temp
-)
+    # First split: 70% training, 30% temporary
+    X_train, X_temp, y_train, y_temp = train_test_split(
+        X,
+        y,
+        test_size=0.3,
+        random_state=42,
+        stratify=y
+    )
 
-# Validate split sizes and delayed counts
-#print("Training rows:", len(X_train))
-#print("Validation rows:", len(X_val))
-#print("Test rows:", len(X_test))
+    # Second split: divide the temporary data equally
+    X_val, X_test, y_val, y_test = train_test_split(
+        X_temp,
+        y_temp,
+        test_size=0.5,
+        random_state=42,
+        stratify=y_temp
+    )
 
-#print("\nDelayed parcels:")
-#print("Training:", int(y_train.sum()))
-#print("Validation:", int(y_val.sum()))
-#print("Test:", int(y_test.sum()))
+    return X_train, X_val, X_test, y_train, y_val, y_test
 
-def select_best_tree_depth():
+def select_best_tree_depth(
+        X_train,
+        X_val,
+        y_train,
+        y_val
+):
     depths = [2, 3, 4, 5, 6, 8, 10]
 
-    best_depth = None
-    best_f1 = -1
+    scores = {}
 
     for depth in depths:
         model = DecisionTreeClassifier(
@@ -64,20 +61,19 @@ def select_best_tree_depth():
             max_depth=depth,
             random_state=42
         )
-
         model.fit(X_train, y_train)
-        y_pred = model.predict(X_val)
 
-        score = f1_score(y_val, y_pred, zero_division=0)
+        scores[depth] = f1_score(
+            y_val,
+            model.predict(X_val),
+            zero_division=0
+        )
 
-        if score > best_f1:
-            best_f1 = score
-            best_depth = depth
+    return max(scores, key=lambda depth: scores[depth])
 
-    return best_depth
+def compare_classifiers(X_train, X_val, y_train, y_val):
 
-def evaluate_candidate_models():
-    best_depth = select_best_tree_depth()
+    best_depth = select_best_tree_depth(X_train, X_val, y_train, y_val)
 
     models = {
         "blind_all_on_time": None,
@@ -123,24 +119,16 @@ def evaluate_candidate_models():
         })
 
     results_df = pd.DataFrame(results)
-    results_df.to_csv(
-        "outputs/part_c_models.csv",
-        index=False,
-        float_format="%.4f"
-    )
-
-    print("Blind baseline and three classifiers evaluated and results saved to outputs/part_c_models.csv")
 
     return models, results_df
 
-def analyze_feature_signal():
+def analyze_feature_signal(X_train, y_train):
     # 1. Fit selector on training data
     selector = SelectKBest(score_func=f_classif, k="all")
     selector.fit(X_train, y_train)
 
     # 2. Transform training and validation data
     X_train_selected = selector.transform(X_train)
-    X_val_selected = selector.transform(X_val)
 
     # 3. Fit Random Forest on the transformed training data
     rf_model = RandomForestClassifier(
@@ -168,21 +156,14 @@ def analyze_feature_signal():
         feature_scores["feature"].isin(NOISE_COLUMNS)
     )
 
-    # 7. Arrange columns and round decimal values
+    # 7. Arrange columns
     feature_scores = feature_scores[
         ["feature", "f_score", "f_rank", "rf_importance", "is_noise"]
     ]
 
-    feature_scores.to_csv(
-        "outputs/part_c_feature_scores.csv",
-        index=False,
-        float_format="%.4f"
-    )
+    return feature_scores
 
-    print("Feature signal evaluated and results saved to outputs/part_c_feature_scores.csv")
-
-def evaluate_selectk():
-    """Compare validation F1 using different numbers of selected features."""
+def evaluate_selectk(X_train, X_val, y_train, y_val):
 
     k_values = [5, 7, 10, 12, 17]
     results = []
@@ -216,39 +197,41 @@ def evaluate_selectk():
         columns=["k", "val_f1"]
     )
 
-    selectk_results.to_csv(
-        "outputs/part_c_selectk.csv",
-        index=False,
-        float_format="%.4f"
-    )
+    return selectk_results
 
-    print("Select K values evaluated and results saved to outputs/part_c_selectk.csv")
+def tune_random_forest(X_train, X_val, y_train, y_val):
+    # 1. Create pipeline to avoid data leakage into CV folds
+    pipe_default_forest = Pipeline([
+        ("selector", SelectKBest(score_func=f_classif, k=7)),
+        ("model", RandomForestClassifier(
+            n_estimators=100,
+            random_state=42,
+            max_depth=None,
+            min_samples_leaf=1
+        ))
+    ])
 
-def tune_random_forest():
-    # 1. Fit feature selector on training data only
-    selector = SelectKBest(score_func=f_classif, k=7)
-    selector.fit(X_train, y_train)
+    pipe_searches = Pipeline([
+        ("selector", SelectKBest(score_func=f_classif, k=7)),
+        ("model", RandomForestClassifier(random_state=42))
+    ])
 
-    # 2. Transform training and validation data
-    X_train_selected = selector.transform(X_train)
-    X_val_selected = selector.transform(X_val)
-
-    # 3. Define hyperparameter search space
+    # 2. Define hyperparameter search space
     param_grid = {
-        "n_estimators": [50, 100, 150],
-        "max_depth": [4, 6, 8],
-        "min_samples_leaf": [1, 5, 10]
+        "model__n_estimators": [50, 100, 150],
+        "model__max_depth": [4, 6, 8],
+        "model__min_samples_leaf": [1, 5, 10]
     }
 
-    # 4. Define candidate searches
+    # 3. Define candidate searches
     searches = {
         "grid_search": GridSearchCV(
-            estimator=RandomForestClassifier(random_state=42),
+            estimator=pipe_searches,
             param_grid=param_grid,
             cv=5
         ),
         "randomized_search": RandomizedSearchCV(
-            estimator=RandomForestClassifier(random_state=42),
+            estimator=pipe_searches,
             param_distributions=param_grid,
             n_iter=9,
             cv=5,
@@ -257,23 +240,22 @@ def tune_random_forest():
     }
 
     results = []
-    best_model = None
+
     best_f1 = -1
     chosen_from = None
     chosen_params = None
 
-    # 5. Run each search and evaluate on validation data
+    # 4. Run each search and evaluate on validation data
     for search_name, search in searches.items():
-
-        search.fit(X_train_selected, y_train)
+        #Fit only on training data
+        search.fit(X_train, y_train)
 
         search_best_model = search.best_estimator_
-        val_predictions = search_best_model.predict(X_val_selected)
+        val_predictions = search_best_model.predict(X_val)
 
         val_f1 = f1_score(y_val, val_predictions, zero_division=0)
 
         if val_f1 > best_f1:
-            best_model = search_best_model
             best_f1 = val_f1
             chosen_from = search_name
             chosen_params = search.best_params_
@@ -290,23 +272,14 @@ def tune_random_forest():
             "val_f1": round(val_f1, 4)
         })
 
-    # 6. Evaluate the untuned forest on the same seven features
-    default_model = RandomForestClassifier(
-        n_estimators=100,
-        random_state=42,
-        max_depth=None,
-        min_samples_leaf=1
-    )
+    # 5. Evaluate the untuned forest on the same seven features
+    pipe_default_forest.fit(X_train, y_train)
 
-    default_model.fit(X_train_selected, y_train)
-
-    default_predictions = default_model.predict(X_val_selected)
+    default_predictions = pipe_default_forest.predict(X_val)
 
     default_f1 = f1_score(y_val, default_predictions, zero_division=0)
 
     if default_f1 >= best_f1:
-        best_model = default_model
-        best_f1 = default_f1
         chosen_from = "default_forest_same_7_features"
         chosen_params = {
             "n_estimators": 100,
@@ -324,7 +297,6 @@ def tune_random_forest():
         "val_f1": round(default_f1, 4)
     })
 
-    # 7. Save results
     columns = [
         "search",
         "candidates",
@@ -337,15 +309,7 @@ def tune_random_forest():
 
     results_df = pd.DataFrame(results, columns=columns)
 
-    results_df.to_csv(
-        "outputs/part_c_tuning.csv",
-        index=False,
-        float_format="%.4f"
-    )
-
-    print("Results for tuning Random Forest saved to outputs/part_c_tuning.csv")
-
-    # 8. Fit the selected configuration on the original training data
+    # 6. Fit the selected configuration on the original training data
     final_model = Pipeline([
         ("selector", SelectKBest(score_func=f_classif, k=7)),
         ("model", RandomForestClassifier(
@@ -356,9 +320,9 @@ def tune_random_forest():
 
     final_model.fit(X_train, y_train)
 
-    return final_model, chosen_from, chosen_params
+    return results_df, final_model, chosen_from, chosen_params
 
-def select_alert_threshold(final_model):
+def select_alert_threshold(X_val, y_val, final_model):
     # 1. Get validation probabilities for the positive class
     probabilities = final_model.predict_proba(X_val)[:, 1]
 
@@ -385,9 +349,7 @@ def select_alert_threshold(final_model):
             "FN": fn,
             "TP": tp,
             "accuracy": round(accuracy_score(y_val, y_pred), 4),
-            "precision": round(
-                precision_score(y_val, y_pred, zero_division=0), 4
-            ),
+            "precision": round(precision_score(y_val, y_pred, zero_division=0), 4),
             "recall": round(recall, 4),
             "f1": round(f1_score(y_val, y_pred, zero_division=0), 4)
         })
@@ -404,18 +366,9 @@ def select_alert_threshold(final_model):
 
     results_df = pd.DataFrame(results, columns=columns)
 
-    results_df.to_csv(
-        "outputs/part_c_thresholds.csv",
-        index=False,
-        float_format="%.4f"
-    )
+    return results_df, alert_threshold
 
-    print("Threshold results saved to outputs/part_c_thresholds.csv")
-    #print(f"Selected alert threshold: {alert_threshold}")
-
-    return alert_threshold
-
-def evaluate_final_test(final_model, chosen_from, chosen_params, threshold):
+def evaluate_final_test(X_test, y_test, final_model, threshold):
     # 1. Predict test probabilities exactly once
     probabilities = final_model.predict_proba(X_test)[:, 1]
 
@@ -439,26 +392,80 @@ def evaluate_final_test(final_model, chosen_from, chosen_params, threshold):
         "f1": round(f1_score(y_test, y_pred, zero_division=0), 4)
     }])
 
-    # 4. Save final test metrics
-    results.to_csv(
-        "outputs/part_c_final_test.csv",
-        index=False,
-        float_format="%.4f"
-    )
+    return results
 
-    # 5. Save the selected model configuration
+def create_config_df(chosen_from, chosen_params, threshold):
     config = pd.DataFrame([{
         "selector_k": 7,
         "n_estimators": chosen_params["n_estimators"],
         "max_depth": (
-        "unlimited"
-        if chosen_params["max_depth"] is None
-        else chosen_params["max_depth"]
+            "unlimited"
+            if chosen_params["max_depth"] is None
+            else chosen_params["max_depth"]
         ),
         "min_samples_leaf": chosen_params["min_samples_leaf"],
         "threshold": threshold,
         "chosen_from": chosen_from
     }])
+
+    return config
+
+def save_part_c_results(
+        classifier_results_df,
+        feature_scores,
+        selectk_results,
+        tune_results_df,
+        threshold_df,
+        test_results,
+        config
+):
+    classifier_results_df.to_csv(
+        "outputs/part_c_models.csv",
+        index=False,
+        float_format="%.4f"
+    )
+
+    print("Blind baseline and three classifiers evaluated and results saved to outputs/part_c_models.csv")
+
+    feature_scores.to_csv(
+        "outputs/part_c_feature_scores.csv",
+        index=False,
+        float_format="%.4f"
+    )
+
+    print("Feature signal evaluated and results saved to outputs/part_c_feature_scores.csv")
+
+    selectk_results.to_csv(
+        "outputs/part_c_selectk.csv",
+        index=False,
+        float_format="%.4f"
+    )
+
+    print("Select K values evaluated and results saved to outputs/part_c_selectk.csv")
+
+    tune_results_df.to_csv(
+        "outputs/part_c_tuning.csv",
+        index=False,
+        float_format="%.4f"
+    )
+
+    print("Results for tuning Random Forest saved to outputs/part_c_tuning.csv")
+
+    threshold_df.to_csv(
+        "outputs/part_c_thresholds.csv",
+        index=False,
+        float_format="%.4f"
+    )
+
+    print("Threshold results saved to outputs/part_c_thresholds.csv")
+
+    test_results.to_csv(
+        "outputs/part_c_final_test.csv",
+        index=False,
+        float_format="%.4f"
+    )
+
+    print("Final test results saved to outputs/part_c_final_test.csv")
 
     config.to_csv(
         "outputs/part_c_final_config.csv",
@@ -466,17 +473,33 @@ def evaluate_final_test(final_model, chosen_from, chosen_params, threshold):
         float_format="%.4f"
     )
 
-    print("Final test results saved to outputs/part_c_final_test.csv")
     print("Final configuration saved to outputs/part_c_final_config.csv")
 
 if __name__ == "__main__":
-    models, results_df = evaluate_candidate_models()
+    X_train, X_val, X_test, y_train, y_val, y_test = split_train_val_test_data()
 
-    analyze_feature_signal()
-    evaluate_selectk()
+    models, classifier_results_df = compare_classifiers(X_train, X_val, y_train, y_val)
 
-    final_model, chosen_from, chosen_params = tune_random_forest()
+    feature_scores = analyze_feature_signal(X_train, y_train)
 
-    alert_threshold = select_alert_threshold(final_model)
+    selectk_results = evaluate_selectk(X_train, X_val, y_train, y_val)
 
-    evaluate_final_test(final_model, chosen_from, chosen_params, alert_threshold)
+    tune_results_df, final_model, chosen_from, chosen_params = tune_random_forest(
+        X_train, X_val, y_train, y_val
+    )
+
+    threshold_df, alert_threshold = select_alert_threshold(X_val, y_val, final_model)
+
+    test_results  = evaluate_final_test(X_test, y_test, final_model, alert_threshold)
+
+    config = create_config_df(chosen_from, chosen_params, alert_threshold)
+
+    save_part_c_results(
+        classifier_results_df,
+        feature_scores,
+        selectk_results,
+        tune_results_df,
+        threshold_df,
+        test_results,
+        config
+    )
