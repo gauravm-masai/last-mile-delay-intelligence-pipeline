@@ -32,13 +32,6 @@ def clean_data(raw, hubs):
         0,
     )
 
-    modelling_table.to_csv(
-        "data/modelling_table.csv",
-        index=False
-    )
-
-    print("Modelling table saved to data/modelling_table.csv")
-
     return clean, medians, modelling_table
 
 # Generate metrics after cleanup
@@ -94,20 +87,6 @@ def generate_metrics_after_cleanup(
 
     return metrics
 
-# Function 4: Save actual metrics reports
-def save_part_a_metrics(metrics):
-    actual = pd.DataFrame(
-        [{"metric": name, "value": value}
-         for name, value in metrics.items()]
-    )
-
-    # Required checks file: exactly two columns.
-    actual.to_csv(
-        "outputs/part_a_checks.csv",
-        index=False,
-        float_format="%.4f",
-    )
-
 def generate_delay_evidence(modelling_table):
     # Define the required distance bands.
     distance_bins = [0, 200, 400, 600, 2000]
@@ -158,20 +137,47 @@ def generate_delay_evidence(modelling_table):
         ],
     )
 
-    result.to_csv(
-        "outputs/part_a_delay_by_group.csv",
-        index=False,
-        float_format="%.4f",
-    )
-
-    print("Delay evidence saved to outputs/part_a_delay_by_group.csv")
-
     return result
 
 def generate_correlations(modelling_table):
     numeric_df = modelling_table.select_dtypes(include="number")
 
     correlations = numeric_df.corr()
+
+    return correlations
+
+def save_part_a_results(
+        modelling_table,
+        metrics,
+        delay_evidence,
+        correlations
+):
+    modelling_table.to_csv(
+        "data/modelling_table.csv",
+        index=False
+    )
+    print("Modelling table saved to data/modelling_table.csv")
+
+    actual = pd.DataFrame(
+        [{"metric": name, "value": value}
+         for name, value in metrics.items()]
+    )
+
+    # Required checks file: exactly two columns.
+    actual.to_csv(
+        "outputs/part_a_checks.csv",
+        index=False,
+        float_format="%.4f",
+    )
+    print("Part A metrics saved to outputs/part_a_checks.csv")
+
+    delay_evidence.to_csv(
+        "outputs/part_a_delay_by_group.csv",
+        index=False,
+        float_format="%.4f",
+    )
+
+    print("Delay evidence saved to outputs/part_a_delay_by_group.csv")
 
     correlations.to_csv(
         "outputs/part_a_correlations.csv",
@@ -181,8 +187,6 @@ def generate_correlations(modelling_table):
     )
 
     print("Correlation matrix saved to outputs/part_a_correlations.csv")
-
-    return correlations
 
 if __name__ == "__main__":
     raw = pd.read_csv("data/raw_shipments.csv")
@@ -199,9 +203,13 @@ if __name__ == "__main__":
         before_metrics
     )
 
-    # Generate the required Part A checks file.
-    save_part_a_metrics(after_metrics)
-
     # Generate the delay evidence and correlation outputs.
-    generate_delay_evidence(modelling_table)
-    generate_correlations(modelling_table)
+    delay_evidence = generate_delay_evidence(modelling_table)
+    correlations = generate_correlations(modelling_table)
+
+    save_part_a_results(
+        modelling_table,
+        after_metrics,
+        delay_evidence,
+        correlations
+    )

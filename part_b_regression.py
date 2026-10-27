@@ -38,7 +38,7 @@ def split_train_val_test_data():
 
     return X_train, X_val, X_test, y_train, y_val, y_test
 
-def perform_scaling(X_train, X_val, X_test):
+def perform_scaling(X_train, X_test):
     # Scale features using training data only
     scaler = StandardScaler()
 
@@ -366,7 +366,7 @@ def save_part_b_results(
 if __name__ == "__main__":
     X_train, X_val, X_test, y_train, y_val, y_test = split_train_val_test_data()
 
-    part_b_checks = perform_scaling(X_train, X_val, X_test)
+    part_b_checks = perform_scaling(X_train, X_test)
 
     baseline_prediction = predict_baseline(y_train, y_val)
 

@@ -1,13 +1,67 @@
-Item,Reference,Pass band
-Baseline R² (validation),-0.021,-0.10 to 0.02
-Linear regression R² (validation),0.931,>= 0.88
-Gradient boosting R² (validation),0.931,>= 0.88
-Random forest R² (validation),0.914,>= 0.86
-Decision tree R² (validation),0.887,>= 0.82
-Best tree depth / its val_rmse,6 / 6.28,Best depth is 4 or more or unlimited
-Depth 1: val_rmse - train_rmse,0.50,<= 2.5 (high bias: both errors high)
-No depth limit: train_rmse / val_rmse - train_rmse,0.00 / 7.79,Gap >= 5.0 (high variance)
-Depth 1 val_rmse minus best val_rmse,5.85,>= 4.0
-Learning rate 0.01 / 0.1 / 1.0: validation R²,0.713 / 0.931 / 0.844,R²(0.1) >= 0.90; R²(0.01) <= 0.80
-Cross-validated mean R² (each of the two models),0.926 and 0.935,Mean R² >= 0.90; std_r2 <= 0.03
-Final model R² on test,0.949,>= 0.88
+source_file,metric_name,metric_value,tolerance
+outputs/part_b_checks.csv,row_count,5,0
+outputs/part_b_checks.csv,column_count,2,0
+outputs/part_b_checks.csv,train_rows,840,0
+outputs/part_b_checks.csv,val_rows,180,0
+outputs/part_b_checks.csv,test_rows,180,0
+outputs/part_b_checks.csv,train_scaled_max_abs_mean,0,0
+outputs/part_b_checks.csv,test_scaled_max_abs_mean,0.2187,0.02
+outputs/part_b_checks.csv,train_scaled_mean_below_1e_9,1,0
+outputs/part_b_checks.csv,test_scaled_mean_exceeds_0_01,1,0
+outputs/part_b_metrics.csv,row_count,6,0
+outputs/part_b_metrics.csv,column_count,6,0
+outputs/part_b_metrics.csv,schema_matches,1,0
+outputs/part_b_metrics.csv,val_row_count,5,0
+outputs/part_b_metrics.csv,test_row_count,1,0
+outputs/part_b_metrics.csv,model_present__val__baseline,1,0
+outputs/part_b_metrics.csv,model_present__val__linear_regression,1,0
+outputs/part_b_metrics.csv,model_present__val__decision_tree,1,0
+outputs/part_b_metrics.csv,model_present__val__random_forest,1,0
+outputs/part_b_metrics.csv,model_present__val__gradient_boosting,1,0
+outputs/part_b_metrics.csv,model_present__test__linear_regression,1,0
+outputs/part_b_metrics.csv,rmse_consistency,1,0
+outputs/part_b_metrics.csv,val_r2__baseline,-0.021,0.01
+outputs/part_b_metrics.csv,val_r2__linear_regression,0.931,0.01
+outputs/part_b_metrics.csv,val_r2__decision_tree,0.887,0.01
+outputs/part_b_metrics.csv,val_r2__random_forest,0.914,0.01
+outputs/part_b_metrics.csv,val_r2__gradient_boosting,0.931,0.01
+outputs/part_b_metrics.csv,test_r2__linear_regression,0.949,0.01
+outputs/part_b_tree_depth.csv,row_count,8,0
+outputs/part_b_tree_depth.csv,column_count,3,0
+outputs/part_b_tree_depth.csv,tree_depth_present__1,1,0
+outputs/part_b_tree_depth.csv,tree_depth_present__2,1,0
+outputs/part_b_tree_depth.csv,tree_depth_present__3,1,0
+outputs/part_b_tree_depth.csv,tree_depth_present__4,1,0
+outputs/part_b_tree_depth.csv,tree_depth_present__6,1,0
+outputs/part_b_tree_depth.csv,tree_depth_present__8,1,0
+outputs/part_b_tree_depth.csv,tree_depth_present__12,1,0
+outputs/part_b_tree_depth.csv,tree_depth_present__unlimited,1,0
+outputs/part_b_tree_depth.csv,tree_best_depth,6,0
+outputs/part_b_tree_depth.csv,tree_best_val_rmse,6.28,0.5
+outputs/part_b_tree_depth.csv,tree_train_rmse_nonincreasing,1,0
+outputs/part_b_tree_depth.csv,tree_depth_1_gap,0.50,0.01
+outputs/part_b_tree_depth.csv,tree_depth_1_vs_best_gap,5.85,0.5
+outputs/part_b_tree_depth.csv,tree_unlimited_train_rmse,0,0.01
+outputs/part_b_tree_depth.csv,tree_unlimited_gap,7.79,0.5
+outputs/part_b_tree_depth.csv,tree_decision_tree_rmse_matches_best,1,0
+outputs/part_b_gb_learning_rate.csv,row_count,3,0
+outputs/part_b_gb_learning_rate.csv,column_count,3,0
+outputs/part_b_gb_learning_rate.csv,gb_learning_rate_present__0.01,1,0
+outputs/part_b_gb_learning_rate.csv,gb_learning_rate_present__0.1,1,0
+outputs/part_b_gb_learning_rate.csv,gb_learning_rate_present__1.0,1,0
+outputs/part_b_gb_learning_rate.csv,gb_val_r2__lr_0.01,0.713,0.02
+outputs/part_b_gb_learning_rate.csv,gb_val_r2__lr_0.1,0.931,0.02
+outputs/part_b_gb_learning_rate.csv,gb_val_r2__lr_1.0,0.844,0.02
+outputs/part_b_gb_learning_rate.csv,gb_r2_ranking_ok,1,0
+outputs/part_b_gb_learning_rate.csv,gb_r2_0_1_minimum_met,1,0
+outputs/part_b_gb_learning_rate.csv,gb_r2_0_01_maximum_met,1,0
+outputs/part_b_cv.csv,row_count,2,0
+outputs/part_b_cv.csv,column_count,3,0
+outputs/part_b_cv.csv,cv_model_present__linear_regression,1,0
+outputs/part_b_cv.csv,cv_model_present__gradient_boosting,1,0
+outputs/part_b_cv.csv,cv_mean_r2__linear_regression,0.926,0.02
+outputs/part_b_cv.csv,cv_mean_r2__gradient_boosting,0.935,0.02
+outputs/part_b_cv.csv,cv_std_r2__linear_regression,0.0048,0.01
+outputs/part_b_cv.csv,cv_std_r2__gradient_boosting,0.0044,0.01
+outputs/part_b_cv.csv,cv_all_means_at_least_0_90,1,0
+outputs/part_b_cv.csv,cv_all_stds_at_most_0_03,1,0
