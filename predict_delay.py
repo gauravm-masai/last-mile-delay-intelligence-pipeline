@@ -11,12 +11,12 @@ def clean_new_shipments(new_shipments, medians):
 
     return clean
 
-def load_features(hubs, clean):
+def load_features(hubs, clean, features):
     # Build features
     features_df = build_features(clean, hubs)
 
     # Arrange features in the exact saved order
-    X_new = features_df[FEATURES]
+    X_new = features_df[features]
 
     return X_new
 
@@ -95,7 +95,7 @@ if __name__ == "__main__":
     threshold = float(threshold_df["threshold"].iloc[0])
 
     feature_order_df = pd.read_csv("models/feature_order.csv")
-    FEATURES = feature_order_df["feature"].tolist()
+    features = feature_order_df["feature"].tolist()
 
     impute_df = pd.read_csv("models/impute_values.csv")
     # Convert the saved median table into a dictionary
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
     clean_df = clean_new_shipments(new_shipments, medians)
 
-    X_new = load_features(hubs, clean_df)
+    X_new = load_features(hubs, clean_df, features)
 
     predictions = predict_delay(clean_df, hub_segments, model, X_new, threshold)
 

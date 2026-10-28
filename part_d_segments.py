@@ -245,19 +245,22 @@ if __name__ == "__main__":
     df = pd.read_csv("data/modelling_table.csv")
 
     hub_profile = create_hub_profile(df)
+    hub_profile_copy = hub_profile.copy()
 
     hub_profile = segment_hub_profile(hub_profile)
 
     separation_df = generate_separation_evidence(hub_profile)
 
     hub_segments = create_hub_segments(hubs, hub_profile)
+    hub_segments_copy = hub_segments.copy()
+
     segment_profile = create_segment_profiles(hub_profile)
     mismatches = match_segments_tier(hub_segments)
 
     save_part_d_results(
-        hub_profile,
+        hub_profile_copy,
         separation_df,
-        hub_segments,
+        hub_segments_copy,
         segment_profile,
         mismatches
     )

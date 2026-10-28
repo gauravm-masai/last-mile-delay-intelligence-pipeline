@@ -85,7 +85,7 @@ def reload_saved_model():
     print("Model reloaded from models/delay_model.pkl")
     return reloaded_model
 
-def compare_memory_reloaded_models(final_model, reloaded_model, threshold):
+def compare_memory_reloaded_models(final_model, reloaded_model, X_test, threshold):
 
     memory_probabilities = final_model.predict_proba(X_test)[:, 1]
 
@@ -167,7 +167,7 @@ if __name__ == "__main__":
 
     reloaded_model = reload_saved_model()
 
-    reload_check = compare_memory_reloaded_models(final_model, reloaded_model, threshold)
+    reload_check = compare_memory_reloaded_models(final_model, reloaded_model, X_test, threshold)
 
     save_part_d_results(
         threshold,
