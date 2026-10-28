@@ -1,0 +1,51 @@
+source_file,metric_name,reference_value,code_value,tolerance,status,comment
+data/modelling_table.csv,row_count,1200.0,1200.0,0.0,PASS,Number of rows in the existing output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+data/modelling_table.csv,delayed_train_count,195.0,195.0,0.0,PASS,Delayed parcels in the prescribed training split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+data/modelling_table.csv,delayed_val_count,42.0,42.0,0.0,PASS,Delayed parcels in the prescribed validation split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+data/modelling_table.csv,delayed_test_count,41.0,41.0,0.0,PASS,Delayed parcels in the prescribed test split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,row_count,4.0,4.0,0.0,PASS,Number of rows in the existing output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,blind_accuracy,0.7667,0.7667,0.001,PASS,Accuracy of the all-on-time blind baseline. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.001.
+outputs/part_c_models.csv,blind_tn,138.0,138.0,0.0,PASS,Blind-baseline true negatives. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,blind_fp,0.0,0.0,0.0,PASS,Blind-baseline false positives. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,blind_fn,42.0,42.0,0.0,PASS,Blind-baseline false negatives. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,blind_tp,0.0,0.0,0.0,PASS,Blind-baseline true positives. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,confusion_metrics_consistent,1.0,1.0,0.0,PASS,Stored metrics agree with confusion-matrix counts. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,trained_accuracy_in_reference_range,1.0,1.0,0.0,PASS,Every trained model's validation accuracy is within the established range. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,logistic_f1_minimum_met,1.0,1.0,0.0,PASS,Logistic-regression validation F1 meets the minimum. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,tree_depth_reference,6.0,6.0,0.0,PASS,Selected decision-tree depth matches the established benchmark. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,tree_f1_minimum_met,1.0,1.0,0.0,PASS,Decision-tree validation F1 meets the minimum. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_models.csv,random_forest_f1_minimum_met,1.0,1.0,0.0,PASS,Default random-forest validation F1 meets the minimum. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_feature_scores.csv,row_count,17.0,17.0,0.0,PASS,Number of rows in the existing output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_feature_scores.csv,feature_names_unique,1.0,1.0,0.0,PASS,Feature names are unique. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_feature_scores.csv,feature_scores_finite,1.0,1.0,0.0,PASS,"Feature scores, ranks, and importances are finite. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0."
+outputs/part_c_feature_scores.csv,noise_columns_identified,1.0,1.0,0.0,PASS,All required noise columns are correctly marked. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_feature_scores.csv,top_seven_f_score_order_correct,1.0,1.0,0.0,PASS,Top seven F-score features match the established ordering. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_feature_scores.csv,noise_columns_outside_top_seven,1.0,1.0,0.0,PASS,All five noise columns rank outside the top seven. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_feature_scores.csv,top_seven_min_f_score_above_30,1.0,1.0,0.0,PASS,Minimum F-score among the top seven exceeds 30. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_feature_scores.csv,combined_noise_importance,0.225,0.2245,0.075,PASS,Combined random-forest importance of the five noise columns. Values match within tolerance. Absolute difference: 0.0005; allowed tolerance: 0.075.
+outputs/part_c_feature_scores.csv,forest_importance_sums_to_one,1.0,1.0,0.0,PASS,Random-forest feature importances sum to one within tolerance. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_selectk.csv,row_count,5.0,5.0,0.0,PASS,Number of rows in the existing output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_selectk.csv,required_k_values_present,1.0,1.0,0.0,PASS,"The SelectK experiment contains k values 5, 7, 10, 12, and 17. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0."
+outputs/part_c_selectk.csv,validation_f1_values_valid,1.0,1.0,0.0,PASS,"All SelectK validation F1 scores are in [0, 1]. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0."
+outputs/part_c_tuning.csv,row_count,3.0,3.0,0.0,PASS,Number of rows in the existing output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_tuning.csv,required_search_rows_present,1.0,1.0,0.0,PASS,"Grid search, randomized search, and default forest rows are present in order. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0."
+outputs/part_c_tuning.csv,candidate_counts_correct,1.0,1.0,0.0,PASS,Tuning candidate counts match the required search spaces. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_tuning.csv,cv_folds_correct,1.0,1.0,0.0,PASS,Tuning cross-validation fold counts are correct. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_tuning.csv,total_fits_correct,1.0,1.0,0.0,PASS,Total tuning fit counts match candidates and folds. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_tuning.csv,grid_cv_accuracy,0.8952,0.8952,0.0352,PASS,Grid-search best cross-validation accuracy. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.0352.
+outputs/part_c_tuning.csv,randomized_cv_accuracy,0.8905,0.8905,0.0305,PASS,Randomized-search best cross-validation accuracy. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.0305.
+outputs/part_c_tuning.csv,tuning_validation_f1_minimum_met,1.0,1.0,0.0,PASS,Every tuning result's validation F1 meets the minimum. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_thresholds.csv,row_count,9.0,9.0,0.0,PASS,Number of rows in the existing output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_thresholds.csv,required_thresholds_present,1.0,1.0,0.0,PASS,Threshold table contains values from 0.1 through 0.9. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_thresholds.csv,threshold_metrics_consistent,1.0,1.0,0.0,PASS,Threshold-table metrics agree with confusion-matrix counts. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_thresholds.csv,recall_nonincreasing_with_threshold,1.0,1.0,0.0,PASS,Recall does not increase as the classification threshold rises. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_final_config.csv,selected_threshold,0.5,0.5,0.4,PASS,Threshold saved in the final configuration. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.4.
+outputs/part_c_final_config.csv,threshold_rule_satisfied,1.0,1.0,0.0,PASS,"Saved threshold is the highest tested threshold with validation recall at least 0.80, or 0.1 if none qualifies. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0."
+outputs/part_c_final_test.csv,row_count,1.0,1.0,0.0,PASS,Number of rows in the existing output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_final_test.csv,test_row_count,180.0,180.0,0.0,PASS,Number of observations represented by the final test confusion matrix. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_final_test.csv,test_delayed_count,41.0,41.0,0.0,PASS,Number of delayed parcels represented by the final test confusion matrix. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_final_test.csv,threshold_matches_config,1.0,1.0,0.0,PASS,Final-test threshold matches the saved configuration. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_final_test.csv,confusion_metrics_consistent,1.0,1.0,0.0,PASS,Stored metrics agree with confusion-matrix counts. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_final_test.csv,test_precision_minimum_met,1.0,1.0,0.0,PASS,Final-test precision meets the required minimum. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_final_test.csv,test_recall_minimum_met,1.0,1.0,0.0,PASS,Final-test recall meets the required minimum. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+outputs/part_c_final_test.csv,test_f1_minimum_met,1.0,1.0,0.0,PASS,Final-test F1 meets the required minimum. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.

@@ -1,11 +1,51 @@
-Item,Reference,Pass band
-"Delayed parcels in train / validation / test","195 / 42 / 41","exact"
-"Blind baseline accuracy (validation)","0.7667","exact (±0.001)"
-"Logistic regression: F1 (validation)","0.805","≥ 0.65"
-"Best decision tree: depth / F1","6 / 0.747","F1 ≥ 0.60"
-"Default random forest F1 (validation)","0.800","≥ 0.65"
-"Accuracy of every trained model (validation)","0.883–0.911","above the blind baseline's 0.7667"
-"Noise columns' share of forest importance (17 columns)","0.225","0.15 to 0.30"
-"Grid / randomized best_cv_accuracy","0.8952 / 0.8905","each 0.86 to 0.93"
-"val_f1 of each row in part_c_tuning.csv","0.775 / 0.790 / 0.833","each ≥ 0.65"
-"Chosen threshold; test precision / recall / F1","0.5; 0.689 / 0.756 / 0.721","threshold per rule; F1 ≥ 0.60, recall ≥ 0.55, precision ≥ 0.45"
+source_file,metric_name,metric_value,tolerance
+data/modelling_table.csv,row_count,1200,0
+data/modelling_table.csv,delayed_train_count,195,0
+data/modelling_table.csv,delayed_val_count,42,0
+data/modelling_table.csv,delayed_test_count,41,0
+outputs/part_c_models.csv,row_count,4,0
+outputs/part_c_models.csv,blind_accuracy,0.7667,0.001
+outputs/part_c_models.csv,blind_tn,138,0
+outputs/part_c_models.csv,blind_fp,0,0
+outputs/part_c_models.csv,blind_fn,42,0
+outputs/part_c_models.csv,blind_tp,0,0
+outputs/part_c_models.csv,confusion_metrics_consistent,1,0
+outputs/part_c_models.csv,trained_accuracy_in_reference_range,1,0
+outputs/part_c_models.csv,logistic_f1_minimum_met,1,0
+outputs/part_c_models.csv,tree_depth_reference,6,0
+outputs/part_c_models.csv,tree_f1_minimum_met,1,0
+outputs/part_c_models.csv,random_forest_f1_minimum_met,1,0
+outputs/part_c_feature_scores.csv,row_count,17,0
+outputs/part_c_feature_scores.csv,feature_names_unique,1,0
+outputs/part_c_feature_scores.csv,feature_scores_finite,1,0
+outputs/part_c_feature_scores.csv,noise_columns_identified,1,0
+outputs/part_c_feature_scores.csv,top_seven_f_score_order_correct,1,0
+outputs/part_c_feature_scores.csv,noise_columns_outside_top_seven,1,0
+outputs/part_c_feature_scores.csv,top_seven_min_f_score_above_30,1,0
+outputs/part_c_feature_scores.csv,combined_noise_importance,0.225,0.075
+outputs/part_c_feature_scores.csv,forest_importance_sums_to_one,1,0
+outputs/part_c_selectk.csv,row_count,5,0
+outputs/part_c_selectk.csv,required_k_values_present,1,0
+outputs/part_c_selectk.csv,validation_f1_values_valid,1,0
+outputs/part_c_tuning.csv,row_count,3,0
+outputs/part_c_tuning.csv,required_search_rows_present,1,0
+outputs/part_c_tuning.csv,candidate_counts_correct,1,0
+outputs/part_c_tuning.csv,cv_folds_correct,1,0
+outputs/part_c_tuning.csv,total_fits_correct,1,0
+outputs/part_c_tuning.csv,grid_cv_accuracy,0.8952,0.0352
+outputs/part_c_tuning.csv,randomized_cv_accuracy,0.8905,0.0305
+outputs/part_c_tuning.csv,tuning_validation_f1_minimum_met,1,0
+outputs/part_c_thresholds.csv,row_count,9,0
+outputs/part_c_thresholds.csv,required_thresholds_present,1,0
+outputs/part_c_thresholds.csv,threshold_metrics_consistent,1,0
+outputs/part_c_thresholds.csv,recall_nonincreasing_with_threshold,1,0
+outputs/part_c_final_config.csv,selected_threshold,0.5,0.4
+outputs/part_c_final_config.csv,threshold_rule_satisfied,1,0
+outputs/part_c_final_test.csv,row_count,1,0
+outputs/part_c_final_test.csv,test_row_count,180,0
+outputs/part_c_final_test.csv,test_delayed_count,41,0
+outputs/part_c_final_test.csv,threshold_matches_config,1,0
+outputs/part_c_final_test.csv,confusion_metrics_consistent,1,0
+outputs/part_c_final_test.csv,test_precision_minimum_met,1,0
+outputs/part_c_final_test.csv,test_recall_minimum_met,1,0
+outputs/part_c_final_test.csv,test_f1_minimum_met,1,0
