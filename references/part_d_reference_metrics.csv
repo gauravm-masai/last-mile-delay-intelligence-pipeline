@@ -1,14 +1,78 @@
-Item,Reference,Tolerance
-"hub_profile.csv, HUB01",hours 45.685 · delay rate 0.0200 · distance 185.061 · stops 54.70,±0.01
-"hub_profile.csv, HUB13",hours 66.074 · delay rate 0.4600 · distance 473.320 · stops 83.92,±0.01
-"hub_profile.csv, HUB17",hours 60.851 · delay rate 0.4600 · distance 443.285 · stops 84.18,±0.01
-part_d_separation.csv K = 2 / 3: cluster_sizes,15-9 / 9-8-7,exact
-part_d_separation.csv K = 2 / 3: across_over_within,2.894 / 5.393,±0.01
-part_d_separation.csv K = 4 / 5: cluster_sizes,8-7-5-4 / 8-7-4-3-2,"exact for random_state=42 , n_init=10 and ascending hub_id order; see the note below the table"
-part_d_separation.csv K = 4 / 5: across_over_within,6.305 / 6.887,±0.01 for the pinned order and seed; otherwise graded on consistency with your own file
-Segment Standard : hubs · hours · delay rate · distance · stops,7 · 47.24 · 0.0257 · 188.93 · 55.37,±0.01
-Segment Watch,8 · 56.81 · 0.1550 · 314.18 · 70.72,±0.01
-Segment Escalate,9 · 64.65 · 0.4600 · 470.48 · 84.34,±0.01
-Tier-versus-segment mismatches,"HUB07 Kolkata (Tier 1, Watch );HUB13 Nagpur (Tier 2,Escalate ); HUB15 Kochi (Tier 2,Escalate ); HUB22 Dehradun (Tier 3, Watch )",exact
-new_shipments.csv before cleaning,48 rows · 3 missing distance_km; 2 missing parcel_weight_kg; 1 missing declared_value; 2 missing payment_mode; 8 service_type spellings,exact
-reload_max_abs_probability_diff,0,≤ 1e-9
+source_file,metric_name,metric_value,tolerance
+hub_profile.csv,row_count,24,0
+hub_profile.csv,shipments_per_hub,50,0
+hub_profile.csv,HUB01.mean_delivery_hours,45.685,0.01
+hub_profile.csv,HUB01.delay_rate,0.0200,0.01
+hub_profile.csv,HUB01.mean_distance_km,185.061,0.01
+hub_profile.csv,HUB01.mean_n_stops,54.70,0.01
+hub_profile.csv,HUB13.mean_delivery_hours,66.074,0.01
+hub_profile.csv,HUB13.delay_rate,0.4600,0.01
+hub_profile.csv,HUB13.mean_distance_km,473.320,0.01
+hub_profile.csv,HUB13.mean_n_stops,83.92,0.01
+hub_profile.csv,HUB17.mean_delivery_hours,60.851,0.01
+hub_profile.csv,HUB17.delay_rate,0.4600,0.01
+hub_profile.csv,HUB17.mean_distance_km,443.285,0.01
+hub_profile.csv,HUB17.mean_n_stops,84.18,0.01
+part_d_separation.csv,row_count,4,0
+part_d_separation.csv,K2.cluster_size_rank_1,15,0
+part_d_separation.csv,K2.cluster_size_rank_2,9,0
+part_d_separation.csv,K2.across_over_within,2.894,0.01
+part_d_separation.csv,K3.cluster_size_rank_1,9,0
+part_d_separation.csv,K3.cluster_size_rank_2,8,0
+part_d_separation.csv,K3.cluster_size_rank_3,7,0
+part_d_separation.csv,K3.across_over_within,5.393,0.01
+part_d_separation.csv,K4.cluster_size_rank_1,8,0
+part_d_separation.csv,K4.cluster_size_rank_2,7,0
+part_d_separation.csv,K4.cluster_size_rank_3,5,0
+part_d_separation.csv,K4.cluster_size_rank_4,4,0
+part_d_separation.csv,K4.across_over_within,6.305,0.01
+part_d_separation.csv,K5.cluster_size_rank_1,8,0
+part_d_separation.csv,K5.cluster_size_rank_2,7,0
+part_d_separation.csv,K5.cluster_size_rank_3,4,0
+part_d_separation.csv,K5.cluster_size_rank_4,3,0
+part_d_separation.csv,K5.cluster_size_rank_5,2,0
+part_d_separation.csv,K5.across_over_within,6.887,0.01
+segment_profile.csv,row_count,3,0
+segment_profile.csv,Standard.hubs,7,0
+segment_profile.csv,Standard.mean_delivery_hours,47.24,0.01
+segment_profile.csv,Standard.delay_rate,0.0257,0.01
+segment_profile.csv,Standard.mean_distance_km,188.93,0.01
+segment_profile.csv,Standard.mean_n_stops,55.37,0.01
+segment_profile.csv,Watch.hubs,8,0
+segment_profile.csv,Watch.mean_delivery_hours,56.81,0.01
+segment_profile.csv,Watch.delay_rate,0.1550,0.01
+segment_profile.csv,Watch.mean_distance_km,314.18,0.01
+segment_profile.csv,Watch.mean_n_stops,70.72,0.01
+segment_profile.csv,Escalate.hubs,9,0
+segment_profile.csv,Escalate.mean_delivery_hours,64.65,0.01
+segment_profile.csv,Escalate.delay_rate,0.4600,0.01
+segment_profile.csv,Escalate.mean_distance_km,470.48,0.01
+segment_profile.csv,Escalate.mean_n_stops,84.34,0.01
+tier_vs_segment_mismatch.csv,row_count,4,0
+tier_vs_segment_mismatch.csv,HUB07.city_code,1,0
+tier_vs_segment_mismatch.csv,HUB07.hub_tier,1,0
+tier_vs_segment_mismatch.csv,HUB07.segment_code,2,0
+tier_vs_segment_mismatch.csv,HUB07.expected_segment_code,1,0
+tier_vs_segment_mismatch.csv,HUB13.city_code,2,0
+tier_vs_segment_mismatch.csv,HUB13.hub_tier,2,0
+tier_vs_segment_mismatch.csv,HUB13.segment_code,3,0
+tier_vs_segment_mismatch.csv,HUB13.expected_segment_code,2,0
+tier_vs_segment_mismatch.csv,HUB15.city_code,3,0
+tier_vs_segment_mismatch.csv,HUB15.hub_tier,2,0
+tier_vs_segment_mismatch.csv,HUB15.segment_code,3,0
+tier_vs_segment_mismatch.csv,HUB15.expected_segment_code,2,0
+tier_vs_segment_mismatch.csv,HUB22.city_code,4,0
+tier_vs_segment_mismatch.csv,HUB22.hub_tier,3,0
+tier_vs_segment_mismatch.csv,HUB22.segment_code,2,0
+tier_vs_segment_mismatch.csv,HUB22.expected_segment_code,3,0
+data/new_shipments.csv,row_count,48,0
+data/new_shipments.csv,missing_distance_km,3,0
+data/new_shipments.csv,missing_parcel_weight_kg,2,0
+data/new_shipments.csv,missing_declared_value,1,0
+data/new_shipments.csv,missing_payment_mode,2,0
+data/new_shipments.csv,service_type_unique_spellings,8,0
+part_d_reload_check.csv,test_rows_scored,180,0
+part_d_reload_check.csv,reload_max_abs_probability_diff,0,0.000000001
+part_d_reload_check.csv,threshold,0.5,0
+new_shipment_actions.csv,row_count,48,0
+new_shipment_actions.csv,unique_shipment_ids,48,0
