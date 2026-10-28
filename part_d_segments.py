@@ -182,12 +182,14 @@ def match_segments_tier(hub_segments):
         3: "Escalate",
     }
 
-    hub_segments["expected_segment"] = (
-        hub_segments["hub_tier"].map(expected_segment)
+    mismatches = hub_segments.copy()
+
+    mismatches["expected_segment"] = (
+        mismatches["hub_tier"].map(expected_segment)
     )
 
-    tier_vs_segment_mismatch = hub_segments.loc[
-        hub_segments["segment"] != hub_segments["expected_segment"]
+    tier_vs_segment_mismatch = mismatches.loc[
+        mismatches["segment"] != mismatches["expected_segment"]
         ].copy()
 
     return tier_vs_segment_mismatch
@@ -252,7 +254,6 @@ if __name__ == "__main__":
     separation_df = generate_separation_evidence(hub_profile)
 
     hub_segments = create_hub_segments(hubs, hub_profile)
-    hub_segments_copy = hub_segments.copy()
 
     segment_profile = create_segment_profiles(hub_profile)
     mismatches = match_segments_tier(hub_segments)
@@ -260,7 +261,7 @@ if __name__ == "__main__":
     save_part_d_results(
         hub_profile_copy,
         separation_df,
-        hub_segments_copy,
+        hub_segments,
         segment_profile,
         mismatches
     )
