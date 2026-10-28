@@ -15,10 +15,7 @@ def load_features(hubs, clean, features):
     # Build features
     features_df = build_features(clean, hubs)
 
-    # Arrange features in the exact saved order
-    X_new = features_df[features]
-
-    return X_new
+    return features_df[features]
 
 def predict_delay(new_shipments, hub_segments, model, X_new, threshold):
     # Predict positive-class probabilities
