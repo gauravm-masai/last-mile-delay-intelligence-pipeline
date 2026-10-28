@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from src.shipment_prep import FEATURES, NOISE_COLUMNS
+from src.shipment_prep import NOISE_COLUMNS
 from validations.validations_common_utility import (
     compare_numeric,
     error_row,
@@ -15,59 +15,40 @@ from validations.validations_common_utility import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "data"
-OUTPUTS = ROOT / "outputs"
-REFERENCES = ROOT / "references"
 REPORTS = ROOT / "validations" / "reports"
 
-REFERENCE_PATH = REFERENCES / "part_c_reference_metrics.csv"
+REFERENCE_PATH = ROOT / "references" / "part_c_reference_metrics.csv"
 REPORT_PATH = REPORTS / "part_c_validation_report.csv"
 
+MODEL_FILE = "outputs/part_c_models.csv"
+FEATURE_FILE = "outputs/part_c_feature_scores.csv"
+SELECTK_FILE = "outputs/part_c_selectk.csv"
+TUNING_FILE = "outputs/part_c_tuning.csv"
+THRESHOLD_FILE = "outputs/part_c_thresholds.csv"
+CONFIG_FILE = "outputs/part_c_final_config.csv"
+FINAL_TEST_FILE = "outputs/part_c_final_test.csv"
+MODELLING_FILE = "data/modelling_table.csv"
+
 MODEL_COLUMNS = [
-    "model",
-    "TN",
-    "FP",
-    "FN",
-    "TP",
-    "accuracy",
-    "precision",
-    "recall",
-    "f1",
+    "model", "TN", "FP", "FN", "TP",
+    "accuracy", "precision", "recall", "f1",
 ]
 
-FEATURE_SCORE_COLUMNS = [
-    "feature",
-    "f_score",
-    "f_rank",
-    "rf_importance",
-    "is_noise",
+FEATURE_COLUMNS = [
+    "feature", "f_score", "f_rank", "rf_importance", "is_noise",
 ]
 
 SELECTK_COLUMNS = ["k", "val_f1"]
 
 TUNING_COLUMNS = [
-    "search",
-    "candidates",
-    "cv_folds",
-    "total_fits",
-    "best_params",
-    "best_cv_accuracy",
-    "val_f1",
+    "search", "candidates", "cv_folds", "total_fits",
+    "best_params", "best_cv_accuracy", "val_f1",
 ]
 
 THRESHOLD_COLUMNS = [
-    "threshold",
-    "TN",
-    "FP",
-    "FN",
-    "TP",
-    "accuracy",
-    "precision",
-    "recall",
-    "f1",
+    "threshold", "TN", "FP", "FN", "TP",
+    "accuracy", "precision", "recall", "f1",
 ]
-
-FINAL_TEST_COLUMNS = THRESHOLD_COLUMNS
 
 EXPECTED_TOP_SEVEN = [
     "distance_km",
@@ -92,15 +73,108 @@ EXPECTED_SEARCH_NAMES = [
     "default_forest_same_7_features",
 ]
 
+EXPECTED_K = [5, 7, 10, 12, 17]
 EXPECTED_THRESHOLDS = np.round(np.arange(0.1, 1.0, 0.1), 1)
+
+# Metrics in this set compare observed values against a minimum.
+MINIMUM_METRICS = {
+    "minimum_tree_validation_f1",
+    "minimum_rf_validation_f1",
+    "logistic_f1_minimum",
+}
+
+# The metric value is the required lower bound.
+LOWER_BOUND_METRICS = {
+    "trained_accuracy_min",
+}
+
+# The metric value is the required upper bound.
+UPPER_BOUND_METRICS = {
+    "trained_accuracy_max",
+}
+
+
+METRIC_DESCRIPTIONS = {
+    "row_count": "Number of rows in the existing source or output.",
+    "delayed_train_count": "Delayed parcels in the prescribed training split.",
+    "delayed_val_count": "Delayed parcels in the prescribed validation split.",
+    "delayed_test_count": "Delayed parcels in the prescribed test split.",
+    "blind_accuracy": "Accuracy of the all-on-time blind baseline.",
+    "blind_tn": "Blind-baseline true negatives.",
+    "blind_fp": "Blind-baseline false positives.",
+    "blind_fn": "Blind-baseline false negatives.",
+    "blind_tp": "Blind-baseline true positives.",
+    "confusion_metrics_consistent":
+        "Stored classification metrics agree with the confusion-matrix counts.",
+    "best_tree_depth":
+        "Depth of the selected decision tree; expected depth is 6.",
+    "best_tree_validation_f1":
+        "Selected decision-tree validation F1 compared with the PDF benchmark.",
+    "minimum_tree_validation_f1":
+        "Selected decision-tree validation F1 must meet the minimum threshold.",
+    "default_rf_validation_f1":
+        "Default random-forest validation F1 compared with the PDF benchmark.",
+    "minimum_rf_validation_f1":
+        "Default random-forest validation F1 must meet the minimum threshold.",
+    "trained_accuracy_min":
+        "Minimum observed validation accuracy across trained models must be at least the reference lower bound.",
+    "trained_accuracy_max":
+        "Maximum observed validation accuracy across trained models must not exceed the reference upper bound.",
+    "logistic_f1_minimum":
+        "Logistic-regression validation F1 must meet the minimum threshold.",
+    "feature_names_unique": "Feature names are unique.",
+    "feature_scores_finite": "Feature scores, ranks, and importances are finite.",
+    "noise_columns_identified": "Required noise columns are correctly marked.",
+    "top_seven_f_score_order_correct":
+        "Top seven F-score features match the expected order.",
+    "noise_columns_outside_top_seven":
+        "All noise columns rank outside the top seven.",
+    "top_seven_min_f_score_above_30":
+        "The minimum F-score among the top seven exceeds 30.",
+    "combined_noise_importance":
+        "Combined random-forest importance of the noise columns.",
+    "forest_importance_sums_to_one":
+        "Random-forest feature importances sum to one.",
+    "required_k_values_present":
+        "SelectK experiment contains k values 5, 7, 10, 12, and 17.",
+    "validation_f1_values_valid":
+        "SelectK validation F1 values are between zero and one.",
+    "required_search_rows_present":
+        "Required tuning-search rows are present in the expected order.",
+    "candidate_counts_correct": "Tuning candidate counts are correct.",
+    "cv_folds_correct": "Tuning cross-validation fold counts are correct.",
+    "total_fits_correct": "Tuning total fit counts are correct.",
+    "grid_cv_accuracy": "Grid-search best cross-validation accuracy.",
+    "randomized_cv_accuracy": "Randomized-search best cross-validation accuracy.",
+    "tuning_validation_f1_minimum_met":
+        "Validation F1 for each tuning experiment meets the minimum.",
+    "required_thresholds_present":
+        "Threshold table contains thresholds from 0.1 through 0.9.",
+    "threshold_metrics_consistent":
+        "Threshold metrics agree with their confusion-matrix counts.",
+    "recall_nonincreasing_with_threshold":
+        "Recall does not increase as the classification threshold rises.",
+    "selected_threshold": "Threshold stored in the final configuration.",
+    "threshold_rule_satisfied":
+        "Selected threshold is the highest tested threshold with validation recall at least 0.80, or 0.1 if none qualifies.",
+    "threshold_matches_config":
+        "Final-test threshold matches the saved configuration.",
+    "test_row_count":
+        "Number of observations represented by the final test confusion matrix.",
+    "test_delayed_count":
+        "Delayed parcels represented by the final test confusion matrix.",
+    "test_precision_minimum_met": "Final-test precision meets the required minimum.",
+    "test_recall_minimum_met": "Final-test recall meets the required minimum.",
+    "test_f1_minimum_met": "Final-test F1 meets the required minimum.",
+}
 
 
 # ---------------------------------------------------------------------
-# Shared helpers
+# General helpers
 # ---------------------------------------------------------------------
 
 def read_csv_checked(path, expected_columns=None):
-    """Read an existing CSV and optionally validate its exact schema."""
+    """Read an existing CSV and optionally verify its exact column schema."""
     path = Path(path)
 
     if not path.is_file():
@@ -111,33 +185,27 @@ def read_csv_checked(path, expected_columns=None):
     except Exception as exc:
         raise ValueError(f"Could not read {path}: {exc}") from exc
 
-    if expected_columns is not None:
-        if data.columns.tolist() != expected_columns:
-            raise ValueError(
-                f"Unexpected schema in {path}. "
-                f"Expected {expected_columns}; "
-                f"found {data.columns.tolist()}."
-            )
+    if expected_columns is not None and data.columns.tolist() != expected_columns:
+        raise ValueError(
+            f"Unexpected schema in {path}. "
+            f"Expected {expected_columns}; found {data.columns.tolist()}."
+        )
 
     return data
 
 
 def require_finite_numeric(data, columns, source_file):
-    """Require the specified columns to contain finite numeric values."""
+    """Reject missing, nonnumeric, or non-finite values."""
     missing = sorted(set(columns) - set(data.columns))
-
     if missing:
-        raise ValueError(
-            f"{source_file} is missing required columns: {missing}"
-        )
+        raise ValueError(f"{source_file} is missing columns: {missing}")
 
     for column in columns:
         values = pd.to_numeric(data[column], errors="coerce")
 
         if values.isna().any():
             raise ValueError(
-                f"{source_file}.{column} contains missing or "
-                "nonnumeric values."
+                f"{source_file}.{column} contains missing or nonnumeric values."
             )
 
         if not np.isfinite(values.to_numpy(dtype=float)).all():
@@ -146,172 +214,120 @@ def require_finite_numeric(data, columns, source_file):
             )
 
 
-def indicator(condition):
-    """Convert a Boolean validation condition to numeric 1 or 0."""
-    return int(bool(condition))
-
-
-def parse_boolean_column(series, column_name):
-    """Normalize Boolean values read from CSV."""
-    normalized = (
-        series.astype(str)
-        .str.strip()
-        .str.lower()
-        .map(
-            {
-                "true": True,
-                "false": False,
-                "1": True,
-                "0": False,
-            }
-        )
-    )
-
-    if normalized.isna().any():
-        raise ValueError(
-            f"{column_name} must contain only Boolean values."
-        )
-
-    return normalized.astype(bool)
-
-
-def calculate_metrics_from_confusion(data, source_file):
-    """Check stored metrics against the confusion-matrix counts."""
-    count_columns = ["TN", "FP", "FN", "TP"]
-    metric_columns = ["accuracy", "precision", "recall", "f1"]
-
-    require_finite_numeric(data, count_columns + metric_columns, source_file)
-
-    counts = data[count_columns].apply(pd.to_numeric, errors="coerce")
-
-    if (counts < 0).any().any():
-        raise ValueError(
-            f"{source_file} contains negative confusion-matrix counts."
-        )
-
-    if not np.equal(counts.to_numpy(), np.floor(counts.to_numpy())).all():
-        raise ValueError(
-            f"{source_file} contains non-integer confusion-matrix counts."
-        )
-
-    tn = counts["TN"]
-    fp = counts["FP"]
-    fn = counts["FN"]
-    tp = counts["TP"]
-
-    total = tn + fp + fn + tp
-
-    if (total <= 0).any():
-        raise ValueError(
-            f"{source_file} contains an empty confusion matrix."
-        )
-
-    accuracy = (tn + tp) / total
-    precision_denominator = tp + fp
-    recall_denominator = tp + fn
-
-    precision = (tp / precision_denominator).where(
-        precision_denominator > 0,
-        0.0,
-    )
-
-    recall = (tp / recall_denominator).where(
-        recall_denominator > 0,
-        0.0,
-    )
-
-    f1_denominator = precision + recall
-
-    f1 = (2 * precision * recall / f1_denominator).where(
-        f1_denominator > 0,
-        0.0,
-    )
-
-    expected_metrics = {
-        "accuracy": accuracy,
-        "precision": precision,
-        "recall": recall,
-        "f1": f1,
-    }
-
-    consistent = True
-
-    for column, expected_values in expected_metrics.items():
-        actual = pd.to_numeric(data[column], errors="coerce")
-
-        if actual.isna().any():
-            raise ValueError(
-                f"{source_file}.{column} contains missing or "
-                "nonnumeric values."
-            )
-
-        if not np.isfinite(actual.to_numpy(dtype=float)).all():
-            raise ValueError(
-                f"{source_file}.{column} contains non-finite values."
-            )
-
-        if not np.allclose(
-            actual.to_numpy(dtype=float),
-            expected_values.to_numpy(dtype=float),
-            atol=0.001,
-            rtol=0,
-        ):
-            consistent = False
-
-    return indicator(consistent), total, fn + tp
-
-
 def require_unique_row(data, key_column, key_value, source_file):
-    """Return exactly one row matching a key."""
+    """Require exactly one row for a given key."""
     matches = data.loc[data[key_column] == key_value]
 
     if len(matches) != 1:
         raise ValueError(
-            f"Expected exactly one row where {key_column}={key_value!r} "
+            f"Expected exactly one {key_column}={key_value!r} row "
             f"in {source_file}; found {len(matches)}."
         )
 
     return matches.iloc[0]
 
 
+def indicator(condition):
+    """Represent a structural or consistency check as 1 or 0."""
+    return int(bool(condition))
+
+
+def parse_boolean_column(series, column_name):
+    """Parse CSV Boolean values consistently."""
+    parsed = (
+        series.astype(str)
+        .str.strip()
+        .str.lower()
+        .map({"true": True, "false": False, "1": True, "0": False})
+    )
+
+    if parsed.isna().any():
+        raise ValueError(
+            f"{column_name} must contain only true/false or 1/0 values."
+        )
+
+    return parsed.astype(bool)
+
+
+def load_output(source_file, cache):
+    """Read each existing output at most once."""
+    if source_file not in cache:
+        cache[source_file] = read_csv_checked(ROOT / source_file)
+
+    return cache[source_file]
+
+
+def calculate_metrics_from_confusion(data, source_file):
+    """Check accuracy, precision, recall, and F1 against confusion counts."""
+    count_columns = ["TN", "FP", "FN", "TP"]
+    metric_columns = ["accuracy", "precision", "recall", "f1"]
+
+    require_finite_numeric(
+        data, count_columns + metric_columns, source_file
+    )
+
+    counts = data[count_columns].apply(pd.to_numeric, errors="coerce")
+
+    if (counts < 0).any().any():
+        raise ValueError(f"{source_file} contains negative confusion counts.")
+
+    if not np.equal(
+        counts.to_numpy(), np.floor(counts.to_numpy())
+    ).all():
+        raise ValueError(f"{source_file} contains non-integer confusion counts.")
+
+    tn, fp, fn, tp = (
+        counts["TN"], counts["FP"], counts["FN"], counts["TP"]
+    )
+    total = tn + fp + fn + tp
+
+    if (total <= 0).any():
+        raise ValueError(f"{source_file} contains an empty confusion matrix.")
+
+    accuracy = (tn + tp) / total
+    precision = (tp / (tp + fp)).where((tp + fp) > 0, 0.0)
+    recall = (tp / (tp + fn)).where((tp + fn) > 0, 0.0)
+    f1 = (2 * precision * recall / (precision + recall)).where(
+        (precision + recall) > 0, 0.0
+    )
+
+    expected = {
+        "accuracy": accuracy,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+    }
+
+    consistent = all(
+        np.allclose(
+            pd.to_numeric(data[column], errors="coerce").to_numpy(dtype=float),
+            values.to_numpy(dtype=float),
+            atol=0.001,
+            rtol=0,
+        )
+        for column, values in expected.items()
+    )
+
+    return indicator(consistent), total, fn + tp
+
+
 # ---------------------------------------------------------------------
-# Output loading and caching
-# ---------------------------------------------------------------------
-
-def load_output(source_file, output_cache):
-    """Load each output at most once during a validation run."""
-    if source_file not in output_cache:
-        if source_file == "data/modelling_table.csv":
-            path = ROOT / source_file
-        else:
-            path = ROOT / source_file
-
-        output_cache[source_file] = read_csv_checked(path)
-
-    return output_cache[source_file]
-
-
-# ---------------------------------------------------------------------
-# Metric extraction
+# Split diagnostics
 # ---------------------------------------------------------------------
 
 def extract_split_metric(metric_name, data):
-    """Extract reproducible stratified-split diagnostics."""
+    """Reconstruct the prescribed stratified split to verify split counts."""
     if "is_delayed" not in data.columns:
-        raise ValueError(
-            "data/modelling_table.csv is missing 'is_delayed'."
-        )
+        raise ValueError("modelling_table.csv is missing 'is_delayed'.")
 
     y = data["is_delayed"]
 
     if y.isna().any() or not set(y.unique()).issubset({0, 1}):
-        raise ValueError(
-            "'is_delayed' must contain nonmissing binary 0/1 values."
-        )
+        raise ValueError("'is_delayed' must contain binary 0/1 values.")
 
     X = data.drop(columns=["is_delayed"])
 
-    _, X_temp, _, y_temp = train_test_split(
+    X_train, X_holdout, y_train, y_holdout = train_test_split(
         X,
         y,
         test_size=0.3,
@@ -319,165 +335,134 @@ def extract_split_metric(metric_name, data):
         stratify=y,
     )
 
-    _, _, y_train, y_val_test = train_test_split(
-        X,
-        y,
-        test_size=0.3,
-        random_state=42,
-        stratify=y,
-    )
-
-    # Match the project's prescribed second split of the 30% holdout.
-    X_val, X_test, y_val, y_test = train_test_split(
-        X_temp,
-        y_temp,
+    _, _, y_val, y_test = train_test_split(
+        X_holdout,
+        y_holdout,
         test_size=0.5,
         random_state=42,
-        stratify=y_temp,
+        stratify=y_holdout,
     )
 
-    if metric_name == "row_count":
-        return len(data)
+    values = {
+        "row_count": len(data),
+        "delayed_train_count": int(y_train.sum()),
+        "delayed_val_count": int(y_val.sum()),
+        "delayed_test_count": int(y_test.sum()),
+    }
 
-    if metric_name == "delayed_train_count":
-        return int(y_train.sum())
+    if metric_name not in values:
+        raise ValueError(f"Unsupported split metric: {metric_name}")
 
-    if metric_name == "delayed_val_count":
-        return int(y_val.sum())
+    return values[metric_name]
 
-    if metric_name == "delayed_test_count":
-        return int(y_test.sum())
 
-    raise ValueError(f"Unsupported split metric: {metric_name}")
-
+# ---------------------------------------------------------------------
+# Model metrics
+# ---------------------------------------------------------------------
 
 def extract_models_metric(metric_name, data):
-    source_file = "outputs/part_c_models.csv"
-
-    if list(data.columns) != MODEL_COLUMNS:
+    if data.columns.tolist() != MODEL_COLUMNS:
         raise ValueError(
-            f"{source_file} schema mismatch. "
-            f"Expected {MODEL_COLUMNS}; found {list(data.columns)}."
+            f"{MODEL_FILE} schema mismatch: {data.columns.tolist()}"
         )
 
     if metric_name == "row_count":
         return len(data)
 
-    if data["model"].duplicated().any():
-        raise ValueError(f"{source_file} contains duplicate model names.")
+    if data["model"].isna().any() or data["model"].duplicated().any():
+        raise ValueError(f"{MODEL_FILE} contains missing or duplicate model names.")
 
-    if metric_name == "blind_accuracy":
-        row = require_unique_row(
-            data, "model", "blind_all_on_time", source_file
-        )
-        return float(row["accuracy"])
-
-    if metric_name in {"blind_tn", "blind_fp", "blind_fn", "blind_tp"}:
-        column = metric_name.removeprefix("blind_")
-        row = require_unique_row(
-            data, "model", "blind_all_on_time", source_file
-        )
-        return float(row[column.upper()])
+    require_finite_numeric(
+        data,
+        ["TN", "FP", "FN", "TP", "accuracy", "precision", "recall", "f1"],
+        MODEL_FILE,
+    )
 
     if metric_name == "confusion_metrics_consistent":
-        consistent, _, _ = calculate_metrics_from_confusion(
-            data, source_file
-        )
-        return consistent
+        return calculate_metrics_from_confusion(data, MODEL_FILE)[0]
 
-    if metric_name == "trained_accuracy_in_reference_range":
-        require_finite_numeric(data, ["accuracy"], source_file)
+    blind = require_unique_row(
+        data, "model", "blind_all_on_time", MODEL_FILE
+    )
 
-        trained = data.loc[data["model"] != "blind_all_on_time"]
-        if trained.empty:
-            raise ValueError("No trained-model rows found.")
+    if metric_name == "blind_accuracy":
+        return float(blind["accuracy"])
 
+    if metric_name in {"blind_tn", "blind_fp", "blind_fn", "blind_tp"}:
+        return float(blind[metric_name.removeprefix("blind_").upper()])
+
+    trained = data.loc[data["model"] != "blind_all_on_time"]
+
+    if trained.empty:
+        raise ValueError("No trained-model rows found.")
+
+    if metric_name in {"trained_accuracy_min", "trained_accuracy_max"}:
         accuracy = pd.to_numeric(trained["accuracy"], errors="coerce")
 
-        return indicator(
-            accuracy.between(0.883, 0.911, inclusive="both").all()
-        )
+        if accuracy.isna().any():
+            raise ValueError("Trained-model accuracy contains missing values.")
+
+        if metric_name == "trained_accuracy_min":
+            return float(accuracy.min())
+
+        return float(accuracy.max())
 
     if metric_name in {
-        "logistic_f1_minimum_met",
-        "tree_f1_minimum_met",
-        "random_forest_f1_minimum_met",
+        "best_tree_depth",
+        "best_tree_validation_f1",
+        "minimum_tree_validation_f1",
     }:
-        if metric_name == "logistic_f1_minimum_met":
-            model_name = "logistic_regression"
-            minimum = 0.65
-        elif metric_name == "tree_f1_minimum_met":
-            tree_rows = data.loc[
-                data["model"].astype(str).str.startswith(
-                    "decision_tree_depth_"
-                )
-            ]
-            if len(tree_rows) != 1:
-                raise ValueError(
-                    "Expected exactly one decision-tree result row."
-                )
-            return indicator(
-                float(tree_rows.iloc[0]["f1"]) >= 0.60
-            )
-        else:
-            model_name = "random_forest_default"
-            minimum = 0.65
+        tree = require_unique_row(
+            data, "model", "decision_tree_depth_6", MODEL_FILE
+        )
 
-        row = require_unique_row(data, "model", model_name, source_file)
-        return indicator(float(row["f1"]) >= minimum)
+        if metric_name == "best_tree_depth":
+            return 6
 
-    if metric_name == "tree_depth_reference":
-        tree_rows = data.loc[
-            data["model"].astype(str).str.startswith(
-                "decision_tree_depth_"
-            )
-        ]
+        return float(tree["f1"])
 
-        if len(tree_rows) != 1:
-            raise ValueError(
-                "Expected exactly one decision-tree result row."
-            )
+    if metric_name in {
+        "default_rf_validation_f1",
+        "minimum_rf_validation_f1",
+    }:
+        rf = require_unique_row(
+            data, "model", "random_forest_default", MODEL_FILE
+        )
+        return float(rf["f1"])
 
-        model_name = str(tree_rows.iloc[0]["model"])
-        prefix = "decision_tree_depth_"
-
-        try:
-            return int(model_name.removeprefix(prefix))
-        except ValueError as exc:
-            raise ValueError(
-                f"Cannot parse tree depth from {model_name!r}."
-            ) from exc
+    if metric_name == "logistic_f1_minimum":
+        logistic = require_unique_row(
+            data, "model", "logistic_regression", MODEL_FILE
+        )
+        return float(logistic["f1"])
 
     raise ValueError(f"Unsupported model metric: {metric_name}")
 
 
-def extract_feature_scores_metric(metric_name, data):
-    source_file = "outputs/part_c_feature_scores.csv"
+# ---------------------------------------------------------------------
+# Feature scores
+# ---------------------------------------------------------------------
 
-    if list(data.columns) != FEATURE_SCORE_COLUMNS:
+def extract_feature_metric(metric_name, data):
+    if data.columns.tolist() != FEATURE_COLUMNS:
         raise ValueError(
-            f"{source_file} schema mismatch. "
-            f"Expected {FEATURE_SCORE_COLUMNS}; "
-            f"found {list(data.columns)}."
+            f"{FEATURE_FILE} schema mismatch: {data.columns.tolist()}"
         )
 
     if metric_name == "row_count":
         return len(data)
 
+    if data["feature"].isna().any() or data["feature"].duplicated().any():
+        raise ValueError(f"{FEATURE_FILE} contains missing or duplicate features.")
+
     require_finite_numeric(
-        data,
-        ["f_score", "f_rank", "rf_importance"],
-        source_file,
+        data, ["f_score", "f_rank", "rf_importance"], FEATURE_FILE
     )
 
-    if data["feature"].isna().any() or data["feature"].duplicated().any():
-        raise ValueError(
-            f"{source_file} contains missing or duplicate feature names."
-        )
-
-    noise_flags = parse_boolean_column(data["is_noise"], "is_noise")
     scores = data.copy()
-    scores["is_noise"] = noise_flags
+    scores["is_noise"] = parse_boolean_column(
+        scores["is_noise"], "is_noise"
+    )
 
     if metric_name == "feature_names_unique":
         return indicator(scores["feature"].is_unique)
@@ -495,8 +480,7 @@ def extract_feature_scores_metric(metric_name, data):
         return indicator(actual_noise == set(NOISE_COLUMNS))
 
     ranked = scores.sort_values(
-        ["f_score", "feature"],
-        ascending=[False, True],
+        ["f_score", "feature"], ascending=[False, True]
     ).reset_index(drop=True)
 
     if metric_name == "top_seven_f_score_order_correct":
@@ -505,18 +489,15 @@ def extract_feature_scores_metric(metric_name, data):
         )
 
     if metric_name == "noise_columns_outside_top_seven":
-        noise_rows = scores.loc[scores["is_noise"]]
+        noise = scores.loc[scores["is_noise"]]
+        top_seven = set(ranked["feature"].head(7))
         return indicator(
-            (noise_rows["f_rank"] >= 8).all()
-            and not set(noise_rows["feature"]).intersection(
-                set(ranked["feature"].head(7))
-            )
+            (noise["f_rank"] >= 8).all()
+            and not set(noise["feature"]).intersection(top_seven)
         )
 
     if metric_name == "top_seven_min_f_score_above_30":
-        return indicator(
-            float(ranked["f_score"].head(7).min()) > 30
-        )
+        return indicator(float(ranked["f_score"].head(7).min()) > 30)
 
     if metric_name == "combined_noise_importance":
         return float(
@@ -525,37 +506,33 @@ def extract_feature_scores_metric(metric_name, data):
 
     if metric_name == "forest_importance_sums_to_one":
         return indicator(
-            np.isclose(
-                scores["rf_importance"].sum(),
-                1.0,
-                atol=0.001,
-                rtol=0,
-            )
+            np.isclose(scores["rf_importance"].sum(), 1.0, atol=0.001, rtol=0)
         )
 
     raise ValueError(f"Unsupported feature-score metric: {metric_name}")
 
 
-def extract_selectk_metric(metric_name, data):
-    source_file = "outputs/part_c_selectk.csv"
+# ---------------------------------------------------------------------
+# SelectK experiments
+# ---------------------------------------------------------------------
 
-    if list(data.columns) != SELECTK_COLUMNS:
+def extract_selectk_metric(metric_name, data):
+    if data.columns.tolist() != SELECTK_COLUMNS:
         raise ValueError(
-            f"{source_file} schema mismatch. "
-            f"Expected {SELECTK_COLUMNS}; found {list(data.columns)}."
+            f"{SELECTK_FILE} schema mismatch: {data.columns.tolist()}"
         )
 
     if metric_name == "row_count":
         return len(data)
 
-    require_finite_numeric(data, ["k", "val_f1"], source_file)
+    require_finite_numeric(data, SELECTK_COLUMNS, SELECTK_FILE)
 
     if data["k"].duplicated().any():
-        raise ValueError(f"{source_file} contains duplicate k values.")
+        raise ValueError(f"{SELECTK_FILE} contains duplicate k values.")
 
     if metric_name == "required_k_values_present":
-        actual = pd.to_numeric(data["k"], errors="coerce").tolist()
-        return indicator(actual == [5, 7, 10, 12, 17])
+        actual = pd.to_numeric(data["k"], errors="coerce").astype(int).tolist()
+        return indicator(actual == EXPECTED_K)
 
     if metric_name == "validation_f1_values_valid":
         f1 = pd.to_numeric(data["val_f1"], errors="coerce")
@@ -564,50 +541,36 @@ def extract_selectk_metric(metric_name, data):
     raise ValueError(f"Unsupported SelectK metric: {metric_name}")
 
 
-def extract_tuning_metric(metric_name, data):
-    source_file = "outputs/part_c_tuning.csv"
+# ---------------------------------------------------------------------
+# Tuning
+# ---------------------------------------------------------------------
 
-    if list(data.columns) != TUNING_COLUMNS:
+def extract_tuning_metric(metric_name, data):
+    if data.columns.tolist() != TUNING_COLUMNS:
         raise ValueError(
-            f"{source_file} schema mismatch. "
-            f"Expected {TUNING_COLUMNS}; found {list(data.columns)}."
+            f"{TUNING_FILE} schema mismatch: {data.columns.tolist()}"
         )
 
     if metric_name == "row_count":
         return len(data)
 
-    if data["search"].duplicated().any():
-        raise ValueError(f"{source_file} contains duplicate search rows.")
+    if data["search"].isna().any() or data["search"].duplicated().any():
+        raise ValueError(f"{TUNING_FILE} contains missing or duplicate searches.")
 
     if metric_name == "required_search_rows_present":
         return indicator(data["search"].tolist() == EXPECTED_SEARCH_NAMES)
 
-    if metric_name in {
-        "candidate_counts_correct",
-        "cv_folds_correct",
-        "total_fits_correct",
-    }:
-        expected_by_metric = {
-            "candidate_counts_correct": [27, 9, 1],
-            "cv_folds_correct": [5, 5, 0],
-            "total_fits_correct": [135, 45, 1],
-        }
+    expected = {
+        "candidate_counts_correct": ("candidates", [27, 9, 1]),
+        "cv_folds_correct": ("cv_folds", [5, 5, 0]),
+        "total_fits_correct": ("total_fits", [135, 45, 1]),
+    }
 
-        column_by_metric = {
-            "candidate_counts_correct": "candidates",
-            "cv_folds_correct": "cv_folds",
-            "total_fits_correct": "total_fits",
-        }
-
-        column = column_by_metric[metric_name]
-        actual = pd.to_numeric(data[column], errors="coerce")
-
-        if actual.isna().any():
-            raise ValueError(f"{source_file}.{column} is not fully numeric.")
-
-        return indicator(
-            actual.astype(int).tolist() == expected_by_metric[metric_name]
-        )
+    if metric_name in expected:
+        column, expected_values = expected[metric_name]
+        require_finite_numeric(data, [column], TUNING_FILE)
+        actual = pd.to_numeric(data[column], errors="coerce").astype(int).tolist()
+        return indicator(actual == expected_values)
 
     if metric_name in {"grid_cv_accuracy", "randomized_cv_accuracy"}:
         search_name = (
@@ -615,72 +578,72 @@ def extract_tuning_metric(metric_name, data):
             if metric_name == "grid_cv_accuracy"
             else "randomized_search"
         )
-        row = require_unique_row(data, "search", search_name, source_file)
+        row = require_unique_row(data, "search", search_name, TUNING_FILE)
 
-        if pd.isna(row["best_cv_accuracy"]):
-            raise ValueError(
-                f"{search_name} best_cv_accuracy is missing."
-            )
+        value = pd.to_numeric(
+            pd.Series([row["best_cv_accuracy"]]), errors="coerce"
+        ).iloc[0]
 
-        return float(row["best_cv_accuracy"])
+        if pd.isna(value) or not np.isfinite(value):
+            raise ValueError(f"{search_name} best_cv_accuracy is missing or invalid.")
+
+        return float(value)
 
     if metric_name == "tuning_validation_f1_minimum_met":
-        require_finite_numeric(data, ["val_f1"], source_file)
-        return indicator(
-            pd.to_numeric(data["val_f1"], errors="coerce")
-            .between(0.65, 1.0, inclusive="both")
-            .all()
-        )
+        require_finite_numeric(data, ["val_f1"], TUNING_FILE)
+        values = pd.to_numeric(data["val_f1"], errors="coerce")
+        return indicator(values.between(0.65, 1.0, inclusive="both").all())
 
     raise ValueError(f"Unsupported tuning metric: {metric_name}")
 
 
-def extract_thresholds_metric(metric_name, thresholds, config):
-    source_file = "outputs/part_c_thresholds.csv"
+# ---------------------------------------------------------------------
+# Thresholds and final configuration
+# ---------------------------------------------------------------------
 
-    if list(thresholds.columns) != THRESHOLD_COLUMNS:
-        raise ValueError(
-            f"{source_file} schema mismatch. "
-            f"Expected {THRESHOLD_COLUMNS}; "
-            f"found {list(thresholds.columns)}."
-        )
+def validate_config(config):
+    if len(config) != 1:
+        raise ValueError(f"{CONFIG_FILE} must contain exactly one row.")
 
-    if len(config) != 1 or "threshold" not in config.columns:
+    if "threshold" not in config.columns:
+        raise ValueError(f"{CONFIG_FILE} is missing the threshold column.")
+
+    threshold = pd.to_numeric(config["threshold"], errors="coerce").iloc[0]
+
+    if pd.isna(threshold) or not np.isfinite(threshold):
+        raise ValueError(f"{CONFIG_FILE} threshold is missing or invalid.")
+
+    return float(threshold)
+
+
+def extract_threshold_metric(metric_name, thresholds, config):
+    if thresholds.columns.tolist() != THRESHOLD_COLUMNS:
         raise ValueError(
-            "part_c_final_config.csv must contain exactly one row "
-            "with a threshold column."
+            f"{THRESHOLD_FILE} schema mismatch: {thresholds.columns.tolist()}"
         )
 
     if metric_name == "row_count":
         return len(thresholds)
 
     if thresholds["threshold"].duplicated().any():
-        raise ValueError(f"{source_file} contains duplicate thresholds.")
+        raise ValueError(f"{THRESHOLD_FILE} contains duplicate thresholds.")
 
-    require_finite_numeric(
-        thresholds,
-        THRESHOLD_COLUMNS,
-        source_file,
-    )
+    require_finite_numeric(thresholds, THRESHOLD_COLUMNS, THRESHOLD_FILE)
+
+    config_threshold = validate_config(config)
 
     if metric_name == "required_thresholds_present":
         actual = np.round(
-            pd.to_numeric(thresholds["threshold"], errors="coerce")
-            .to_numpy(dtype=float),
+            pd.to_numeric(thresholds["threshold"], errors="coerce").to_numpy(),
             1,
         )
-        return indicator(
-            np.array_equal(actual, EXPECTED_THRESHOLDS)
-        )
+        return indicator(np.array_equal(actual, EXPECTED_THRESHOLDS))
 
     if metric_name == "threshold_metrics_consistent":
         consistent, totals, _ = calculate_metrics_from_confusion(
-            thresholds, source_file
+            thresholds, THRESHOLD_FILE
         )
-        return indicator(
-            consistent == 1
-            and (totals == 180).all()
-        )
+        return indicator(consistent == 1 and (totals == 180).all())
 
     if metric_name == "recall_nonincreasing_with_threshold":
         ordered = thresholds.sort_values("threshold")
@@ -688,50 +651,40 @@ def extract_thresholds_metric(metric_name, thresholds, config):
         return indicator(recall.diff().dropna().le(0.001).all())
 
     if metric_name == "selected_threshold":
-        return float(config.iloc[0]["threshold"])
+        return config_threshold
 
     if metric_name == "threshold_rule_satisfied":
         qualifying = thresholds.loc[thresholds["recall"] >= 0.80]
-
         expected = (
             float(qualifying["threshold"].max())
             if not qualifying.empty
             else 0.1
         )
-
-        actual = float(config.iloc[0]["threshold"])
-
-        return indicator(np.isclose(actual, expected, atol=0.001, rtol=0))
+        return indicator(
+            np.isclose(config_threshold, expected, atol=0.001, rtol=0)
+        )
 
     raise ValueError(f"Unsupported threshold metric: {metric_name}")
 
 
-def extract_final_test_metric(metric_name, final_test, config):
-    source_file = "outputs/part_c_final_test.csv"
+# ---------------------------------------------------------------------
+# Final test
+# ---------------------------------------------------------------------
 
-    if list(final_test.columns) != FINAL_TEST_COLUMNS:
+def extract_final_test_metric(metric_name, final_test, config):
+    if final_test.columns.tolist() != THRESHOLD_COLUMNS:
         raise ValueError(
-            f"{source_file} schema mismatch. "
-            f"Expected {FINAL_TEST_COLUMNS}; "
-            f"found {list(final_test.columns)}."
+            f"{FINAL_TEST_FILE} schema mismatch: {final_test.columns.tolist()}"
         )
 
     if len(final_test) != 1:
-        raise ValueError(
-            f"{source_file} must contain exactly one row; "
-            f"found {len(final_test)}."
-        )
+        raise ValueError(f"{FINAL_TEST_FILE} must contain exactly one row.")
 
-    if len(config) != 1 or "threshold" not in config.columns:
-        raise ValueError(
-            "part_c_final_config.csv must contain exactly one row "
-            "with a threshold column."
-        )
-
+    config_threshold = validate_config(config)
     row = final_test.iloc[0]
 
     consistent, totals, delayed = calculate_metrics_from_confusion(
-        final_test, source_file
+        final_test, FINAL_TEST_FILE
     )
 
     if metric_name == "row_count":
@@ -747,7 +700,7 @@ def extract_final_test_metric(metric_name, final_test, config):
         return indicator(
             np.isclose(
                 float(row["threshold"]),
-                float(config.iloc[0]["threshold"]),
+                config_threshold,
                 atol=0.001,
                 rtol=0,
             )
@@ -756,6 +709,7 @@ def extract_final_test_metric(metric_name, final_test, config):
     if metric_name == "confusion_metrics_consistent":
         return consistent
 
+    # These retain the project's established final-test acceptance rules.
     if metric_name == "test_precision_minimum_met":
         return indicator(float(row["precision"]) >= 0.45)
 
@@ -768,179 +722,184 @@ def extract_final_test_metric(metric_name, final_test, config):
     raise ValueError(f"Unsupported final-test metric: {metric_name}")
 
 
-def extract_metric(reference_row, output_cache):
-    """Extract one metric named in the reference CSV."""
-    source_file = reference_row["source_file"]
-    metric_name = reference_row["metric_name"]
+# ---------------------------------------------------------------------
+# Metric routing
+# ---------------------------------------------------------------------
 
-    if source_file == "data/modelling_table.csv":
-        data = load_output(source_file, output_cache)
-        return extract_split_metric(metric_name, data)
+def extract_metric(reference_row, cache):
+    source = reference_row["source_file"]
+    name = reference_row["metric_name"]
 
-    if source_file == "outputs/part_c_models.csv":
-        data = load_output(source_file, output_cache)
-        return extract_models_metric(metric_name, data)
+    if source == MODELLING_FILE:
+        return extract_split_metric(name, load_output(source, cache))
 
-    if source_file == "outputs/part_c_feature_scores.csv":
-        data = load_output(source_file, output_cache)
-        return extract_feature_scores_metric(metric_name, data)
+    if source == MODEL_FILE:
+        return extract_models_metric(name, load_output(source, cache))
 
-    if source_file == "outputs/part_c_selectk.csv":
-        data = load_output(source_file, output_cache)
-        return extract_selectk_metric(metric_name, data)
+    if source == FEATURE_FILE:
+        return extract_feature_metric(name, load_output(source, cache))
 
-    if source_file == "outputs/part_c_tuning.csv":
-        data = load_output(source_file, output_cache)
-        return extract_tuning_metric(metric_name, data)
+    if source == SELECTK_FILE:
+        return extract_selectk_metric(name, load_output(source, cache))
 
-    if source_file == "outputs/part_c_thresholds.csv":
-        thresholds = load_output(source_file, output_cache)
-        config = load_output(
-            "outputs/part_c_final_config.csv",
-            output_cache,
+    if source == TUNING_FILE:
+        return extract_tuning_metric(name, load_output(source, cache))
+
+    if source == THRESHOLD_FILE:
+        return extract_threshold_metric(
+            name,
+            load_output(source, cache),
+            load_output(CONFIG_FILE, cache),
         )
-        return extract_thresholds_metric(metric_name, thresholds, config)
 
-    if source_file == "outputs/part_c_final_config.csv":
-        config = load_output(source_file, output_cache)
+    if source == CONFIG_FILE:
+        config = load_output(source, cache)
+        threshold = validate_config(config)
 
-        if len(config) != 1 or "threshold" not in config.columns:
-            raise ValueError(
-                "part_c_final_config.csv must contain exactly one row "
-                "with a threshold column."
-            )
+        if name == "selected_threshold":
+            return threshold
 
-        if metric_name == "selected_threshold":
-            return float(config.iloc[0]["threshold"])
-
-        if metric_name == "threshold_rule_satisfied":
-            thresholds = load_output(
-                "outputs/part_c_thresholds.csv",
-                output_cache,
-            )
-            return extract_thresholds_metric(
-                metric_name,
-                thresholds,
+        if name == "threshold_rule_satisfied":
+            return extract_threshold_metric(
+                name,
+                load_output(THRESHOLD_FILE, cache),
                 config,
             )
 
-        raise ValueError(
-            f"Unsupported final-config metric: {metric_name}"
+        raise ValueError(f"Unsupported config metric: {name}")
+
+    if source == FINAL_TEST_FILE:
+        return extract_final_test_metric(
+            name,
+            load_output(source, cache),
+            load_output(CONFIG_FILE, cache),
         )
 
-    if source_file == "outputs/part_c_final_test.csv":
-        final_test = load_output(source_file, output_cache)
-        config = load_output(
-            "outputs/part_c_final_config.csv",
-            output_cache,
-        )
-        return extract_final_test_metric(metric_name, final_test, config)
-
-    raise ValueError(
-        f"Unsupported Part C source_file in reference: {source_file}"
-    )
+    raise ValueError(f"Unsupported reference source_file: {source}")
 
 
 # ---------------------------------------------------------------------
-# Descriptions and report generation
+# Comparison and report
 # ---------------------------------------------------------------------
 
-METRIC_DESCRIPTIONS = {
-    "row_count": "Number of rows in the existing output.",
-    "delayed_train_count": "Delayed parcels in the prescribed training split.",
-    "delayed_val_count": "Delayed parcels in the prescribed validation split.",
-    "delayed_test_count": "Delayed parcels in the prescribed test split.",
-    "blind_accuracy": "Accuracy of the all-on-time blind baseline.",
-    "blind_tn": "Blind-baseline true negatives.",
-    "blind_fp": "Blind-baseline false positives.",
-    "blind_fn": "Blind-baseline false negatives.",
-    "blind_tp": "Blind-baseline true positives.",
-    "confusion_metrics_consistent": "Stored metrics agree with confusion-matrix counts.",
-    "trained_accuracy_in_reference_range": "Every trained model's validation accuracy is within the established range.",
-    "logistic_f1_minimum_met": "Logistic-regression validation F1 meets the minimum.",
-    "tree_depth_reference": "Selected decision-tree depth matches the established benchmark.",
-    "tree_f1_minimum_met": "Decision-tree validation F1 meets the minimum.",
-    "random_forest_f1_minimum_met": "Default random-forest validation F1 meets the minimum.",
-    "feature_names_unique": "Feature names are unique.",
-    "feature_scores_finite": "Feature scores, ranks, and importances are finite.",
-    "noise_columns_identified": "All required noise columns are correctly marked.",
-    "top_seven_f_score_order_correct": "Top seven F-score features match the established ordering.",
-    "noise_columns_outside_top_seven": "All five noise columns rank outside the top seven.",
-    "top_seven_min_f_score_above_30": "Minimum F-score among the top seven exceeds 30.",
-    "combined_noise_importance": "Combined random-forest importance of the five noise columns.",
-    "forest_importance_sums_to_one": "Random-forest feature importances sum to one within tolerance.",
-    "required_k_values_present": "The SelectK experiment contains k values 5, 7, 10, 12, and 17.",
-    "validation_f1_values_valid": "All SelectK validation F1 scores are in [0, 1].",
-    "required_search_rows_present": "Grid search, randomized search, and default forest rows are present in order.",
-    "candidate_counts_correct": "Tuning candidate counts match the required search spaces.",
-    "cv_folds_correct": "Tuning cross-validation fold counts are correct.",
-    "total_fits_correct": "Total tuning fit counts match candidates and folds.",
-    "grid_cv_accuracy": "Grid-search best cross-validation accuracy.",
-    "randomized_cv_accuracy": "Randomized-search best cross-validation accuracy.",
-    "tuning_validation_f1_minimum_met": "Every tuning result's validation F1 meets the minimum.",
-    "required_thresholds_present": "Threshold table contains values from 0.1 through 0.9.",
-    "threshold_metrics_consistent": "Threshold-table metrics agree with confusion-matrix counts.",
-    "recall_nonincreasing_with_threshold": "Recall does not increase as the classification threshold rises.",
-    "selected_threshold": "Threshold saved in the final configuration.",
-    "threshold_rule_satisfied": "Saved threshold is the highest tested threshold with validation recall at least 0.80, or 0.1 if none qualifies.",
-    "test_row_count": "Number of observations represented by the final test confusion matrix.",
-    "test_delayed_count": "Number of delayed parcels represented by the final test confusion matrix.",
-    "threshold_matches_config": "Final-test threshold matches the saved configuration.",
-    "test_precision_minimum_met": "Final-test precision meets the required minimum.",
-    "test_recall_minimum_met": "Final-test recall meets the required minimum.",
-    "test_f1_minimum_met": "Final-test F1 meets the required minimum.",
-}
+def compare_part_c_metric(
+    source_file,
+    metric_name,
+    reference_value,
+    code_value,
+    tolerance,
+):
+    """
+    Apply the comparison semantics for Part C.
 
+    Exact benchmarks use the shared comparator. Minimum and accuracy
+    range-bound checks use their explicitly defined comparison operators.
+    """
+    try:
+        expected = float(reference_value)
+        actual = float(code_value)
+        allowed = float(tolerance)
+    except (TypeError, ValueError):
+        return error_row(
+            source_file, metric_name, "Reference, observed value, or tolerance is nonnumeric."
+        )
 
-def describe_metric(metric_name):
-    """Return a readable explanation for a report row."""
-    return METRIC_DESCRIPTIONS.get(
-        metric_name,
-        f"Part C validation check: {metric_name}.",
+    if (
+        not np.isfinite(expected)
+        or not np.isfinite(actual)
+        or not np.isfinite(allowed)
+        or allowed < 0
+    ):
+        return error_row(
+            source_file,
+            metric_name,
+            "Reference, observed value, or tolerance is invalid or non-finite.",
+        )
+
+    if metric_name in MINIMUM_METRICS:
+        passed = actual >= expected - allowed
+        operator = ">="
+
+    elif metric_name in LOWER_BOUND_METRICS:
+        passed = actual >= expected - allowed
+        operator = ">="
+
+    elif metric_name in UPPER_BOUND_METRICS:
+        passed = actual <= expected + allowed
+        operator = "<="
+
+    else:
+        return compare_numeric(
+            source_file,
+            metric_name,
+            expected,
+            actual,
+            allowed,
+        )
+
+    status = "PASS" if passed else "MISMATCH"
+
+    from validations.validations_common_utility import make_report_row
+
+    return make_report_row(
+        source_file=source_file,
+        metric_name=metric_name,
+        reference_value=expected,
+        code_value=actual,
+        tolerance=allowed,
+        status=status,
+        comment=(
+            f"{METRIC_DESCRIPTIONS.get(metric_name, metric_name)} "
+            f"Observed value {actual:.6g}; required {operator} "
+            f"{expected:.6g}. "
+            f"{'Requirement met.' if passed else 'Requirement not met.'}"
+        ),
     )
 
 
 def validate_part_c():
-    """Validate all metrics and write the standardized report."""
+    """Validate existing Part C outputs and write the standardized report."""
     reference, reference_errors = load_reference(REFERENCE_PATH)
     report_rows = list(reference_errors)
-    output_cache = {}
+    cache = {}
 
-    if not reference.empty:
-        # Each reference row must be evaluated independently so a failure
-        # in one metric does not hide failures in other metrics.
-        for _, reference_row in reference.iterrows():
-            source_file = reference_row["source_file"]
-            metric_name = reference_row["metric_name"]
-            expected = reference_row["metric_value"]
-            tolerance = reference_row["tolerance"]
+    if reference.empty and not reference_errors:
+        report_rows.append(
+            error_row(
+                str(REFERENCE_PATH),
+                "__reference__",
+                "Reference file contains no usable validation metrics.",
+            )
+        )
 
-            try:
-                actual = extract_metric(reference_row, output_cache)
+    for _, ref in reference.iterrows():
+        source = ref["source_file"]
+        name = ref["metric_name"]
+        expected = ref["metric_value"]
+        tolerance = ref["tolerance"]
 
-                row = compare_numeric(
-                    source_file=source_file,
-                    metric_name=metric_name,
-                    reference_value=expected,
-                    code_value=actual,
-                    tolerance=tolerance,
-                )
+        try:
+            actual = extract_metric(ref, cache)
 
-                row["comment"] = (
-                    f"{describe_metric(metric_name)} {row['comment']}"
-                )
+            row = compare_part_c_metric(
+                source_file=source,
+                metric_name=name,
+                reference_value=expected,
+                code_value=actual,
+                tolerance=tolerance,
+            )
 
-            except Exception as exc:
-                row = error_row(
-                    source_file,
-                    metric_name,
-                    f"{describe_metric(metric_name)} "
-                    f"Could not evaluate check: {exc}",
-                )
-                row["reference_value"] = expected
-                row["tolerance"] = tolerance
+        except Exception as exc:
+            row = error_row(
+                source,
+                name,
+                f"{METRIC_DESCRIPTIONS.get(name, name)} "
+                f"Could not evaluate metric: {exc}",
+            )
+            row["reference_value"] = expected
+            row["tolerance"] = tolerance
 
-            report_rows.append(row)
+        report_rows.append(row)
 
     return write_report(report_rows, REPORT_PATH)
 
