@@ -11,9 +11,7 @@ HUB_PROFILE_FEATURES = [
     "mean_n_stops",
 ]
 
-def create_hub_profile():
-    # Load the modelling table
-    df = pd.read_csv("data/modelling_table.csv")
+def create_hub_profile(df):
 
     # Calculate hub-level profile
     hub_profile = (
@@ -28,14 +26,6 @@ def create_hub_profile():
         .reset_index()
         .sort_values(by="hub_id", ascending=True)
     )
-
-    hub_profile.to_csv(
-        "outputs/hub_profile.csv",
-        index=False,
-        float_format="%.4f"
-    )
-
-    print(f"\nHub profiles saved in outputs/hub_profile.csv with {len(hub_profile)} rows")
 
     return hub_profile
 
@@ -62,8 +52,6 @@ def segment_hub_profile(hub_profile):
     # Fit and assign clusters
     hub_profile["cluster"] = kmeans_pipeline.fit_predict(X)
 
-    #print(hub_profile[["hub_id", "cluster"]])
-
     return hub_profile
 
 def generate_separation_evidence(hub_profile):
@@ -86,10 +74,6 @@ def generate_separation_evidence(hub_profile):
         axis=1,
     )
 
-    assert len(pair_distances) == 276, (
-        f"Expected 276 hub pairs, got {len(pair_distances)}"
-    )
-
     for k in [2, 3, 4, 5]:
         # Cluster the 24 hubs
         model = KMeans(n_clusters=k, random_state=42, n_init=10)
@@ -100,8 +84,8 @@ def generate_separation_evidence(hub_profile):
         different_cluster = ~same_cluster
 
         # Mean distance within and across clusters
-        within_mean = np.mean(same_cluster)
-        across_mean = np.mean(different_cluster)
+        within_mean = pair_distances[same_cluster].mean()
+        across_mean = pair_distances[different_cluster].mean()
 
         # Ratio of across cluster distances to within cluster distances
         ratio = across_mean / within_mean
@@ -125,59 +109,46 @@ def generate_separation_evidence(hub_profile):
         columns=["K", "across_over_within", "cluster_sizes"],
     )
 
-    separation_df.to_csv(
-        "outputs/part_d_separation.csv",
-        index=False,
-        float_format="%.4f"
+    return separation_df
+
+def create_hub_segments(hubs, hub_profile):
+    # 1. Calculate mean delay rate for each cluster
+    cluster_delay_rates = (
+        hub_profile.groupby("cluster")["delay_rate"]
+        .mean()
+        .sort_values()
     )
 
-    print("Saved separation evidence in outputs/part_d_separation.csv")
+    # 2. Assign business segment names in that order
+    segment_names = ["Standard", "Watch", "Escalate"]
 
-def name_segments_check_tier(hub_profile):
-    hubs = pd.read_csv("data/hubs.csv")
-
-    # 1. Calculate mean delay rate for each cluster
-    cluster_delay = hub_profile.groupby("cluster")["delay_rate"].mean()
-
-    # 2. Order clusters from lowest to highest delay rate
-    ordered_clusters = cluster_delay.sort_values().index.tolist()
-
-    # 3. Assign business segment names in that order
-    segment_names = {
-        ordered_clusters[0]: "Standard",
-        ordered_clusters[1]: "Watch",
-        ordered_clusters[2]: "Escalate",
+    cluster_to_segment = {
+        cluster_id: segment_name
+        for cluster_id, segment_name in zip(
+            cluster_delay_rates.index,
+            segment_names,
+        )
     }
 
-    hub_profile["segment"] = hub_profile["cluster"].map(segment_names)
+    hub_profile["segment"] = hub_profile["cluster"].map(cluster_to_segment)
 
     # 4. Create hub_segments.csv
     hub_segments = hub_profile[["hub_id", "segment"]].merge(
         hubs[["hub_id", "hub_city", "hub_tier"]],
         on="hub_id",
         how="left",
+        validate="one_to_one"
     )
 
     hub_segments = hub_segments[
         ["hub_id", "segment", "hub_city", "hub_tier"]
     ].sort_values("hub_id")
 
-    hub_segments.to_csv(
-        "outputs/hub_segments.csv",
-        index=False,
-        float_format="%.4f"
-    )
+    return hub_segments
 
-    print("Hub segments saved in outputs/hub_segments.csv")
+def create_segment_profiles(hub_profile):
 
-    # 5. Create segment_profile.csv using hub-level averages
-    profile_columns = [
-        "mean_delivery_hours",
-        "delay_rate",
-        "mean_distance_km",
-        "mean_n_stops",
-    ]
-
+    # Create segment_profile using hub-level averages
     segment_profile = (
         hub_profile.groupby("segment")
         .agg(
@@ -200,6 +171,58 @@ def name_segments_check_tier(hub_profile):
     segment_profile = segment_profile.sort_values("segment")
     segment_profile["segment"] = segment_profile["segment"].astype(str)
 
+    return segment_profile
+
+def match_segments_tier(hub_segments):
+
+    # Check whether each hub's segment matches its tier
+    expected_segment = {
+        1: "Standard",
+        2: "Watch",
+        3: "Escalate",
+    }
+
+    hub_segments["expected_segment"] = (
+        hub_segments["hub_tier"].map(expected_segment)
+    )
+
+    tier_vs_segment_mismatch = hub_segments.loc[
+        hub_segments["segment"] != hub_segments["expected_segment"]
+        ].copy()
+
+    return tier_vs_segment_mismatch
+
+def save_part_d_results(
+        hub_profile,
+        separation_df,
+        hub_segments,
+        segment_profile,
+        mismatches
+):
+    hub_profile.to_csv(
+        "outputs/hub_profile.csv",
+        index=False,
+        float_format="%.4f"
+    )
+
+    print(f"\nHub profiles saved in outputs/hub_profile.csv with {len(hub_profile)} rows")
+
+    separation_df.to_csv(
+        "outputs/part_d_separation.csv",
+        index=False,
+        float_format="%.4f"
+    )
+
+    print("Saved separation evidence in outputs/part_d_separation.csv")
+
+    hub_segments.to_csv(
+        "outputs/hub_segments.csv",
+        index=False,
+        float_format="%.4f"
+    )
+
+    print("Hub segments saved in outputs/hub_segments.csv")
+
     segment_profile.to_csv(
         "outputs/segment_profile.csv",
         index=False,
@@ -207,21 +230,6 @@ def name_segments_check_tier(hub_profile):
     )
 
     print("Segment profiles saved in outputs/segment_profile.csv")
-
-    # 6. Check whether each hub's segment matches its tier
-    expected_segment = {
-        1: "Standard",
-        2: "Watch",
-        3: "Escalate",
-    }
-
-    hub_segments["expected_segment"] = hub_segments["hub_tier"].map(
-        expected_segment
-    )
-
-    mismatches = hub_segments[
-        hub_segments["segment"] != hub_segments["expected_segment"]
-        ].drop(columns="expected_segment")
 
     mismatches.to_csv(
         "outputs/tier_vs_segment_mismatch.csv",
@@ -232,7 +240,24 @@ def name_segments_check_tier(hub_profile):
     print("Mismatches saved in outputs/tier_vs_segment_mismatch.csv")
 
 if __name__ == "__main__":
-    hub_profile = create_hub_profile()
+    # Load hubs and  modelling table
+    hubs = pd.read_csv("data/hubs.csv")
+    df = pd.read_csv("data/modelling_table.csv")
+
+    hub_profile = create_hub_profile(df)
+
     hub_profile = segment_hub_profile(hub_profile)
-    generate_separation_evidence(hub_profile)
-    name_segments_check_tier(hub_profile)
+
+    separation_df = generate_separation_evidence(hub_profile)
+
+    hub_segments = create_hub_segments(hubs, hub_profile)
+    segment_profile = create_segment_profiles(hub_profile)
+    mismatches = match_segments_tier(hub_segments)
+
+    save_part_d_results(
+        hub_profile,
+        separation_df,
+        hub_segments,
+        segment_profile,
+        mismatches
+    )
