@@ -173,16 +173,16 @@ The modelling table contains 1,200 rows, preserves the required feature and targ
 
 | Source file | Metric | PDF reference value | Code-generated value | Tolerance | Status | Comments |
 |---|---|---:|---:|---:|---|---|
-| `outputs/part_a_checks.csv` | `raw_rows` | 1224 | 1224 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `duplicate_rows_removed` | 24 | 24 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `rows_after_dedup` | 1200 | 1200 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `missing_distance_km_before` | 36 | 36 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `missing_parcel_weight_before` | 24 | 24 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `sentinel_weight_rows` | 5 | 5 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `missing_declared_value_before` | 12 | 12 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `missing_payment_mode_before` | 18 | 18 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `service_type_spellings_before` | 12 | 12 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `service_type_spellings_after` | 3 | 3 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `raw_rows` | 1224 | 1224 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `duplicate_rows_removed` | 24 | 24 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `rows_after_dedup` | 1200 | 1200 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `missing_distance_km_before` | 36 | 36 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `missing_parcel_weight_before` | 24 | 24 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `sentinel_weight_rows` | 5 | 5 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `missing_declared_value_before` | 12 | 12 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `missing_payment_mode_before` | 18 | 18 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `service_type_spellings_before` | 12 | 12 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `service_type_spellings_after` | 3 | 3 | Exact | PASS | |
 | `outputs/part_a_checks.csv` | `declared_value_mean_inr` | 1533.05 | 1533.0542 | ±0.01 | PASS | |
 | `outputs/part_a_checks.csv` | `declared_value_median_inr` | 1121.5 | 1121.5000 | ±0.01 | PASS | |
 | `outputs/part_a_checks.csv` | `log_declared_value_mean` | 7.028 | 7.0277 | ±0.01 | PASS | |
@@ -190,15 +190,15 @@ The modelling table contains 1,200 rows, preserves the required feature and targ
 | `outputs/part_a_checks.csv` | `median_distance_km` | 314.95 | 314.9500 | ±0.01 | PASS | |
 | `outputs/part_a_checks.csv` | `median_parcel_weight_kg` | 1.83 | 1.8300 | ±0.01 | PASS | |
 | `outputs/part_a_checks.csv` | `median_declared_value_inr` | 1121.5 | 1121.5000 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `rows_after_hub_merge` | 1200 | 1200 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `nulls_in_features_and_target` | 0 | 0 | Exact (0) | PASS | |
-| `outputs/part_a_checks.csv` | `delayed_count` | 278 | 278 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `rows_after_hub_merge` | 1200 | 1200 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `nulls_in_features_and_target` | 0 | 0 | Exact | PASS | |
+| `outputs/part_a_checks.csv` | `delayed_count` | 278 | 278 | Exact | PASS | |
 | `outputs/part_a_checks.csv` | `delay_rate` | 0.2317 | 0.2317 | ±0.0001 | PASS | |
 | `outputs/part_a_checks.csv` | `hours_q1` | 43.26 | 43.2550 | ±0.01 | PASS | |
 | `outputs/part_a_checks.csv` | `hours_q3` | 72.56 | 72.5625 | ±0.01 | PASS | |
 | `outputs/part_a_checks.csv` | `hours_lower_bound` | -0.71 | -0.7063 | ±0.01 | PASS | |
 | `outputs/part_a_checks.csv` | `hours_upper_bound` | 116.52 | 116.5238 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `hours_outlier_count` | 1 | 1 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `hours_outlier_count` | 1 | 1 | Exact | PASS | |
 | `outputs/part_a_delay_by_group.csv` | Service type - Economy: shipments; delayed; delay rate | 315; 27; 0.0857 | 315; 27; 0.0857 | Counts exact; rate ±0.00005 | PASS | |
 | `outputs/part_a_delay_by_group.csv` | Service type - Express: shipments; delayed; delay rate | 243; 119; 0.4897 | 243; 119; 0.4897 | Counts exact; rate ±0.00005 | PASS | |
 | `outputs/part_a_delay_by_group.csv` | Service type - Standard: shipments; delayed; delay rate | 642; 132; 0.2056 | 642; 132; 0.2056 | Counts exact; rate ±0.00005 | PASS | |
@@ -286,7 +286,7 @@ The generated outputs are compared with the reference values and acceptance crit
 
 | Source file | Metric | PDF reference value | Code-generated value | Tolerance | Status | Comments |
 |---|---|---:|---:|---|---|---|
-| `outputs/part_b_checks.csv` | Train / validation / test rows | 840 / 180 / 180 | 840 / 180 / 180 | Exact (0) | PASS | Required split sizes match. |
+| `outputs/part_b_checks.csv` | Train / validation / test rows | 840 / 180 / 180 | 840 / 180 / 180 | Exact | PASS | Required split sizes match. |
 | `outputs/part_b_checks.csv` | Maximum absolute training scaled-column mean | < 1e-9 | 0.0000 (saved to 4 decimals) | < 1e-9 | PASS | The scaler is fitted on training data only. |
 | `outputs/part_b_checks.csv` | Maximum absolute test scaled-column mean | Clearly non-zero (> 0.01) | 0.2187 | > 0.01 | PASS | The test features are transformed using the training-fitted scaler. |
 | `outputs/part_b_metrics.csv` | Baseline validation R² | -0.021 | -0.0212 | -0.10 to 0.02 | PASS | Baseline falls within the required pass band. |
@@ -295,9 +295,9 @@ The generated outputs are compared with the reference values and acceptance crit
 | `outputs/part_b_metrics.csv` | Random Forest validation R² | 0.914 | 0.9141 | ≥ 0.86 | PASS | Meets the reference acceptance criterion. |
 | `outputs/part_b_metrics.csv` | Decision Tree validation R² | 0.887 | 0.8867 | ≥ 0.82 | PASS | Meets the reference acceptance criterion. |
 | `outputs/part_b_metrics.csv` | Final Linear Regression test R² | 0.949 | 0.9493 | ≥ 0.88 | PASS | One final test evaluation is recorded for the selected model. |
-| `outputs/part_b_metrics.csv` | Number of rows / columns | 6 rows / 6 columns | 6 rows / 6 columns | Exact (0) | PASS | Includes five validation results and one test result. |
+| `outputs/part_b_metrics.csv` | Number of rows / columns | 6 rows / 6 columns | 6 rows / 6 columns | Exact | PASS | Includes five validation results and one test result. |
 | `outputs/part_b_metrics.csv` | RMSE consistency with √MSE | Every row consistent | Consistent within 0.001 | Absolute difference ≤ 0.001 | PASS | RMSE is consistent with MSE across the metrics table. |
-| `outputs/part_b_tree_depth.csv` | Number of depth experiments | 8 | 8 | Exact (0) | PASS | Includes depths 1, 2, 3, 4, 6, 8, 12, and unlimited. |
+| `outputs/part_b_tree_depth.csv` | Number of depth experiments | 8 | 8 | Exact | PASS | Includes depths 1, 2, 3, 4, 6, 8, 12, and unlimited. |
 | `outputs/part_b_tree_depth.csv` | Best depth / validation RMSE | 6 / 6.28 | 6 / 6.2796 | Depth ≥ 4 or unlimited; RMSE within 0.5 of reference | PASS | Depth 6 has the lowest validation RMSE. |
 | `outputs/part_b_tree_depth.csv` | Depth 1: validation RMSE - training RMSE | 0.50 | 0.4990 | ≤ 2.5 | PASS | The small gap, alongside high errors, indicates high bias. |
 | `outputs/part_b_tree_depth.csv` | Unlimited-depth training RMSE / validation RMSE - training RMSE | 0.00 / 7.79 | 0.0000 / 7.7890 | Gap ≥ 5.0 | PASS | The large gap indicates high variance. |
