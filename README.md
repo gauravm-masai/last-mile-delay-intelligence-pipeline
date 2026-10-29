@@ -172,46 +172,46 @@ The modelling table contains 1,200 rows, preserves the required feature and targ
 #### Reference metrics compared with generated outputs
 
 | Source file | Metric | PDF reference value | Code-generated value | Tolerance | Status | Comments |
-|---|---|---:|---:|---:|---|---|
-| `outputs/part_a_checks.csv` | `raw_rows` | 1224 | 1224 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `duplicate_rows_removed` | 24 | 24 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `rows_after_dedup` | 1200 | 1200 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `missing_distance_km_before` | 36 | 36 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `missing_parcel_weight_before` | 24 | 24 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `sentinel_weight_rows` | 5 | 5 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `missing_declared_value_before` | 12 | 12 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `missing_payment_mode_before` | 18 | 18 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `service_type_spellings_before` | 12 | 12 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `service_type_spellings_after` | 3 | 3 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `declared_value_mean_inr` | 1533.05 | 1533.0542 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `declared_value_median_inr` | 1121.5 | 1121.5000 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `log_declared_value_mean` | 7.028 | 7.0277 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `log_declared_value_median` | 7.022 | 7.0224 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `median_distance_km` | 314.95 | 314.9500 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `median_parcel_weight_kg` | 1.83 | 1.8300 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `median_declared_value_inr` | 1121.5 | 1121.5000 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `rows_after_hub_merge` | 1200 | 1200 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `nulls_in_features_and_target` | 0 | 0 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `delayed_count` | 278 | 278 | Exact | PASS | |
-| `outputs/part_a_checks.csv` | `delay_rate` | 0.2317 | 0.2317 | ±0.0001 | PASS | |
-| `outputs/part_a_checks.csv` | `hours_q1` | 43.26 | 43.2550 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `hours_q3` | 72.56 | 72.5625 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `hours_lower_bound` | -0.71 | -0.7063 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `hours_upper_bound` | 116.52 | 116.5238 | ±0.01 | PASS | |
-| `outputs/part_a_checks.csv` | `hours_outlier_count` | 1 | 1 | Exact | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Service type - Economy: shipments; delayed; delay rate | 315; 27; 0.0857 | 315; 27; 0.0857 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Service type - Express: shipments; delayed; delay rate | 243; 119; 0.4897 | 243; 119; 0.4897 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Service type - Standard: shipments; delayed; delay rate | 642; 132; 0.2056 | 642; 132; 0.2056 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Hub tier 1: shipments; delayed; delay rate | 400; 16; 0.0400 | 400; 16; 0.0400 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Hub tier 2: shipments; delayed; delay rate | 400; 86; 0.2150 | 400; 86; 0.2150 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Hub tier 3: shipments; delayed; delay rate | 400; 176; 0.4400 | 400; 176; 0.4400 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Distance band 0–200 km: shipments; delayed; delay rate | 274; 6; 0.0219 | 274; 6; 0.0219 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Distance band 201–400 km: shipments; delayed; delay rate | 563; 77; 0.1368 | 563; 77; 0.1368 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Distance band 401–600 km: shipments; delayed; delay rate | 275; 120; 0.4364 | 275; 120; 0.4364 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_delay_by_group.csv` | Distance band 601+ km: shipments; delayed; delay rate | 88; 75; 0.8523 | 88; 75; 0.8523 | Counts exact; rate ±0.00005 | PASS | |
-| `outputs/part_a_correlations.csv` | `corr__delivery_hours__promised_hours` | 0.837 | 0.8372 | ±0.01 | PASS | |
-| `outputs/part_a_correlations.csv` | `corr__delivery_hours__distance_km` | 0.401 | 0.4013 | ±0.01 | PASS | |
-| `outputs/part_a_correlations.csv` | `corr__is_delayed__distance_km` | 0.546 | 0.5455 | ±0.01 | PASS | |
+|---|---|---:|---:|---|---|---|
+| `outputs/part_a_checks.csv` | `raw_rows` | 1224 | 1224 | Exact | PASS | Confirms the raw shipment dataset contains the expected 1,224 rows. |
+| `outputs/part_a_checks.csv` | `duplicate_rows_removed` | 24 | 24 | Exact | PASS | Confirms that the expected 24 duplicate rows were removed. |
+| `outputs/part_a_checks.csv` | `rows_after_dedup` | 1200 | 1200 | Exact | PASS | Confirms 1,200 shipment rows remain after deduplication. |
+| `outputs/part_a_checks.csv` | `missing_distance_km_before` | 36 | 36 | Exact | PASS | Matches the expected number of missing distance values before imputation. |
+| `outputs/part_a_checks.csv` | `missing_parcel_weight_before` | 24 | 24 | Exact | PASS | Matches the expected number of missing parcel-weight values before cleaning. |
+| `outputs/part_a_checks.csv` | `sentinel_weight_rows` | 5 | 5 | Exact | PASS | Confirms five parcel-weight records contain sentinel values that must be treated as missing. |
+| `outputs/part_a_checks.csv` | `missing_declared_value_before` | 12 | 12 | Exact | PASS | Matches the expected number of missing declared-value records before imputation. |
+| `outputs/part_a_checks.csv` | `missing_payment_mode_before` | 18 | 18 | Exact | PASS | Matches the expected number of missing payment-mode values before replacement. |
+| `outputs/part_a_checks.csv` | `service_type_spellings_before` | 12 | 12 | Exact | PASS | Confirms the expected number of distinct service-type spellings before standardization. |
+| `outputs/part_a_checks.csv` | `service_type_spellings_after` | 3 | 3 | Exact | PASS | Confirms service-type standardization reduces the distinct spellings to three. |
+| `outputs/part_a_checks.csv` | `declared_value_mean_inr` | 1533.05 | 1533.0542 | ±0.01 | PASS | The generated mean declared value is within the reference tolerance. |
+| `outputs/part_a_checks.csv` | `declared_value_median_inr` | 1121.5 | 1121.5000 | ±0.01 | PASS | The generated median declared value matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `log_declared_value_mean` | 7.028 | 7.0277 | ±0.01 | PASS | The mean log-transformed declared value matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `log_declared_value_median` | 7.022 | 7.0224 | ±0.01 | PASS | The median log-transformed declared value matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `median_distance_km` | 314.95 | 314.9500 | ±0.01 | PASS | The generated median distance matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `median_parcel_weight_kg` | 1.83 | 1.8300 | ±0.01 | PASS | The generated median parcel weight matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `median_declared_value_inr` | 1121.5 | 1121.5000 | ±0.01 | PASS | Confirms the declared-value median used for imputation matches the reference. |
+| `outputs/part_a_checks.csv` | `rows_after_hub_merge` | 1200 | 1200 | Exact | PASS | Confirms the hub merge preserves all 1,200 shipment rows. |
+| `outputs/part_a_checks.csv` | `nulls_in_features_and_target` | 0 | 0 | Exact | PASS | Confirms there are no null values in the specified modelling features and target. |
+| `outputs/part_a_checks.csv` | `delayed_count` | 278 | 278 | Exact | PASS | Matches the expected count of 278 delayed shipments. |
+| `outputs/part_a_checks.csv` | `delay_rate` | 0.2317 | 0.2317 | ±0.0001 | PASS | The overall delay rate matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `hours_q1` | 43.26 | 43.2550 | ±0.01 | PASS | The first quartile of delivery hours matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `hours_q3` | 72.56 | 72.5625 | ±0.01 | PASS | The third quartile of delivery hours matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `hours_lower_bound` | -0.71 | -0.7063 | ±0.01 | PASS | The calculated lower outlier bound matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `hours_upper_bound` | 116.52 | 116.5238 | ±0.01 | PASS | The calculated upper outlier bound matches the reference within tolerance. |
+| `outputs/part_a_checks.csv` | `hours_outlier_count` | 1 | 1 | Exact | PASS | Confirms the expected number of delivery-hour outliers. |
+| `outputs/part_a_delay_by_group.csv` | Service type - Economy: shipments; delayed; delay rate | 315; 27; 0.0857 | 315; 27; 0.0857 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for Economy shipments. |
+| `outputs/part_a_delay_by_group.csv` | Service type - Express: shipments; delayed; delay rate | 243; 119; 0.4897 | 243; 119; 0.4897 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for Express shipments. |
+| `outputs/part_a_delay_by_group.csv` | Service type - Standard: shipments; delayed; delay rate | 642; 132; 0.2056 | 642; 132; 0.2056 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for Standard shipments. |
+| `outputs/part_a_delay_by_group.csv` | Hub tier - Tier 1: shipments; delayed; delay rate | 400; 16; 0.0400 | 400; 16; 0.0400 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for Tier 1 hubs. |
+| `outputs/part_a_delay_by_group.csv` | Hub tier - Tier 2: shipments; delayed; delay rate | 400; 86; 0.2150 | 400; 86; 0.2150 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for Tier 2 hubs. |
+| `outputs/part_a_delay_by_group.csv` | Hub tier - Tier 3: shipments; delayed; delay rate | 400; 176; 0.4400 | 400; 176; 0.4400 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for Tier 3 hubs. |
+| `outputs/part_a_delay_by_group.csv` | Distance band - 0-200 km: shipments; delayed; delay rate | 274; 6; 0.0219 | 274; 6; 0.0219 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for the 0-200 km band. |
+| `outputs/part_a_delay_by_group.csv` | Distance band - 201-400 km: shipments; delayed; delay rate | 563; 77; 0.1368 | 563; 77; 0.1368 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for the 201-400 km band. |
+| `outputs/part_a_delay_by_group.csv` | Distance band - 401-600 km: shipments; delayed; delay rate | 275; 120; 0.4364 | 275; 120; 0.4364 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for the 401-600 km band. |
+| `outputs/part_a_delay_by_group.csv` | Distance band - 601+ km: shipments; delayed; delay rate | 88; 75; 0.8523 | 88; 75; 0.8523 | Counts: Exact; rate: ±0.00005 | PASS | Shipment count, delayed count, and delay rate match the reference for shipments travelling 601 km or more. |
+| `outputs/part_a_correlations.csv` | `corr__delivery_hours__promised_hours` | 0.837 | 0.8372 | ±0.01 | PASS | The correlation between delivery hours and promised hours matches the reference within tolerance. |
+| `outputs/part_a_correlations.csv` | `corr__delivery_hours__distance_km` | 0.401 | 0.4013 | ±0.01 | PASS | The correlation between delivery hours and distance matches the reference within tolerance. |
+| `outputs/part_a_correlations.csv` | `corr__is_delayed__distance_km` | 0.546 | 0.5455 | ±0.01 | PASS | The correlation between delay status and distance matches the reference within tolerance. |
 
 #### Generated outputs
 
@@ -304,11 +304,11 @@ The generated outputs are compared with the reference values and acceptance crit
 | `outputs/part_b_tree_depth.csv` | Depth 1 validation RMSE minus best validation RMSE | 5.85 | 5.8528 | ≥ 4.0 | PASS | The shallow tree performs materially worse than the best depth. |
 | `outputs/part_b_tree_depth.csv` | Training RMSE as depth increases | Never rises | Non-increasing | Non-increasing | PASS | Training error falls or stays level as tree depth increases. |
 | `outputs/part_b_tree_depth.csv` | Decision Tree model RMSE versus best depth experiment | Match within 0.001 | Both 6.2796 | Absolute difference ≤ 0.001 | PASS | The model-comparison result agrees with the depth experiment. |
-| `outputs/part_b_gb_learning_rate.csv` | Number of learning-rate experiments | 3 | 3 | Exact (0) | PASS | Rates 0.01, 0.1, and 1.0 are present. |
+| `outputs/part_b_gb_learning_rate.csv` | Number of learning-rate experiments | 3 | 3 | Exact | PASS | Rates 0.01, 0.1, and 1.0 are present. |
 | `outputs/part_b_gb_learning_rate.csv` | Validation R² at rates 0.01 / 0.1 / 1.0 | 0.713 / 0.931 / 0.844 | 0.7127 / 0.9306 / 0.8440 | ±0.02 per value | PASS | All three values match the PDF references within tolerance. |
 | `outputs/part_b_gb_learning_rate.csv` | Validation R² ranking | 0.1 > 1.0 > 0.01 | 0.9306 > 0.8440 > 0.7127 | Required ranking | PASS | Learning rate 0.1 performs best. |
 | `outputs/part_b_gb_learning_rate.csv` | R² acceptance thresholds | R²(0.1) ≥ 0.90; R²(0.01) ≤ 0.80 | 0.9306; 0.7127 | As specified | PASS | Both threshold requirements are satisfied. |
-| `outputs/part_b_cv.csv` | Number of cross-validated models | 2 | 2 | Exact (0) | PASS | Linear Regression and Gradient Boosting are evaluated. |
+| `outputs/part_b_cv.csv` | Number of cross-validated models | 2 | 2 | Exact | PASS | Linear Regression and Gradient Boosting are evaluated. |
 | `outputs/part_b_cv.csv` | Cross-validation mean R²: Linear Regression / Gradient Boosting | 0.926 / 0.935 | 0.9261 / 0.9352 | ≥ 0.90 for each | PASS | Both models exceed the required mean R². |
 | `outputs/part_b_cv.csv` | Cross-validation standard deviation: Linear Regression / Gradient Boosting | ≤ 0.03 for each | 0.0048 / 0.0044 | ≤ 0.03 for each | PASS | Both models show stable cross-validation scores. |
 | `part_b_regression.py` | Shared KFold configuration | Same KFold object for both models | One shared `KFold(n_splits=5, shuffle=True, random_state=42)` object | Exact configuration | PASS | Both cross-validation calls use the same object. |
