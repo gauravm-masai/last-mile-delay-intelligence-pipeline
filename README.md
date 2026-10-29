@@ -118,45 +118,111 @@ The outputs include the cleaned modelling table, validation reports, delay summa
 
 ### Data findings
 
-- **Delay rate by service type:** Express shipments had the highest delay rate at **48.97%**, compared with 20.56% for Standard and 8.57% for Economy shipments.
-- **Delay rate by hub tier:** The delay rate increased from **4.00% at Tier 1** to **21.50% at Tier 2** and **44.00% at Tier 3**, indicating substantially higher delays at higher-tier hubs in this dataset.
-- **Delay rate by distance band:** The delay rate increased with distance: **2.19%** for 0-200 km, **13.68%** for 201-400 km, **43.64%** for 401-600 km, and **85.23%** for distances above 600 km.
-- **Correlation with delivery hours:** The three numeric columns most strongly correlated with `delivery_hours`, ranked by absolute Pearson correlation and excluding `delivery_hours` itself, were **promised_hours (+0.8372)**, **distance_km (+0.4013)**, and **n_stops (+0.3247)**. These correlations describe linear associations and do not establish causation.
-- **Log transformation of declared value:** In the filled modelling table, `declared_value_inr` had a mean of **₹1,533.05** and a median of **₹1,121.50**, while `log_declared_value` had a mean of **7.028** and a median of **7.022**. The log transformation reduces the influence of large values and makes the distribution less right-skewed.
+**Data quality and preparation**
+
+- The raw dataset contained **1,224 rows**. Removing **24 duplicate rows** left **1,200 shipments**.
+- Before cleaning, there were 36 missing distance values, 24 missing parcel-weight values, 5 sentinel parcel-weight values, 12 missing declared-value values, and 18 missing payment-mode values.
+- Service-type spellings were standardized from 12 observed spellings to 3 categories: Economy, Express, and Standard.
+- The hub merge retained all **1,200 shipments**. The required feature columns and target contained no missing values in the final modelling table.
+- There were **278 delayed shipments**, giving an overall delay rate of **23.17%**.
+
+**Delay rate by service type**
+
+Express shipments had the highest delay rate at **48.97%** (119 delayed out of 243). Standard shipments had a delay rate of **20.56%** (132 out of 642), while Economy shipments had the lowest rate at **8.57%** (27 out of 315).
+
+**Delay rate by hub tier**
+
+The delay rate increased with hub tier: **4.00% for Tier 1**, **21.50% for Tier 2**, and **44.00% for Tier 3**. These results show a clear association between hub tier and delay rate in this synthetic dataset.
+
+**Delay rate by distance band**
+
+Delay rates rose as distance increased:
+
+- **0-200 km**: 2.19%
+- **201-400 km**: 13.68%
+- **401-600 km**: 43.64%
+- **601+ km**: 85.23%
+
+The highest distance band had the highest observed delay rate, with 75 of 88 shipments delayed.
+
+**Correlation with delivery time**
+
+Excluding `delivery_hours` itself, the three columns with the strongest absolute correlations with `delivery_hours` were:
+
+- promised_hours: **+0.8372**
+- distance_km: **+0.4013**
+- n_stops: **+0.3247**
+
+These are correlations, not evidence of causation. The correlation-validation rows in the table below also include a separate check for `is_delayed` against `distance_km`; that check is not one of the three strongest correlations with `delivery_hours`.
+
+**Log transformation of declared value**
+
+After cleaning and filling missing declared values, the mean declared value was **INR 1,533.05** and the median was **INR 1,121.50**. The corresponding mean and median of `log_declared_value` were **7.028** and **7.022**, respectively. The difference between the original mean and median indicates right-skew in declared values. The log transformation reduces the influence of large values and makes the distribution less skewed.
 
 ### Validations
 
-Part A validations are maintained separately from the data preparation and exploratory analysis code in the `validations/` directory. This separation ensures that validation inspects existing generated outputs without rerunning the implementation or regenerating data.
+#### Acceptance criteria and results
 
-**Reference metrics**
+The Part A validation checks cover data quality, duplicate removal, missing-value and sentinel counts, service-type standardization, imputation statistics, hub-merge row counts, missing values in features and target, delay statistics, group-level delay metrics, and selected correlation checks.
 
-Part A uses `references/part_a_reference_metrics.csv` as the consolidated reference file. It follows the common schema used across all four parts:
+The current validation report records **59 PASS results, with no MISMATCH or ERROR results**. This consists of 26 quality metrics, 30 group-level metrics, and 3 correlation checks.
 
-`source_file, metric_name, metric_value, tolerance`
+The modelling table contains 1,200 rows, preserves the required feature and target data without missing values, and retains all rows through the hub merge. The detailed reference-versus-code comparisons are below.
 
-The reference contains 59 validation metrics covering:
+#### Reference metrics compared with generated outputs
 
-- **Data cleaning and quality:** Row counts, duplicates, missing values, invalid weight sentinels, service-type standardization, imputation medians, and declared-value statistics.
-- **Delay analysis:** Shipment counts, delayed counts, and delay rates for service types, hub tiers, and distance bands.
-- **Correlation spot-checks:** The correlations between `delivery_hours` and `promised_hours`, `delivery_hours` and `distance_km`, and `is_delayed` and `distance_km`.
+| Source file | Metric | PDF reference value | Code-generated value | Tolerance | Status | Comments |
+|---|---|---:|---:|---:|---|---|
+| `outputs/part_a_checks.csv` | `raw_rows` | 1224 | 1224 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `duplicate_rows_removed` | 24 | 24 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `rows_after_dedup` | 1200 | 1200 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `missing_distance_km_before` | 36 | 36 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `missing_parcel_weight_before` | 24 | 24 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `sentinel_weight_rows` | 5 | 5 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `missing_declared_value_before` | 12 | 12 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `missing_payment_mode_before` | 18 | 18 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `service_type_spellings_before` | 12 | 12 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `service_type_spellings_after` | 3 | 3 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `declared_value_mean_inr` | 1533.05 | 1533.0542 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `declared_value_median_inr` | 1121.5 | 1121.5000 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `log_declared_value_mean` | 7.028 | 7.0277 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `log_declared_value_median` | 7.022 | 7.0224 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `median_distance_km` | 314.95 | 314.9500 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `median_parcel_weight_kg` | 1.83 | 1.8300 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `median_declared_value_inr` | 1121.5 | 1121.5000 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `rows_after_hub_merge` | 1200 | 1200 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `nulls_in_features_and_target` | 0 | 0 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `delayed_count` | 278 | 278 | Exact (0) | PASS | |
+| `outputs/part_a_checks.csv` | `delay_rate` | 0.2317 | 0.2317 | ±0.0001 | PASS | |
+| `outputs/part_a_checks.csv` | `hours_q1` | 43.26 | 43.2550 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `hours_q3` | 72.56 | 72.5625 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `hours_lower_bound` | -0.71 | -0.7063 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `hours_upper_bound` | 116.52 | 116.5238 | ±0.01 | PASS | |
+| `outputs/part_a_checks.csv` | `hours_outlier_count` | 1 | 1 | Exact (0) | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Service type - Economy: shipments; delayed; delay rate | 315; 27; 0.0857 | 315; 27; 0.0857 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Service type - Express: shipments; delayed; delay rate | 243; 119; 0.4897 | 243; 119; 0.4897 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Service type - Standard: shipments; delayed; delay rate | 642; 132; 0.2056 | 642; 132; 0.2056 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Hub tier 1: shipments; delayed; delay rate | 400; 16; 0.0400 | 400; 16; 0.0400 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Hub tier 2: shipments; delayed; delay rate | 400; 86; 0.2150 | 400; 86; 0.2150 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Hub tier 3: shipments; delayed; delay rate | 400; 176; 0.4400 | 400; 176; 0.4400 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Distance band 0–200 km: shipments; delayed; delay rate | 274; 6; 0.0219 | 274; 6; 0.0219 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Distance band 201–400 km: shipments; delayed; delay rate | 563; 77; 0.1368 | 563; 77; 0.1368 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Distance band 401–600 km: shipments; delayed; delay rate | 275; 120; 0.4364 | 275; 120; 0.4364 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_delay_by_group.csv` | Distance band 601+ km: shipments; delayed; delay rate | 88; 75; 0.8523 | 88; 75; 0.8523 | Counts exact; rate ±0.00005 | PASS | |
+| `outputs/part_a_correlations.csv` | `corr__delivery_hours__promised_hours` | 0.837 | 0.8372 | ±0.01 | PASS | |
+| `outputs/part_a_correlations.csv` | `corr__delivery_hours__distance_km` | 0.401 | 0.4013 | ±0.01 | PASS | |
+| `outputs/part_a_correlations.csv` | `corr__is_delayed__distance_km` | 0.546 | 0.5455 | ±0.01 | PASS | |
 
-Exact comparisons use a tolerance of `0`. Numeric metrics that allow small differences specify their permitted tolerance explicitly in the reference file.
+#### Generated outputs
 
-**Validation report**
+Part A generates the following files:
 
-The Part A validator checks the existing outputs and generates a standardized report:
+- `data/modelling_table.csv` - prepared modelling dataset with engineered features and the delay target.
+- `outputs/part_a_checks.csv` - data-quality and summary metrics.
+- `outputs/part_a_delay_by_group.csv` - shipment counts, delayed counts, and delay rates by service type, hub tier, and distance band.
+- `outputs/part_a_correlations.csv` - correlation matrix used to examine relationships among the modelling columns.
 
-- `outputs/part_a_checks.csv`
-- `outputs/part_a_delay_by_group.csv`
-- `outputs/part_a_correlations.csv`
-
-**Execution and results**
-
-The latest validation run passed all **59 checks**: 26 data-quality metrics, 30 group-level delay metrics, and 3 correlation spot-checks. There were no mismatches or errors.
-
-Part A is therefore validated against the approved reference metrics, and its outputs are ready for use by the downstream modelling stages.
-
-If Part A is run again, the same validations can be run to verify the results against the reference values.
+**Validation conclusion:** All 59 metrics in the current Part A validation report pass against their reference values within the configured tolerances. No benchmark values have been changed to obtain these results.
 
 ## Part B: Delivery-Hours Regression
 
