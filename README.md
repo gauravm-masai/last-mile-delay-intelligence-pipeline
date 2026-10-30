@@ -497,7 +497,7 @@ The default Random Forest validation F1 benchmark is an intentional recorded dis
 | `outputs/part_c_thresholds.csv` | `required_thresholds_present` | 1 | 1 | Exact | PASS | Confirms the required threshold sequence from 0.1 to 0.9. |
 | `outputs/part_c_thresholds.csv` | `threshold_metrics_consistent` | 1 | 1 | Exact | PASS | Threshold metrics agree with their confusion matrices. |
 | `outputs/part_c_thresholds.csv` | `recall_nonincreasing_with_threshold` | 1 | 1 | Exact | PASS | Recall does not increase as the alert threshold rises, within the configured allowance. |
-| `outputs/part_c_final_config.csv` | `selected_threshold` | 0.5 | 0.5 | ±0.4 | PASS | The saved threshold equals 0.5; the broad tolerance alone is not sufficient evidence of correct selection. |
+| `outputs/part_c_final_config.csv` | `selected_threshold` | 0.5 | 0.5 | Exact | PASS | The saved threshold equals 0.5. |
 | `outputs/part_c_final_config.csv` | `threshold_rule_satisfied` | 1 | 1 | Exact | PASS | Confirms that 0.5 is the highest tested threshold with validation recall of at least 0.80. |
 | `outputs/part_c_final_test.csv` | `row_count` | 1 | 1 | Exact | PASS | Confirms that the final test summary contains one result row. |
 | `outputs/part_c_final_test.csv` | `test_row_count` | 180 | 180 | Exact | PASS | Confirms the expected held-out test-set size. |
