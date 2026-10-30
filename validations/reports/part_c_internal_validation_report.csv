@@ -1,0 +1,15 @@
+source_file,metric_name,reference_value,code_value,tolerance,status,comment
+outputs/part_c_models.csv,row_count_acceptance,4.0,4.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='4.0'; expected='4.0'.
+outputs/part_c_feature_scores.csv,feature_names_unique_acceptance,1.0,1.0,Exact,PASS,Feature names are unique. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_feature_scores.csv,feature_scores_finite_acceptance,1.0,1.0,Exact,PASS,"Feature scores, ranks, and importances are finite. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'."
+outputs/part_c_feature_scores.csv,noise_columns_identified_acceptance,1.0,1.0,Exact,PASS,Noise columns match NOISE_COLUMNS. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_feature_scores.csv,forest_importance_sums_to_one_acceptance,1.0,1.0,Exact,PASS,Validation of forest_importance_sums_to_one. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_selectk.csv,required_k_values_present_acceptance,1.0,1.0,Exact,PASS,"SelectK experiments contain k = 5, 7, 10, 12, 17. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'."
+outputs/part_c_selectk.csv,validation_f1_values_valid_acceptance,1.0,1.0,Exact,PASS,"SelectK validation F1 values are within [0, 1]. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'."
+outputs/part_c_tuning.csv,required_search_rows_present_acceptance,1.0,1.0,Exact,PASS,Required tuning experiments are present in the expected order. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_tuning.csv,grid_best_cv_accuracy_at_least_randomized_acceptance,1.0,1.0,Exact,PASS,Grid-search CV accuracy is at least randomized-search CV accuracy. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_thresholds.csv,required_thresholds_present_acceptance,1.0,1.0,Exact,PASS,Threshold table contains thresholds 0.1 through 0.9. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_thresholds.csv,threshold_metrics_consistent_acceptance,1.0,1.0,Exact,PASS,Threshold metrics agree with confusion-matrix counts. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_final_config.csv,threshold_rule_satisfied_acceptance,1.0,1.0,Exact,PASS,Threshold follows the highest-threshold-with-recall rule. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_final_test.csv,threshold_matches_config_acceptance,1.0,1.0,Exact,PASS,Final-test threshold matches the saved configuration. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_final_test.csv,confusion_metrics_consistent_acceptance,1.0,1.0,Exact,PASS,Validation of confusion_metrics_consistent. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.

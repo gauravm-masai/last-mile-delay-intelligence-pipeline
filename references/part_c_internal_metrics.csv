@@ -1,0 +1,15 @@
+source_file,metric_name,value_type,metric_value,tolerance
+outputs/part_c_models.csv,row_count,ACCEPTANCE,4,0
+outputs/part_c_feature_scores.csv,feature_names_unique,ACCEPTANCE,1,0
+outputs/part_c_feature_scores.csv,feature_scores_finite,ACCEPTANCE,1,0
+outputs/part_c_feature_scores.csv,noise_columns_identified,ACCEPTANCE,1,0
+outputs/part_c_feature_scores.csv,forest_importance_sums_to_one,ACCEPTANCE,1,0
+outputs/part_c_selectk.csv,required_k_values_present,ACCEPTANCE,1,0
+outputs/part_c_selectk.csv,validation_f1_values_valid,ACCEPTANCE,1,0
+outputs/part_c_tuning.csv,required_search_rows_present,ACCEPTANCE,1,0
+outputs/part_c_tuning.csv,grid_best_cv_accuracy_at_least_randomized,ACCEPTANCE,1,0
+outputs/part_c_thresholds.csv,required_thresholds_present,ACCEPTANCE,1,0
+outputs/part_c_thresholds.csv,threshold_metrics_consistent,ACCEPTANCE,1,0
+outputs/part_c_final_config.csv,threshold_rule_satisfied,ACCEPTANCE,1,0
+outputs/part_c_final_test.csv,threshold_matches_config,ACCEPTANCE,1,0
+outputs/part_c_final_test.csv,confusion_metrics_consistent,ACCEPTANCE,1,0

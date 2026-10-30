@@ -1,54 +1,77 @@
 source_file,metric_name,reference_value,code_value,tolerance,status,comment
-data/modelling_table.csv,row_count,1200.0,1200.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-data/modelling_table.csv,delayed_train_count,195.0,195.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-data/modelling_table.csv,delayed_val_count,42.0,42.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-data/modelling_table.csv,delayed_test_count,41.0,41.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_models.csv,row_count,4.0,4.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_models.csv,blind_accuracy,0.7667,0.7667,0.001,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.001.
-outputs/part_c_models.csv,blind_tn,138.0,138.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_models.csv,blind_fp,0.0,0.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_models.csv,blind_fn,42.0,42.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_models.csv,blind_tp,0.0,0.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_models.csv,confusion_metrics_consistent,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_models.csv,best_tree_depth,6.0,6.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_models.csv,best_tree_validation_f1,0.747,0.747,0.001,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.001.
-outputs/part_c_models.csv,minimum_tree_validation_f1,0.6,0.747,0.0,PASS,Selected decision-tree validation F1 must meet the minimum threshold. Observed value 0.747; required >= 0.6. Requirement met.
-outputs/part_c_models.csv,default_rf_validation_f1,0.8,0.7848,0.001,MISMATCH,Values differ beyond tolerance. Absolute difference: 0.0152; allowed tolerance: 0.001.
-outputs/part_c_models.csv,minimum_rf_validation_f1,0.65,0.7848,0.0,PASS,Default random-forest validation F1 must meet the minimum threshold. Observed value 0.7848; required >= 0.65. Requirement met.
-outputs/part_c_models.csv,trained_accuracy_min,0.883,0.8833,0.0,PASS,Minimum observed validation accuracy across trained models must be at least the reference lower bound. Observed value 0.8833; required >= 0.883. Requirement met.
-outputs/part_c_models.csv,trained_accuracy_max,0.911,0.9056,0.0,PASS,Maximum observed validation accuracy across trained models must not exceed the reference upper bound. Observed value 0.9056; required <= 0.911. Requirement met.
-outputs/part_c_models.csv,logistic_f1_minimum,0.65,0.8046,0.0,PASS,Logistic-regression validation F1 must meet the minimum threshold. Observed value 0.8046; required >= 0.65. Requirement met.
-outputs/part_c_feature_scores.csv,row_count,17.0,17.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_feature_scores.csv,feature_names_unique,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_feature_scores.csv,feature_scores_finite,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_feature_scores.csv,noise_columns_identified,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_feature_scores.csv,top_seven_f_score_order_correct,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_feature_scores.csv,noise_columns_outside_top_seven,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_feature_scores.csv,top_seven_min_f_score_above_30,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_feature_scores.csv,combined_noise_importance,0.225,0.2245,0.075,PASS,Values match within tolerance. Absolute difference: 0.0005; allowed tolerance: 0.075.
-outputs/part_c_feature_scores.csv,forest_importance_sums_to_one,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_selectk.csv,row_count,5.0,5.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_selectk.csv,required_k_values_present,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_selectk.csv,validation_f1_values_valid,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_tuning.csv,row_count,3.0,3.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_tuning.csv,required_search_rows_present,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_tuning.csv,candidate_counts_correct,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_tuning.csv,cv_folds_correct,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_tuning.csv,total_fits_correct,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_tuning.csv,grid_cv_accuracy,0.8952,0.8952,0.0352,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.0352.
-outputs/part_c_tuning.csv,randomized_cv_accuracy,0.8905,0.8905,0.0305,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.0305.
-outputs/part_c_tuning.csv,tuning_validation_f1_minimum_met,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_thresholds.csv,row_count,9.0,9.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_thresholds.csv,required_thresholds_present,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_thresholds.csv,threshold_metrics_consistent,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_thresholds.csv,recall_nonincreasing_with_threshold,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_final_config.csv,selected_threshold,0.5,0.5,0.4,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.4.
-outputs/part_c_final_config.csv,threshold_rule_satisfied,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_final_test.csv,row_count,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_final_test.csv,test_row_count,180.0,180.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_final_test.csv,test_delayed_count,41.0,41.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_final_test.csv,threshold_matches_config,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_final_test.csv,confusion_metrics_consistent,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_final_test.csv,test_precision_minimum_met,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_final_test.csv,test_recall_minimum_met,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_c_final_test.csv,test_f1_minimum_met,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+data/modelling_table.csv,row_count_acceptance,1200.0,1200.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='1200.0'; expected='1200.0'.
+data/modelling_table.csv,train_row_count_acceptance,840.0,840.0,Exact,PASS,Number of rows in the training split. Mandatory exact acceptance passed: actual='840.0'; expected='840.0'.
+data/modelling_table.csv,val_row_count_acceptance,180.0,180.0,Exact,PASS,Number of rows in the validation split. Mandatory exact acceptance passed: actual='180.0'; expected='180.0'.
+data/modelling_table.csv,test_row_count_acceptance,180.0,180.0,Exact,PASS,Number of rows in the test split. Mandatory exact acceptance passed: actual='180.0'; expected='180.0'.
+data/modelling_table.csv,delayed_train_count_acceptance,195.0,195.0,Exact,PASS,Delayed parcels in the training split. Mandatory exact acceptance passed: actual='195.0'; expected='195.0'.
+data/modelling_table.csv,delayed_val_count_acceptance,42.0,42.0,Exact,PASS,Delayed parcels in the validation split. Mandatory exact acceptance passed: actual='42.0'; expected='42.0'.
+data/modelling_table.csv,delayed_test_count_acceptance,41.0,41.0,Exact,PASS,Delayed parcels in the test split. Mandatory exact acceptance passed: actual='41.0'; expected='41.0'.
+outputs/part_c_models.csv,every_model_accuracy_matches_confusion_matrix_acceptance,1.0,1.0,Exact,PASS,Stored model accuracies are consistent with confusion counts. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_models.csv,blind_accuracy_val_reference_reference,0.7667,0.7667,0.001,PASS,Validation accuracy of the all-on-time baseline. Reference comparison passed: absolute difference 0 is within tolerance 0.001.
+outputs/part_c_models.csv,blind_tn_val_acceptance,138.0,138.0,Exact,PASS,True negatives for the all-on-time baseline. Mandatory exact acceptance passed: actual='138.0'; expected='138.0'.
+outputs/part_c_models.csv,blind_fp_val_acceptance,0.0,0.0,Exact,PASS,False positives for the all-on-time baseline. Mandatory exact acceptance passed: actual='0.0'; expected='0.0'.
+outputs/part_c_models.csv,blind_fn_val_acceptance,42.0,42.0,Exact,PASS,False negatives for the all-on-time baseline. Mandatory exact acceptance passed: actual='42.0'; expected='42.0'.
+outputs/part_c_models.csv,blind_tp_val_acceptance,0.0,0.0,Exact,PASS,True positives for the all-on-time baseline. Mandatory exact acceptance passed: actual='0.0'; expected='0.0'.
+outputs/part_c_models.csv,logistic_regression_f1_val_reference_reference,0.805,0.8046,0.001,PASS,Logistic-regression validation F1 benchmark. Reference comparison passed: absolute difference 0.0004 is within tolerance 0.001.
+outputs/part_c_models.csv,logistic_regression_f1_val_minimum_acceptance,0.65,0.8046,,PASS,Logistic-regression validation F1 minimum acceptance. Mandatory acceptance passed: 0.8046; required rule: value >= 0.65.
+outputs/part_c_models.csv,decision_tree_f1_val_reference_reference,0.747,0.747,0.001,PASS,Decision-tree validation F1 benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.001.
+outputs/part_c_models.csv,decision_tree_f1_val_minimum_acceptance,0.6,0.747,,PASS,Decision-tree validation F1 minimum acceptance. Mandatory acceptance passed: 0.747; required rule: value >= 0.6.
+outputs/part_c_models.csv,default_rf_f1_val_reference_reference,0.8,0.7848,0.001,MISMATCH,Default Random Forest validation F1 benchmark. Reference comparison mismatch: absolute difference 0.0152 exceeds tolerance 0.001. This is informational and does not fail validation by itself.
+outputs/part_c_models.csv,default_rf_f1_val_minimum_acceptance,0.65,0.7848,,PASS,Default Random Forest validation F1 minimum acceptance. Mandatory acceptance passed: 0.7848; required rule: value >= 0.65.
+outputs/part_c_models.csv,logistic_regression_accuracy_val_minimum_acceptance,0.883,0.9056,,PASS,Validation of logistic_regression_accuracy_val_minimum. Mandatory acceptance passed: 0.9056; required rule: value >= 0.883.
+outputs/part_c_models.csv,logistic_regression_accuracy_val_maximum_acceptance,0.911,0.9056,,PASS,Validation of logistic_regression_accuracy_val_maximum. Mandatory acceptance passed: 0.9056; required rule: value <= 0.911.
+outputs/part_c_models.csv,best_tree_depth_reference_acceptance,6.0,6.0,Exact,PASS,Required selected decision-tree depth. Mandatory exact acceptance passed: actual='6.0'; expected='6.0'.
+outputs/part_c_models.csv,decision_tree_accuracy_val_minimum_acceptance,0.883,0.8833,,PASS,Validation of decision_tree_accuracy_val_minimum. Mandatory acceptance passed: 0.8833; required rule: value >= 0.883.
+outputs/part_c_models.csv,decision_tree_accuracy_val_maximum_acceptance,0.911,0.8833,,PASS,Validation of decision_tree_accuracy_val_maximum. Mandatory acceptance passed: 0.8833; required rule: value <= 0.911.
+outputs/part_c_models.csv,default_rf_accuracy_val_minimum_acceptance,0.883,0.9056,,PASS,Validation of default_rf_accuracy_val_minimum. Mandatory acceptance passed: 0.9056; required rule: value >= 0.883.
+outputs/part_c_models.csv,default_rf_accuracy_val_maximum_acceptance,0.911,0.9056,,PASS,Validation of default_rf_accuracy_val_maximum. Mandatory acceptance passed: 0.9056; required rule: value <= 0.911.
+outputs/part_c_feature_scores.csv,row_count_acceptance,17.0,17.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='17.0'; expected='17.0'.
+outputs/part_c_feature_scores.csv,top_seven_f_score_order_correct_acceptance,1.0,1.0,Exact,PASS,Top seven features match the expected order. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_feature_scores.csv,selected_feature_distance_km_position_acceptance,1.0,1.0,Exact,PASS,Validation of selected_feature_distance_km_position. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_feature_scores.csv,selected_feature_hub_tier_position_acceptance,2.0,2.0,Exact,PASS,Validation of selected_feature_hub_tier_position. Mandatory exact acceptance passed: actual='2.0'; expected='2.0'.
+outputs/part_c_feature_scores.csv,selected_feature_hub_daily_capacity_position_acceptance,3.0,3.0,Exact,PASS,Validation of selected_feature_hub_daily_capacity_position. Mandatory exact acceptance passed: actual='3.0'; expected='3.0'.
+outputs/part_c_feature_scores.csv,selected_feature_n_stops_position_acceptance,4.0,4.0,Exact,PASS,Validation of selected_feature_n_stops_position. Mandatory exact acceptance passed: actual='4.0'; expected='4.0'.
+outputs/part_c_feature_scores.csv,selected_feature_promised_hours_position_acceptance,5.0,5.0,Exact,PASS,Validation of selected_feature_promised_hours_position. Mandatory exact acceptance passed: actual='5.0'; expected='5.0'.
+outputs/part_c_feature_scores.csv,selected_feature_rain_flag_position_acceptance,6.0,6.0,Exact,PASS,Validation of selected_feature_rain_flag_position. Mandatory exact acceptance passed: actual='6.0'; expected='6.0'.
+outputs/part_c_feature_scores.csv,selected_feature_sale_event_flag_position_acceptance,7.0,7.0,Exact,PASS,Validation of selected_feature_sale_event_flag_position. Mandatory exact acceptance passed: actual='7.0'; expected='7.0'.
+outputs/part_c_feature_scores.csv,sale_event_flag_f_score_minimum_acceptance,30.0,36.7281,,PASS,F-score for sale_event_flag meets the minimum. Mandatory acceptance passed: 36.7281; required rule: value >= 30.
+outputs/part_c_feature_scores.csv,noise_columns_outside_top_seven_acceptance,1.0,1.0,Exact,PASS,Noise columns are outside the top seven. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_feature_scores.csv,every_noise_column_f_rank_minimum_acceptance,8.0,8.0,,PASS,Lowest noise-column F-score rank meets the minimum. Mandatory acceptance passed: 8; required rule: value >= 8.
+outputs/part_c_feature_scores.csv,every_noise_column_f_score_strict_maximum_acceptance,10.0,4.5847,0.0,PASS,Every noise-column F-score is strictly below the maximum. Strict acceptance requires actual < 10.0; actual=4.5847.
+outputs/part_c_feature_scores.csv,combined_noise_importance_reference_reference,0.225,0.2245,0.0001,MISMATCH,Combined Random Forest importance of noise columns. Reference comparison mismatch: absolute difference 0.0005 exceeds tolerance 0.0001. This is informational and does not fail validation by itself.
+outputs/part_c_feature_scores.csv,combined_noise_importance_minimum_acceptance,0.15,0.2245,,PASS,Combined noise importance meets the lower bound. Mandatory acceptance passed: 0.2245; required rule: value >= 0.15.
+outputs/part_c_feature_scores.csv,combined_noise_importance_maximum_acceptance,0.3,0.2245,,PASS,Combined noise importance meets the upper bound. Mandatory acceptance passed: 0.2245; required rule: value <= 0.3.
+outputs/part_c_selectk.csv,row_count_acceptance,5.0,5.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='5.0'; expected='5.0'.
+outputs/part_c_tuning.csv,row_count_acceptance,3.0,3.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='3.0'; expected='3.0'.
+outputs/part_c_tuning.csv,grid_search_candidates_acceptance,27.0,27.0,Exact,PASS,Validation of grid_search_candidates. Mandatory exact acceptance passed: actual='27.0'; expected='27.0'.
+outputs/part_c_tuning.csv,grid_search_cv_folds_acceptance,5.0,5.0,Exact,PASS,Validation of grid_search_cv_folds. Mandatory exact acceptance passed: actual='5.0'; expected='5.0'.
+outputs/part_c_tuning.csv,grid_search_total_fits_acceptance,135.0,135.0,Exact,PASS,Validation of grid_search_total_fits. Mandatory exact acceptance passed: actual='135.0'; expected='135.0'.
+outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_reference_reference,0.8952,0.8952,0.0001,PASS,Grid-search best cross-validation accuracy benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
+outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_minimum_acceptance,0.86,0.8952,,PASS,Validation of grid_search_best_cv_accuracy_minimum. Mandatory acceptance passed: 0.8952; required rule: value >= 0.86.
+outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_maximum_acceptance,0.93,0.8952,,PASS,Validation of grid_search_best_cv_accuracy_maximum. Mandatory acceptance passed: 0.8952; required rule: value <= 0.93.
+outputs/part_c_tuning.csv,grid_search_f1_val_reference_reference,0.775,0.775,0.0001,PASS,Grid-search validation F1 benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
+outputs/part_c_tuning.csv,grid_search_f1_val_minimum_acceptance,0.65,0.775,,PASS,Validation of grid_search_f1_val_minimum. Mandatory acceptance passed: 0.775; required rule: value >= 0.65.
+outputs/part_c_tuning.csv,randomized_search_candidates_acceptance,9.0,9.0,Exact,PASS,Validation of randomized_search_candidates. Mandatory exact acceptance passed: actual='9.0'; expected='9.0'.
+outputs/part_c_tuning.csv,randomized_search_cv_folds_acceptance,5.0,5.0,Exact,PASS,Validation of randomized_search_cv_folds. Mandatory exact acceptance passed: actual='5.0'; expected='5.0'.
+outputs/part_c_tuning.csv,randomized_search_total_fits_acceptance,45.0,45.0,Exact,PASS,Validation of randomized_search_total_fits. Mandatory exact acceptance passed: actual='45.0'; expected='45.0'.
+outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_reference_reference,0.8905,0.8905,0.0001,PASS,Randomized-search best cross-validation accuracy benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
+outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_minimum_acceptance,0.86,0.8905,,PASS,Validation of randomized_search_best_cv_accuracy_minimum. Mandatory acceptance passed: 0.8905; required rule: value >= 0.86.
+outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_maximum_acceptance,0.93,0.8905,,PASS,Validation of randomized_search_best_cv_accuracy_maximum. Mandatory acceptance passed: 0.8905; required rule: value <= 0.93.
+outputs/part_c_tuning.csv,randomized_search_f1_val_reference_reference,0.79,0.7848,0.0001,MISMATCH,Randomized-search validation F1 benchmark. Reference comparison mismatch: absolute difference 0.0052 exceeds tolerance 0.0001. This is informational and does not fail validation by itself.
+outputs/part_c_tuning.csv,randomized_search_f1_val_minimum_acceptance,0.65,0.7848,,PASS,Validation of randomized_search_f1_val_minimum. Mandatory acceptance passed: 0.7848; required rule: value >= 0.65.
+outputs/part_c_tuning.csv,default_forest_same_7_features_candidates_acceptance,1.0,1.0,Exact,PASS,Validation of default_forest_same_7_features_candidates. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_tuning.csv,default_forest_same_7_features_cv_folds_acceptance,0.0,0.0,Exact,PASS,Validation of default_forest_same_7_features_cv_folds. Mandatory exact acceptance passed: actual='0.0'; expected='0.0'.
+outputs/part_c_tuning.csv,default_forest_same_7_features_total_fits_acceptance,1.0,1.0,Exact,PASS,Validation of default_forest_same_7_features_total_fits. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_reference_reference,0.833,0.8333,0.0001,MISMATCH,Seven-feature default forest validation F1 benchmark. Reference comparison mismatch: absolute difference 0.0003 exceeds tolerance 0.0001. This is informational and does not fail validation by itself.
+outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_minimum_acceptance,0.65,0.8333,,PASS,Validation of default_forest_same_7_features_f1_val_minimum. Mandatory acceptance passed: 0.8333; required rule: value >= 0.65.
+outputs/part_c_thresholds.csv,row_count_acceptance,9.0,9.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='9.0'; expected='9.0'.
+outputs/part_c_thresholds.csv,recall_nonincreasing_with_threshold_acceptance,1.0,1.0,Exact,PASS,Recall does not increase as the threshold rises. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_final_config.csv,selected_threshold_acceptance,0.5,0.5,Exact,PASS,Selected alert threshold. Mandatory exact acceptance passed: actual='0.5'; expected='0.5'.
+outputs/part_c_final_test.csv,row_count_acceptance,1.0,1.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
+outputs/part_c_final_test.csv,selected_threshold_acceptance,0.5,0.5,Exact,PASS,Selected alert threshold. Mandatory exact acceptance passed: actual='0.5'; expected='0.5'.
+outputs/part_c_final_test.csv,test_precision_reference_reference,0.6889,0.6889,0.0001,PASS,Final-test precision benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
+outputs/part_c_final_test.csv,test_precision_minimum_acceptance,0.45,0.6889,,PASS,Final-test precision acceptance. Mandatory acceptance passed: 0.6889; required rule: value >= 0.45.
+outputs/part_c_final_test.csv,test_recall_reference_reference,0.7561,0.7561,0.0001,PASS,Final-test recall benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
+outputs/part_c_final_test.csv,test_recall_minimum_acceptance,0.55,0.7561,,PASS,Final-test recall acceptance. Mandatory acceptance passed: 0.7561; required rule: value >= 0.55.
+outputs/part_c_final_test.csv,test_f1_reference_reference,0.7209,0.7209,0.0001,PASS,Final-test F1 benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
+outputs/part_c_final_test.csv,test_f1_minimum_acceptance,0.6,0.7209,,PASS,Final-test F1 acceptance. Mandatory acceptance passed: 0.7209; required rule: value >= 0.6.
