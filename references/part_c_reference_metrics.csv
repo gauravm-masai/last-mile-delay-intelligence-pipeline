@@ -42,7 +42,7 @@ outputs/part_c_thresholds.csv,row_count,9,0
 outputs/part_c_thresholds.csv,required_thresholds_present,1,0
 outputs/part_c_thresholds.csv,threshold_metrics_consistent,1,0
 outputs/part_c_thresholds.csv,recall_nonincreasing_with_threshold,1,0
-outputs/part_c_final_config.csv,selected_threshold,0.5,0.4
+outputs/part_c_final_config.csv,selected_threshold,0.5,0
 outputs/part_c_final_config.csv,threshold_rule_satisfied,1,0
 outputs/part_c_final_test.csv,row_count,1,0
 outputs/part_c_final_test.csv,test_row_count,180,0

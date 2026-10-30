@@ -329,6 +329,7 @@ Part B generates the following files:
 ## Part C - Delay Classifier and Alert Threshold
 
 ### Objectives
+
 - Establish a blind baseline for predicting parcel delays.
 - Compare Logistic Regression, Decision Tree and Random Forest classifiers using validation metrics.
 - Evaluate feature importance, identify noise features and study the effect of feature selection.
@@ -336,6 +337,7 @@ Part B generates the following files:
 - Evaluate the final model on the held-out test set.
 
 ### High Level Approach
+
 - Split the data into training, validation and test sets using two-stage stratified splitting.
 - Evaluate the blind baseline and trained models using confusion matrices, accuracy, precision, recall and F1-score.
 - Rank features using F-scores and Random Forest feature importance, including the combined importance of the five noise columns.
@@ -344,22 +346,169 @@ Part B generates the following files:
 - Evaluate thresholds from 0.1 to 0.9 and select the highest threshold that achieves validation recall of at least 0.80, using 0.1 if none qualifies.
 - Evaluate the selected configuration once on the held-out test set.
 
+**Leakage prevention:** Feature selection is kept inside the modelling pipeline during cross-validation. This ensures that the selector is fitted separately on each cross-validation training fold rather than using information from that fold's validation data. Although this differs from fitting the selector once before the search, it preserves the independence of validation folds and avoids feature-selection leakage. 
+
 ### Data Findings
-- **Blind baseline:** The baseline achieved an accuracy of **0.7667** by predicting every parcel as on time. Although this accuracy appears reasonable, the model identifies no delayed parcels, giving it zero recall and zero F1-score for the delayed class. It is therefore not useful for identifying parcels that need attention.
-- **Noise features:** The five noise columns together accounted for **22.45%** of the Random Forest's total feature importance. **Yes**, all five noise columns ranked outside the top seven by F-score. This helps assess whether the model relies mainly on meaningful delivery-related features.
-- **Feature selection:** The `k` table compares validation F1-scores when selecting 5, 7, 10, 12 and 17 features. The best result occurred at **k = 7**, with a validation F1-score of **0.8333**. This shows how feature selection affected the model's ability to identify delayed parcels.
-- **Hyperparameter tuning:** The default Random Forest achieved a validation F1-score of **0.8333**, compared with **0.7750** for grid search and **0.7848** for randomized search. **Tuning did not improve** the validation result over the untuned forest. With only 180 validation rows, small score differences may reflect variation in the sample and should not be treated as conclusive evidence that one configuration will generalize better.
-- **Threshold selection:** The selected threshold was **0.5**. The threshold was chosen using validation recall, prioritizing the detection of delayed parcels while considering the trade-off between precision and recall. Lower thresholds generally identify more delayed parcels but may also produce more false positives; higher thresholds may improve precision while missing more delays.
-- **Final test results:** On the held-out test set, the final model achieved precision of **0.6889**, recall of **0.7561** and F1-score of **0.7209**. Validation recall was **0.8333**, compared with test recall of **0.7561**. The difference was **7.72%**. The test set contains only 41 delayed parcels, so each additional missed or correctly identified delayed parcel can noticeably change recall. The test result should therefore be interpreted with this limitation in mind.
+
+**Baseline and classifier comparison**
+
+The prescribed stratified split contains 1,200 shipments: 840 training, 180 validation and 180 test rows. The delayed-parcel counts are 195, 42 and 41, respectively.
+
+The blind baseline predicts every parcel as on time. It achieves accuracy of **0.7667**, but identifies no delayed parcels: its recall and F1-score for the delayed class are both zero. This demonstrates why accuracy alone is insufficient for the operational objective.
+
+| Model | Validation accuracy | Precision | Recall | F1-score |
+|---|---:|---:|---:|---:|
+| Logistic Regression | 0.9056 | 0.7778 | 0.8333 | 0.8046 |
+| Decision Tree, depth 6 | 0.8833 | 0.7561 | 0.7381 | 0.7470 |
+| Default Random Forest, 17 features | 0.9056 | 0.8378 | 0.7381 | 0.7848 |
+
+The decision tree depth experiment selected depth 6. Logistic Regression achieved the highest F1-score among these three classifier results, while the default Random Forest achieved higher precision but lower recall than Logistic Regression.
+
+**Feature importance and noise features**
+
+The feature analysis uses F-scores from `SelectKBest(f_classif, k="all")` and feature importances from a default Random Forest with 100 estimators and `random_state=42`.
+
+The seven highest-ranked features by F-score are:
+
+1. `distance_km`
+2. `hub_tier`
+3. `hub_daily_capacity`
+4. `n_stops`
+5. `promised_hours`
+6. `rain_flag`
+7. `sale_event_flag`
+
+The five noise columns collectively account for approximately **22.45%** of Random Forest feature importance. Each noise column ranks outside the top seven by F-score. This illustrates that a feature can receive some importance from a model without being among the strongest features under the univariate F-score ranking.
+
+**Feature-selection experiment**
+
+The validation F1-scores for the required feature counts were:
+
+| Number of features (`k`) | Validation F1-score |
+|---:|---:|
+| 5 | 0.6988 |
+| 7 | 0.8333 |
+| 10 | 0.7857 |
+| 12 | 0.8049 |
+| 17 | 0.7848 |
+
+The best result was achieved with **seven features**, with a validation F1-score of **0.8333**. This selected feature count was used in the subsequent default-forest comparison and final configuration.
+
+**Hyperparameter tuning**
+
+The grid search evaluated 27 candidate configurations across five folds, for 135 fits. The randomized search evaluated nine candidates across five folds, for 45 fits.
+
+| Search configuration | Best cross-validation accuracy | Validation F1-score |
+|---|---:|---:|
+| Grid search | 0.8952 | 0.7750 |
+| Randomized search | 0.8905 | 0.7848 |
+| Default forest using seven selected features | - | 0.8333 |
+
+Neither tuning search improved validation F1 over the default forest using the selected seven features. The results therefore support retaining the simpler default configuration for this experiment rather than assuming that hyperparameter tuning must improve performance.
+
+**Reference benchmark discrepancy**
+
+The PDF benchmark for `default_rf_validation_f1` is **0.800**, with tolerance **±0.001**. The generated value for `random_forest_default`, which uses all 17 features, is **0.7848**. This does not match the benchmark.
+
+However, the generated value exceeds the separate minimum acceptance criterion of **0.65**. These are distinct checks: meeting the minimum does not mean the benchmark matched. The reference value remains unchanged, and the discrepancy is retained for transparent reporting.
+
+The seven-feature default-forest result of **0.8333** is a separate experiment; it must not be substituted for the all-feature default Random Forest result when reporting the benchmark comparison.
+
+**Alert threshold selection**
+
+The threshold experiment evaluates values from 0.1 to 0.9. The selected threshold is **0.5**, the highest tested threshold whose validation recall is at least 0.80.
+
+At threshold 0.5, validation recall is **0.8333**, with precision **0.7955**. At threshold 0.6, recall falls to **0.7619**, below the required 0.80. Thus, 0.5 satisfies the selection rule while 0.6 does not.
+
+Lower thresholds generally identify more delayed parcels but generate more false positives. Higher thresholds can improve precision, but risk missing additional delays. The chosen threshold reflects the project's recall requirement rather than simply maximizing accuracy.
+
+**Final held-out test evaluation**
+
+The final configuration uses seven selected features, a Random Forest with 100 estimators, unlimited maximum depth and `min_samples_leaf=1`, with the alert threshold set to 0.5.
+
+On the held-out test set of 180 shipments, including 41 delayed parcels, the model achieved:
+
+| Metric | Test result |
+|---|---:|
+| Accuracy | 0.8667 |
+| Precision | 0.6889 |
+| Recall | 0.7561 |
+| F1-score | 0.7209 |
+
+Test recall is approximately **7.72 percentage points lower** than the validation recall of 0.8333 at the selected threshold. The test set contains only 41 delayed parcels, so the result should be interpreted in that context. The test metrics are calculated from the saved test confusion matrix; the held-out test set is not used to choose the threshold.
 
 ### Validations
-- Verified the required training, validation and test split sizes and delayed-parcel counts.
-- Checked the model-results table, confusion matrices and calculated classification metrics.
-- Confirmed the expected feature-score structure, the seven leading features and the rankings of the five noise columns.
-- Checked the Random Forest noise-importance share against the reference pass band.
-- Verified the feature-selection table and the candidate counts, cross-validation folds and total fits recorded for tuning.
-- Checked that threshold results contain all nine thresholds, that recall does not increase as the threshold rises, and that the saved threshold follows the selection rule.
-- Confirmed that the final-test confusion matrix contains 180 observations, including 41 delayed parcels, that its metrics match the confusion matrix, and that precision, recall and F1 meet the reference requirements.
+
+#### Acceptance criteria and results
+
+The Part C validations inspect the existing generated outputs and the reference metrics. They check:
+
+- The modelling-table row count and the prescribed stratified split's delayed counts.
+- The model-results schema, required row count, confusion-matrix consistency, baseline metrics and classifier acceptance criteria.
+- Feature-score structure, unique feature names, finite values, expected top-seven F-score ranking, noise-column identification and combined noise importance.
+- The required `k` values and validity of the feature-selection experiment's validation F1-scores.
+- Tuning search rows, candidate counts, cross-validation folds, total fits and minimum validation F1 criteria.
+- The nine tested thresholds, confusion-matrix-derived metrics, recall monotonicity and compliance with the threshold-selection rule.
+- The final configuration, test-set size and delayed count, threshold consistency, confusion-matrix-derived metrics and final precision, recall and F1 acceptance criteria.
+
+The default Random Forest validation F1 benchmark is an intentional recorded discrepancy: the generated value of 0.7848 does not match the provided reference of 0.800 within the configured tolerance, although it meets the separate minimum criterion of 0.65. 
+
+#### Reference metrics compared with generated outputs
+
+| Source file | Metric | PDF reference value | Code-generated value | Tolerance | Status | Comments |
+|---|---|---:|---:|---|---|---|
+| `data/modelling_table.csv` | `row_count` | 1200 | 1200 | Exact | PASS | Confirms the expected number of modelling rows. |
+| `data/modelling_table.csv` | `delayed_train_count` | 195 | 195 | Exact | PASS | Confirms the expected delayed count in the training split. |
+| `data/modelling_table.csv` | `delayed_val_count` | 42 | 42 | Exact | PASS | Confirms the expected delayed count in the validation split. |
+| `data/modelling_table.csv` | `delayed_test_count` | 41 | 41 | Exact | PASS | Confirms the expected delayed count in the test split. |
+| `outputs/part_c_models.csv` | `row_count` | 4 | 4 | Exact | PASS | Confirms that the model-results table contains four model rows. |
+| `outputs/part_c_models.csv` | `blind_accuracy` | 0.7667 | 0.7667 | ±0.001 | PASS | The blind baseline accuracy matches the reference within tolerance. |
+| `outputs/part_c_models.csv` | `blind_tn`, `blind_fp`, `blind_fn`, `blind_tp` | 138, 0, 42, 0 | 138, 0, 42, 0 | Exact | PASS | The baseline confusion matrix matches the expected counts. |
+| `outputs/part_c_models.csv` | `confusion_metrics_consistent` | 1 | 1 | Exact | PASS | Confirms that the saved model metrics agree with their confusion matrices. |
+| `outputs/part_c_models.csv` | `best_tree_depth` | 6 | 6 | Exact | PASS | Confirms the required decision-tree depth result. |
+| `outputs/part_c_models.csv` | `best_tree_validation_f1` | 0.747 | 0.7470 | ±0.001 | PASS | The selected tree's validation F1 matches the reference. |
+| `outputs/part_c_models.csv` | `minimum_tree_validation_f1` | 0.60 | 0.7470 | Exact | PASS | The selected tree exceeds the minimum F1 requirement. |
+| `outputs/part_c_models.csv` | `default_rf_validation_f1` | 0.800 | 0.7848 | ±0.001 | MISMATCH | The generated all-feature default Random Forest result does not match the PDF benchmark. |
+| `outputs/part_c_models.csv` | `minimum_rf_validation_f1` | 0.65 | 0.7848 | Exact | PASS | The generated Random Forest F1 exceeds the separate minimum criterion. |
+| `outputs/part_c_models.csv` | `trained_accuracy_min` | 0.883 | 0.8833 | Exact | PASS | The minimum trained-model accuracy is consistent with the reference at the saved precision. |
+| `outputs/part_c_models.csv` | `trained_accuracy_max` | 0.911 | 0.9056 | Exact | PASS | The maximum trained-model accuracy meets the configured reference comparison. |
+| `outputs/part_c_models.csv` | `logistic_f1_minimum` | 0.65 | 0.8046 | Exact | PASS | Logistic Regression exceeds the minimum F1 requirement. |
+| `outputs/part_c_feature_scores.csv` | `row_count` | 17 | 17 | Exact | PASS | Confirms one feature-score row for each of the 17 features. |
+| `outputs/part_c_feature_scores.csv` | `feature_names_unique` | 1 | 1 | Exact | PASS | Confirms there are no duplicate feature names. |
+| `outputs/part_c_feature_scores.csv` | `feature_scores_finite` | 1 | 1 | Exact | PASS | Confirms the feature scores, ranks and importances are finite. |
+| `outputs/part_c_feature_scores.csv` | `noise_columns_identified` | 1 | 1 | Exact | PASS | Confirms the expected five noise columns are identified. |
+| `outputs/part_c_feature_scores.csv` | `top_seven_f_score_order_correct` | 1 | 1 | Exact | PASS | The seven leading features match the expected ranking. |
+| `outputs/part_c_feature_scores.csv` | `noise_columns_outside_top_seven` | 1 | 1 | Exact | PASS | All five noise columns rank outside the top seven by F-score. |
+| `outputs/part_c_feature_scores.csv` | `top_seven_min_f_score_above_30` | 1 | 1 | Exact | PASS | The minimum F-score among the seven leading features exceeds 30. |
+| `outputs/part_c_feature_scores.csv` | `combined_noise_importance` | 0.225 | 0.2245 | ±0.075 | PASS | Combined noise-feature importance is within the configured reference range. |
+| `outputs/part_c_feature_scores.csv` | `forest_importance_sums_to_one` | 1 | 1 | Exact | PASS | Random Forest feature importances sum to approximately one. |
+| `outputs/part_c_selectk.csv` | `row_count` | 5 | 5 | Exact | PASS | Confirms that all five feature-count experiments are recorded. |
+| `outputs/part_c_selectk.csv` | `required_k_values_present` | 1 | 1 | Exact | PASS | Confirms that the required values of `k` are present. |
+| `outputs/part_c_selectk.csv` | `validation_f1_values_valid` | 1 | 1 | Exact | PASS | All recorded validation F1-scores are valid. |
+| `outputs/part_c_tuning.csv` | `row_count` | 3 | 3 | Exact | PASS | Confirms that the two search methods and the seven-feature default forest are recorded. |
+| `outputs/part_c_tuning.csv` | `required_search_rows_present` | 1 | 1 | Exact | PASS | Confirms that all expected tuning result rows are present. |
+| `outputs/part_c_tuning.csv` | `candidate_counts_correct` | 1 | 1 | Exact | PASS | Candidate counts match the prescribed search configurations. |
+| `outputs/part_c_tuning.csv` | `cv_folds_correct` | 1 | 1 | Exact | PASS | Confirms the expected cross-validation fold counts. |
+| `outputs/part_c_tuning.csv` | `total_fits_correct` | 1 | 1 | Exact | PASS | Confirms the expected total number of search fits. |
+| `outputs/part_c_tuning.csv` | `grid_cv_accuracy` | 0.8952 | 0.8952 | ±0.0352 | PASS | Grid-search cross-validation accuracy is within the configured tolerance. |
+| `outputs/part_c_tuning.csv` | `randomized_cv_accuracy` | 0.8905 | 0.8905 | ±0.0305 | PASS | Randomized-search cross-validation accuracy is within the configured tolerance. |
+| `outputs/part_c_tuning.csv` | `tuning_validation_f1_minimum_met` | 1 | 1 | Exact | PASS | All recorded tuning validation F1-scores meet the minimum requirement. |
+| `outputs/part_c_thresholds.csv` | `row_count` | 9 | 9 | Exact | PASS | Confirms that nine threshold values were evaluated. |
+| `outputs/part_c_thresholds.csv` | `required_thresholds_present` | 1 | 1 | Exact | PASS | Confirms the required threshold sequence from 0.1 to 0.9. |
+| `outputs/part_c_thresholds.csv` | `threshold_metrics_consistent` | 1 | 1 | Exact | PASS | Threshold metrics agree with their confusion matrices. |
+| `outputs/part_c_thresholds.csv` | `recall_nonincreasing_with_threshold` | 1 | 1 | Exact | PASS | Recall does not increase as the alert threshold rises, within the configured allowance. |
+| `outputs/part_c_final_config.csv` | `selected_threshold` | 0.5 | 0.5 | ±0.4 | PASS | The saved threshold equals 0.5; the broad tolerance alone is not sufficient evidence of correct selection. |
+| `outputs/part_c_final_config.csv` | `threshold_rule_satisfied` | 1 | 1 | Exact | PASS | Confirms that 0.5 is the highest tested threshold with validation recall of at least 0.80. |
+| `outputs/part_c_final_test.csv` | `row_count` | 1 | 1 | Exact | PASS | Confirms that the final test summary contains one result row. |
+| `outputs/part_c_final_test.csv` | `test_row_count` | 180 | 180 | Exact | PASS | Confirms the expected held-out test-set size. |
+| `outputs/part_c_final_test.csv` | `test_delayed_count` | 41 | 41 | Exact | PASS | Confirms the expected number of delayed parcels in the test set. |
+| `outputs/part_c_final_test.csv` | `threshold_matches_config` | 1 | 1 | Exact | PASS | Confirms that final test evaluation uses the saved threshold. |
+| `outputs/part_c_final_test.csv` | `confusion_metrics_consistent` | 1 | 1 | Exact | PASS | The final test metrics agree with the saved confusion matrix. |
+| `outputs/part_c_final_test.csv` | `test_precision_minimum_met` | 1 | 1 | Exact | PASS | Final test precision exceeds the minimum acceptance criterion. |
+| `outputs/part_c_final_test.csv` | `test_recall_minimum_met` | 1 | 1 | Exact | PASS | Final test recall exceeds the minimum acceptance criterion. |
+| `outputs/part_c_final_test.csv` | `test_f1_minimum_met` | 1 | 1 | Exact | PASS | Final test F1 exceeds the minimum acceptance criterion. |
+
+**Validation conclusion:** The Part C reference comparisons confirm that the prescribed split, feature-analysis structure, feature-selection experiments, tuning-search structure, threshold rule and final-test acceptance criteria are satisfied. The all-feature default Random Forest F1 benchmark remains a documented `MISMATCH`; its separate minimum criterion passes. 
 
 ## Part D - Hub Segments, Packaging and Operations Playbook
 
