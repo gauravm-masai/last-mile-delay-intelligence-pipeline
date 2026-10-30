@@ -467,12 +467,12 @@ The default Random Forest validation F1 benchmark is an intentional recorded dis
 | `outputs/part_c_models.csv` | `confusion_metrics_consistent` | 1 | 1 | Exact | PASS | Confirms that the saved model metrics agree with their confusion matrices. |
 | `outputs/part_c_models.csv` | `best_tree_depth` | 6 | 6 | Exact | PASS | Confirms the required decision-tree depth result. |
 | `outputs/part_c_models.csv` | `best_tree_validation_f1` | 0.747 | 0.7470 | ±0.001 | PASS | The selected tree's validation F1 matches the reference. |
-| `outputs/part_c_models.csv` | `minimum_tree_validation_f1` | 0.60 | 0.7470 | Exact | PASS | The selected tree exceeds the minimum F1 requirement. |
+| `outputs/part_c_models.csv` | `minimum_tree_validation_f1` | 0.60 | 0.7470 | ≥ 0.60 | PASS | The selected tree exceeds the minimum F1 requirement. |
 | `outputs/part_c_models.csv` | `default_rf_validation_f1` | 0.800 | 0.7848 | ±0.001 | MISMATCH | The generated all-feature default Random Forest result does not match the PDF benchmark. |
-| `outputs/part_c_models.csv` | `minimum_rf_validation_f1` | 0.65 | 0.7848 | Exact | PASS | The generated Random Forest F1 exceeds the separate minimum criterion. |
-| `outputs/part_c_models.csv` | `trained_accuracy_min` | 0.883 | 0.8833 | Exact | PASS | The minimum trained-model accuracy is consistent with the reference at the saved precision. |
-| `outputs/part_c_models.csv` | `trained_accuracy_max` | 0.911 | 0.9056 | Exact | PASS | The maximum trained-model accuracy meets the configured reference comparison. |
-| `outputs/part_c_models.csv` | `logistic_f1_minimum` | 0.65 | 0.8046 | Exact | PASS | Logistic Regression exceeds the minimum F1 requirement. |
+| `outputs/part_c_models.csv` | `minimum_rf_validation_f1` | 0.65 | 0.7848 | ≥ 0.65 | PASS | The generated Random Forest F1 exceeds the separate minimum criterion. |
+| `outputs/part_c_models.csv` | `trained_accuracy_min` | 0.883 | 0.8833 | ≥ 0.883 | PASS | The minimum trained-model validation accuracy is above the required lower bound of 0.883. |
+| `outputs/part_c_models.csv` | `trained_accuracy_max` | 0.911 | 0.9056 | ≤ 0.911 | PASS | The maximum trained-model validation accuracy is below the allowed upper bound of 0.911. |
+| `outputs/part_c_models.csv` | `logistic_f1_minimum` | 0.65 | 0.8046 | ≥ 0.65 | PASS | Logistic Regression exceeds the minimum F1 requirement. |
 | `outputs/part_c_feature_scores.csv` | `row_count` | 17 | 17 | Exact | PASS | Confirms one feature-score row for each of the 17 features. |
 | `outputs/part_c_feature_scores.csv` | `feature_names_unique` | 1 | 1 | Exact | PASS | Confirms there are no duplicate feature names. |
 | `outputs/part_c_feature_scores.csv` | `feature_scores_finite` | 1 | 1 | Exact | PASS | Confirms the feature scores, ranks and importances are finite. |
@@ -480,7 +480,7 @@ The default Random Forest validation F1 benchmark is an intentional recorded dis
 | `outputs/part_c_feature_scores.csv` | `top_seven_f_score_order_correct` | 1 | 1 | Exact | PASS | The seven leading features match the expected ranking. |
 | `outputs/part_c_feature_scores.csv` | `noise_columns_outside_top_seven` | 1 | 1 | Exact | PASS | All five noise columns rank outside the top seven by F-score. |
 | `outputs/part_c_feature_scores.csv` | `top_seven_min_f_score_above_30` | 1 | 1 | Exact | PASS | The minimum F-score among the seven leading features exceeds 30. |
-| `outputs/part_c_feature_scores.csv` | `combined_noise_importance` | 0.225 | 0.2245 | ±0.075 | PASS | Combined noise-feature importance is within the configured reference range. |
+| `outputs/part_c_feature_scores.csv` | `combined_noise_importance` | 0.225 | 0.2245 | 0.15 to 0.30 | PASS | Combined noise-feature importance is within the configured reference range. |
 | `outputs/part_c_feature_scores.csv` | `forest_importance_sums_to_one` | 1 | 1 | Exact | PASS | Random Forest feature importances sum to approximately one. |
 | `outputs/part_c_selectk.csv` | `row_count` | 5 | 5 | Exact | PASS | Confirms that all five feature-count experiments are recorded. |
 | `outputs/part_c_selectk.csv` | `required_k_values_present` | 1 | 1 | Exact | PASS | Confirms that the required values of `k` are present. |
@@ -490,8 +490,8 @@ The default Random Forest validation F1 benchmark is an intentional recorded dis
 | `outputs/part_c_tuning.csv` | `candidate_counts_correct` | 1 | 1 | Exact | PASS | Candidate counts match the prescribed search configurations. |
 | `outputs/part_c_tuning.csv` | `cv_folds_correct` | 1 | 1 | Exact | PASS | Confirms the expected cross-validation fold counts. |
 | `outputs/part_c_tuning.csv` | `total_fits_correct` | 1 | 1 | Exact | PASS | Confirms the expected total number of search fits. |
-| `outputs/part_c_tuning.csv` | `grid_cv_accuracy` | 0.8952 | 0.8952 | ±0.0352 | PASS | Grid-search cross-validation accuracy is within the configured tolerance. |
-| `outputs/part_c_tuning.csv` | `randomized_cv_accuracy` | 0.8905 | 0.8905 | ±0.0305 | PASS | Randomized-search cross-validation accuracy is within the configured tolerance. |
+| `outputs/part_c_tuning.csv` | `grid_cv_accuracy` | 0.8952 | 0.8952 | 0.86 to 0.93 | PASS | Grid-search cross-validation accuracy is within the prescribed range. |
+| `outputs/part_c_tuning.csv` | `randomized_cv_accuracy` | 0.8905 | 0.8905 | 0.86 to 0.93 | PASS | Randomized-search cross-validation accuracy is within the prescribed range. |
 | `outputs/part_c_tuning.csv` | `tuning_validation_f1_minimum_met` | 1 | 1 | Exact | PASS | All recorded tuning validation F1-scores meet the minimum requirement. |
 | `outputs/part_c_thresholds.csv` | `row_count` | 9 | 9 | Exact | PASS | Confirms that nine threshold values were evaluated. |
 | `outputs/part_c_thresholds.csv` | `required_thresholds_present` | 1 | 1 | Exact | PASS | Confirms the required threshold sequence from 0.1 to 0.9. |
@@ -504,9 +504,9 @@ The default Random Forest validation F1 benchmark is an intentional recorded dis
 | `outputs/part_c_final_test.csv` | `test_delayed_count` | 41 | 41 | Exact | PASS | Confirms the expected number of delayed parcels in the test set. |
 | `outputs/part_c_final_test.csv` | `threshold_matches_config` | 1 | 1 | Exact | PASS | Confirms that final test evaluation uses the saved threshold. |
 | `outputs/part_c_final_test.csv` | `confusion_metrics_consistent` | 1 | 1 | Exact | PASS | The final test metrics agree with the saved confusion matrix. |
-| `outputs/part_c_final_test.csv` | `test_precision_minimum_met` | 1 | 1 | Exact | PASS | Final test precision exceeds the minimum acceptance criterion. |
-| `outputs/part_c_final_test.csv` | `test_recall_minimum_met` | 1 | 1 | Exact | PASS | Final test recall exceeds the minimum acceptance criterion. |
-| `outputs/part_c_final_test.csv` | `test_f1_minimum_met` | 1 | 1 | Exact | PASS | Final test F1 exceeds the minimum acceptance criterion. |
+| `outputs/part_c_final_test.csv` | `test_precision_minimum` | 0.689 | 0.6889 | ≥ 0.45 | PASS | Final test precision exceeds the minimum acceptance criterion. |
+| `outputs/part_c_final_test.csv` | `test_recall_minimum` | 0.756 | 0.7561 | ≥ 0.55 | PASS | Final test recall exceeds the minimum acceptance criterion. |
+| `outputs/part_c_final_test.csv` | `test_f1_minimum` | 0.721 | 0.7209 | ≥ 0.60 | PASS | Final test F1 exceeds the minimum acceptance criterion. |
 
 **Validation conclusion:** The Part C reference comparisons confirm that the prescribed split, feature-analysis structure, feature-selection experiments, tuning-search structure, threshold rule and final-test acceptance criteria are satisfied. The all-feature default Random Forest F1 benchmark remains a documented `MISMATCH`; its separate minimum criterion passes. 
 
