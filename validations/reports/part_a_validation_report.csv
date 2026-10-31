@@ -1,60 +1,87 @@
 source_file,metric_name,reference_value,code_value,tolerance,status,comment
-outputs/part_a_checks.csv,raw_rows,1224.0,1224.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,duplicate_rows_removed,24.0,24.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,rows_after_dedup,1200.0,1200.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,missing_distance_km_before,36.0,36.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,missing_parcel_weight_before,24.0,24.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,sentinel_weight_rows,5.0,5.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,missing_declared_value_before,12.0,12.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,missing_payment_mode_before,18.0,18.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,service_type_spellings_before,12.0,12.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,service_type_spellings_after,3.0,3.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,declared_value_mean_inr,1533.05,1533.0542,0.01,PASS,Values match within tolerance. Absolute difference: 0.0042; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,declared_value_median_inr,1121.5,1121.5,0.01,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,log_declared_value_mean,7.028,7.0277,0.01,PASS,Values match within tolerance. Absolute difference: 0.0003; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,log_declared_value_median,7.022,7.0224,0.01,PASS,Values match within tolerance. Absolute difference: 0.0004; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,median_distance_km,314.95,314.95,0.01,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,median_parcel_weight_kg,1.83,1.83,0.01,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,median_declared_value_inr,1121.5,1121.5,0.01,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,rows_after_hub_merge,1200.0,1200.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,nulls_in_features_and_target,0.0,0.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,delayed_count,278.0,278.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_checks.csv,delay_rate,0.2317,0.2317,0.0001,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.0001.
-outputs/part_a_checks.csv,hours_q1,43.26,43.255,0.01,PASS,Values match within tolerance. Absolute difference: 0.005; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,hours_q3,72.56,72.5625,0.01,PASS,Values match within tolerance. Absolute difference: 0.0025; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,hours_lower_bound,-0.71,-0.7063,0.01,PASS,Values match within tolerance. Absolute difference: 0.0037; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,hours_upper_bound,116.52,116.5238,0.01,PASS,Values match within tolerance. Absolute difference: 0.0038; allowed tolerance: 0.01.
-outputs/part_a_checks.csv,hours_outlier_count,1.0,1.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,shipments__service_type__Economy,315.0,315.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__service_type__Economy,27.0,27.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__service_type__Economy,0.0857,0.0857,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_delay_by_group.csv,shipments__service_type__Express,243.0,243.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__service_type__Express,119.0,119.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__service_type__Express,0.4897,0.4897,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_delay_by_group.csv,shipments__service_type__Standard,642.0,642.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__service_type__Standard,132.0,132.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__service_type__Standard,0.2056,0.2056,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_delay_by_group.csv,shipments__hub_tier__1,400.0,400.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__hub_tier__1,16.0,16.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__1,0.04,0.04,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_delay_by_group.csv,shipments__hub_tier__2,400.0,400.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__hub_tier__2,86.0,86.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__2,0.215,0.215,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_delay_by_group.csv,shipments__hub_tier__3,400.0,400.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__hub_tier__3,176.0,176.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__3,0.44,0.44,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_delay_by_group.csv,shipments__distance_band__0-200,274.0,274.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__distance_band__0-200,6.0,6.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__distance_band__0-200,0.0219,0.0219,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_delay_by_group.csv,shipments__distance_band__201-400,563.0,563.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__distance_band__201-400,77.0,77.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__distance_band__201-400,0.1368,0.1368,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_delay_by_group.csv,shipments__distance_band__401-600,275.0,275.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__distance_band__401-600,120.0,120.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__distance_band__401-600,0.4364,0.4364,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_delay_by_group.csv,shipments__distance_band__601+,88.0,88.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delayed__distance_band__601+,75.0,75.0,0.0,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_a_delay_by_group.csv,delay_rate__distance_band__601+,0.8523,0.8523,5e-05,PASS,Values match within tolerance. Absolute difference: 0; allowed tolerance: 5e-05.
-outputs/part_a_correlations.csv,corr__delivery_hours__promised_hours,0.837,0.8372,0.01,PASS,Values match within tolerance. Absolute difference: 0.0002; allowed tolerance: 0.01.
-outputs/part_a_correlations.csv,corr__delivery_hours__distance_km,0.401,0.4013,0.01,PASS,Values match within tolerance. Absolute difference: 0.0003; allowed tolerance: 0.01.
-outputs/part_a_correlations.csv,corr__is_delayed__distance_km,0.546,0.5455,0.01,PASS,Values match within tolerance. Absolute difference: 0.0005; allowed tolerance: 0.01.
+outputs/part_a_checks.csv,raw_rows,1224.0,1224.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 1224; required rule: absolute difference from 1224 <= 0.
+outputs/part_a_checks.csv,duplicate_rows_removed,24.0,24.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 24; required rule: absolute difference from 24 <= 0.
+outputs/part_a_checks.csv,rows_after_dedup,1200.0,1200.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 1200; required rule: absolute difference from 1200 <= 0.
+outputs/part_a_checks.csv,missing_distance_km_before,36.0,36.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 36; required rule: absolute difference from 36 <= 0.
+outputs/part_a_checks.csv,missing_parcel_weight_before,24.0,24.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 24; required rule: absolute difference from 24 <= 0.
+outputs/part_a_checks.csv,sentinel_weight_rows,5.0,5.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 5; required rule: absolute difference from 5 <= 0.
+outputs/part_a_checks.csv,missing_declared_value_before,12.0,12.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 12; required rule: absolute difference from 12 <= 0.
+outputs/part_a_checks.csv,missing_payment_mode_before,18.0,18.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 18; required rule: absolute difference from 18 <= 0.
+outputs/part_a_checks.csv,service_type_spellings_before,12.0,12.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 12; required rule: absolute difference from 12 <= 0.
+outputs/part_a_checks.csv,service_type_spellings_after,3.0,3.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 3; required rule: absolute difference from 3 <= 0.
+outputs/part_a_checks.csv,declared_value_mean_inr,1533.05,1533.0542,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 1533.05; required rule: absolute difference from 1533.05 <= 0.01.
+outputs/part_a_checks.csv,declared_value_median_inr,1121.5,1121.5,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 1121.5; required rule: absolute difference from 1121.5 <= 0.01.
+outputs/part_a_checks.csv,log_declared_value_mean,7.028,7.0277,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 7.0277; required rule: absolute difference from 7.028 <= 0.01.
+outputs/part_a_checks.csv,log_declared_value_median,7.022,7.0224,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 7.0224; required rule: absolute difference from 7.022 <= 0.01.
+outputs/part_a_checks.csv,median_distance_km,314.95,314.95,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 314.95; required rule: absolute difference from 314.95 <= 0.01.
+outputs/part_a_checks.csv,median_parcel_weight_kg,1.83,1.83,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 1.83; required rule: absolute difference from 1.83 <= 0.01.
+outputs/part_a_checks.csv,median_declared_value_inr,1121.5,1121.5,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 1121.5; required rule: absolute difference from 1121.5 <= 0.01.
+outputs/part_a_checks.csv,rows_after_hub_merge,1200.0,1200.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 1200; required rule: absolute difference from 1200 <= 0.
+outputs/part_a_checks.csv,nulls_in_features_and_target,0.0,0.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0; required rule: absolute difference from 0 <= 0.
+outputs/part_a_checks.csv,delayed_count,278.0,278.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 278; required rule: absolute difference from 278 <= 0.
+outputs/part_a_checks.csv,delay_rate,0.2317,0.2317,0.0001,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.2317; required rule: absolute difference from 0.2317 <= 0.0001.
+outputs/part_a_checks.csv,hours_q1,43.26,43.255,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 43.255; required rule: absolute difference from 43.26 <= 0.01.
+outputs/part_a_checks.csv,hours_q3,72.56,72.5625,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 72.5625; required rule: absolute difference from 72.56 <= 0.01.
+outputs/part_a_checks.csv,hours_lower_bound,-0.71,-0.7063,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: -0.7063; required rule: absolute difference from -0.71 <= 0.01.
+outputs/part_a_checks.csv,hours_upper_bound,116.52,116.5238,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 116.524; required rule: absolute difference from 116.52 <= 0.01.
+outputs/part_a_checks.csv,hours_outlier_count,1.0,1.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 1; required rule: absolute difference from 1 <= 0.
+outputs/part_a_delay_by_group.csv,shipments__service_type__Economy,315.0,315.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 315; required rule: absolute difference from 315 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__service_type__Economy,27.0,27.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 27; required rule: absolute difference from 27 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__service_type__Economy,0.0857,0.0857,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.0857; required rule: absolute difference from 0.0857 <= 5e-05.
+outputs/part_a_delay_by_group.csv,shipments__service_type__Express,243.0,243.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 243; required rule: absolute difference from 243 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__service_type__Express,119.0,119.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 119; required rule: absolute difference from 119 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__service_type__Express,0.4897,0.4897,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.4897; required rule: absolute difference from 0.4897 <= 5e-05.
+outputs/part_a_delay_by_group.csv,shipments__service_type__Standard,642.0,642.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 642; required rule: absolute difference from 642 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__service_type__Standard,132.0,132.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 132; required rule: absolute difference from 132 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__service_type__Standard,0.2056,0.2056,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.2056; required rule: absolute difference from 0.2056 <= 5e-05.
+outputs/part_a_delay_by_group.csv,shipments__hub_tier__1,400.0,400.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 400; required rule: absolute difference from 400 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__hub_tier__1,16.0,16.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 16; required rule: absolute difference from 16 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__1,0.04,0.04,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.04; required rule: absolute difference from 0.04 <= 5e-05.
+outputs/part_a_delay_by_group.csv,shipments__hub_tier__2,400.0,400.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 400; required rule: absolute difference from 400 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__hub_tier__2,86.0,86.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 86; required rule: absolute difference from 86 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__2,0.215,0.215,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.215; required rule: absolute difference from 0.215 <= 5e-05.
+outputs/part_a_delay_by_group.csv,shipments__hub_tier__3,400.0,400.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 400; required rule: absolute difference from 400 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__hub_tier__3,176.0,176.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 176; required rule: absolute difference from 176 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__3,0.44,0.44,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.44; required rule: absolute difference from 0.44 <= 5e-05.
+outputs/part_a_delay_by_group.csv,shipments__distance_band__0-200,274.0,274.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 274; required rule: absolute difference from 274 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__distance_band__0-200,6.0,6.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 6; required rule: absolute difference from 6 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__distance_band__0-200,0.0219,0.0219,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.0219; required rule: absolute difference from 0.0219 <= 5e-05.
+outputs/part_a_delay_by_group.csv,shipments__distance_band__201-400,563.0,563.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 563; required rule: absolute difference from 563 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__distance_band__201-400,77.0,77.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 77; required rule: absolute difference from 77 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__distance_band__201-400,0.1368,0.1368,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.1368; required rule: absolute difference from 0.1368 <= 5e-05.
+outputs/part_a_delay_by_group.csv,shipments__distance_band__401-600,275.0,275.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 275; required rule: absolute difference from 275 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__distance_band__401-600,120.0,120.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 120; required rule: absolute difference from 120 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__distance_band__401-600,0.4364,0.4364,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.4364; required rule: absolute difference from 0.4364 <= 5e-05.
+outputs/part_a_delay_by_group.csv,shipments__distance_band__601+,88.0,88.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 88; required rule: absolute difference from 88 <= 0.
+outputs/part_a_delay_by_group.csv,delayed__distance_band__601+,75.0,75.0,0.0,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 75; required rule: absolute difference from 75 <= 0.
+outputs/part_a_delay_by_group.csv,delay_rate__distance_band__601+,0.8523,0.8523,5e-05,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.8523; required rule: absolute difference from 0.8523 <= 5e-05.
+outputs/part_a_correlations.csv,corr__delivery_hours__promised_hours,0.837,0.8372,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.8372; required rule: absolute difference from 0.837 <= 0.01.
+outputs/part_a_correlations.csv,corr__delivery_hours__distance_km,0.401,0.4013,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.4013; required rule: absolute difference from 0.401 <= 0.01.
+outputs/part_a_correlations.csv,corr__is_delayed__distance_km,0.546,0.5455,0.01,PASS,Mandatory Part A acceptance comparison. Mandatory acceptance passed: 0.5455; required rule: absolute difference from 0.546 <= 0.01.
+outputs/part_a_checks.csv,__all_expected_metrics_present__,True,True,Exact,PASS,Mandatory boolean acceptance passed: actual=True; expected=True. Missing metrics: [].
+outputs/part_a_checks.csv,__no_unreferenced_metrics__,True,True,Exact,PASS,Mandatory boolean acceptance passed: actual=True; expected=True. Unreferenced metrics: [].
+outputs/part_a_delay_by_group.csv,__required_columns_present__,True,True,Exact,PASS,Mandatory boolean acceptance passed: actual=True; expected=True. Missing columns: [].
+outputs/part_a_delay_by_group.csv,__unique_dimension_group_keys__,True,True,Exact,PASS,Mandatory boolean acceptance passed: actual=True; expected=True. Each dimension/group pair must occur exactly once.
+outputs/part_a_delay_by_group.csv,__expected_dimensions__,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Expected ['distance_band', 'hub_tier', 'service_type']; found ['distance_band', 'hub_tier', 'service_type']."
+outputs/part_a_delay_by_group.csv,__groups__service_type,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Expected ['Economy', 'Express', 'Standard']; found ['Economy', 'Express', 'Standard']."
+outputs/part_a_delay_by_group.csv,__groups__hub_tier,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Expected ['1', '2', '3']; found ['1', '2', '3']."
+outputs/part_a_delay_by_group.csv,__groups__distance_band,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Expected ['0-200', '201-400', '401-600', '601+']; found ['0-200', '201-400', '401-600', '601+']."
+outputs/part_a_delay_by_group.csv,__delay_rate_consistency__,True,True,Exact,PASS,Mandatory boolean acceptance passed: actual=True; expected=True. Each delay rate must equal delayed / shipments to four decimal places. Invalid counts or rates fail this check.
+data/modelling_table.csv,__row_count__,1200,1200,Exact,PASS,"Mandatory exact acceptance passed: actual='1200'; expected='1200'. The modelling table must contain exactly 1,200 rows."
+data/modelling_table.csv,__required_feature_and_target_columns__,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Required columns: ['promised_hours', 'distance_km', 'parcel_weight_kg', 'log_declared_value', 'n_stops', 'rain_flag', 'sale_event_flag', 'is_cod', 'is_weekend', 'dispatch_hour', 'hub_tier', 'hub_daily_capacity', 'label_print_batch', 'scanner_build_no', 'tape_roll_no', 'sticker_serial_mod', 'shelf_slot_no', 'delivery_hours', 'is_delayed']. Missing columns: []."
+data/modelling_table.csv,__missing_cells_in_features_and_target__,0,0,Exact,PASS,"Mandatory exact acceptance passed: actual='0'; expected='0'. No missing values are permitted in the 17 FEATURES columns, delivery_hours, or is_delayed."
+part_a_clean_eda.py,__distance_band_edges__,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Required edges: [0, 200, 400, 600, 2000]."
+part_a_clean_eda.py,__distance_band_labels__,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Required labels: ['0-200', '201-400', '401-600', '601+']."
+part_a_clean_eda.py,__distance_band_right_inclusive__,True,True,Exact,PASS,Mandatory boolean acceptance passed: actual=True; expected=True. The bins must be right-inclusive.
+part_a_clean_eda.py,__distance_band_include_lowest__,True,True,Exact,PASS,Mandatory boolean acceptance passed: actual=True; expected=True. The lowest boundary must be included in the first bin.
+src/shipment_prep.py,__clean_shipments_signature__,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Found signature: (raw, medians=None)."
+src/shipment_prep.py,__build_features_signature__,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Found signature: (clean, hubs)."
+data/new_shipments.csv,__all_pinned_features_created__,True,True,Exact,PASS,Mandatory boolean acceptance passed: actual=True; expected=True. Missing features: [].
+data/new_shipments.csv,__no_missing_new_shipment_features__,0,0,Exact,PASS,Mandatory exact acceptance passed: actual='0'; expected='0'. The 17 pinned feature columns must contain no missing values after cleaning and feature engineering.
+data/new_shipments.csv,__clean_shipments_returned_medians__,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Returned median keys must be distance_km, parcel_weight_kg, and declared_value_inr."
+README.md,__part_a_data_findings_heading__,True,True,Exact,PASS,Mandatory boolean acceptance passed: actual=True; expected=True. The Part A README section must contain a Data Findings heading.
+README.md,__finding_topic__service_type_delay_comparison,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Required topic phrases: ['service type', 'express', 'delay']. This is a presence check, not a full semantic review."
+README.md,__finding_topic__hub_tier_delay_comparison,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Required topic phrases: ['tier 1', 'tier 3']. This is a presence check, not a full semantic review."
+README.md,__finding_topic__distance-band_delay_comparison,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Required topic phrases: ['distance band', '601+']. This is a presence check, not a full semantic review."
+README.md,__finding_topic__delivery-hours_correlation_findings,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Required topic phrases: ['correlation', 'delivery_hours']. This is a presence check, not a full semantic review."
+README.md,__finding_topic__declared-value_log_transformation_explanation,True,True,Exact,PASS,"Mandatory boolean acceptance passed: actual=True; expected=True. Required topic phrases: ['declared_value_inr', 'log']. This is a presence check, not a full semantic review."

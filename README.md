@@ -112,7 +112,7 @@ Part A prepares the shipment dataset for downstream analysis and modelling. The 
 2. **Feature engineering and hub integration:** Merge shipment records with hub information and create the required features, including promised delivery hours, log-transformed declared value, weekend and COD indicators, and dispatch hour.
 3. **Delay labelling:** Compare actual delivery hours against the promised delivery hours for each service type to create the binary `is_delayed` target.
 4. **Validation and quality checks:** Calculate data-quality metrics and compare them against reference values to verify that the cleaning and feature engineering steps produce the expected results.
-5. **Exploratory analysis:** Generate delay-rate summaries by service type, hub tier, and distance band, along with a numeric correlation matrix to examine relationships between features and delivery hours.
+5. **Exploratory analysis:** Generate delay-rate summaries by service type, hub tier, and distance band, along with a numeric correlation matrix to examine relationships between features and delivery hours. Distance bands are defined using right-inclusive bins with edges `[0, 200, 400, 600, 2000]` and labels `0-200`, `201-400`, `401-600`, and `601+`. The lowest boundary is included in the first bin.
 
 The outputs include the cleaned modelling table, validation reports, delay summaries, and correlation matrix. These outputs provide a consistent, validated dataset and an initial understanding of the factors associated with delivery delays before proceeding to subsequent modelling tasks.
 
@@ -163,9 +163,7 @@ After cleaning and filling missing declared values, the mean declared value was 
 
 #### Acceptance criteria and results
 
-The Part A validation checks cover data quality, duplicate removal, missing-value and sentinel counts, service-type standardization, imputation statistics, hub-merge row counts, missing values in features and target, delay statistics, group-level delay metrics, and selected correlation checks.
-
-The current validation report records **59 PASS results, with no MISMATCH or ERROR results**. This consists of 26 quality metrics, 30 group-level metrics, and 3 correlation checks.
+The Part A validation checks cover data quality, duplicate removal, missing-value and sentinel counts, service-type standardization, imputation statistics, hub-merge row counts, missing values in features and target, delay statistics, group-level delay metrics, and selected correlation checks. The validations consist checks for 26 quality metrics, 30 group-level metrics, and 3 correlations.
 
 The modelling table contains 1,200 rows, preserves the required feature and target data without missing values, and retains all rows through the hub merge. The detailed reference-versus-code comparisons are below.
 
