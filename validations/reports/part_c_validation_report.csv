@@ -1,77 +1,119 @@
-source_file,metric_name,reference_value,code_value,tolerance,status,comment
-data/modelling_table.csv,row_count_acceptance,1200.0,1200.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='1200.0'; expected='1200.0'.
-data/modelling_table.csv,train_row_count_acceptance,840.0,840.0,Exact,PASS,Number of rows in the training split. Mandatory exact acceptance passed: actual='840.0'; expected='840.0'.
-data/modelling_table.csv,val_row_count_acceptance,180.0,180.0,Exact,PASS,Number of rows in the validation split. Mandatory exact acceptance passed: actual='180.0'; expected='180.0'.
-data/modelling_table.csv,test_row_count_acceptance,180.0,180.0,Exact,PASS,Number of rows in the test split. Mandatory exact acceptance passed: actual='180.0'; expected='180.0'.
-data/modelling_table.csv,delayed_train_count_acceptance,195.0,195.0,Exact,PASS,Delayed parcels in the training split. Mandatory exact acceptance passed: actual='195.0'; expected='195.0'.
-data/modelling_table.csv,delayed_val_count_acceptance,42.0,42.0,Exact,PASS,Delayed parcels in the validation split. Mandatory exact acceptance passed: actual='42.0'; expected='42.0'.
-data/modelling_table.csv,delayed_test_count_acceptance,41.0,41.0,Exact,PASS,Delayed parcels in the test split. Mandatory exact acceptance passed: actual='41.0'; expected='41.0'.
-outputs/part_c_models.csv,every_model_accuracy_matches_confusion_matrix_acceptance,1.0,1.0,Exact,PASS,Stored model accuracies are consistent with confusion counts. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
-outputs/part_c_models.csv,blind_accuracy_val_reference_reference,0.7667,0.7667,0.001,PASS,Validation accuracy of the all-on-time baseline. Reference comparison passed: absolute difference 0 is within tolerance 0.001.
-outputs/part_c_models.csv,blind_tn_val_acceptance,138.0,138.0,Exact,PASS,True negatives for the all-on-time baseline. Mandatory exact acceptance passed: actual='138.0'; expected='138.0'.
-outputs/part_c_models.csv,blind_fp_val_acceptance,0.0,0.0,Exact,PASS,False positives for the all-on-time baseline. Mandatory exact acceptance passed: actual='0.0'; expected='0.0'.
-outputs/part_c_models.csv,blind_fn_val_acceptance,42.0,42.0,Exact,PASS,False negatives for the all-on-time baseline. Mandatory exact acceptance passed: actual='42.0'; expected='42.0'.
-outputs/part_c_models.csv,blind_tp_val_acceptance,0.0,0.0,Exact,PASS,True positives for the all-on-time baseline. Mandatory exact acceptance passed: actual='0.0'; expected='0.0'.
-outputs/part_c_models.csv,logistic_regression_f1_val_reference_reference,0.805,0.8046,0.001,PASS,Logistic-regression validation F1 benchmark. Reference comparison passed: absolute difference 0.0004 is within tolerance 0.001.
-outputs/part_c_models.csv,logistic_regression_f1_val_minimum_acceptance,0.65,0.8046,,PASS,Logistic-regression validation F1 minimum acceptance. Mandatory acceptance passed: 0.8046; required rule: value >= 0.65.
-outputs/part_c_models.csv,decision_tree_f1_val_reference_reference,0.747,0.747,0.001,PASS,Decision-tree validation F1 benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.001.
-outputs/part_c_models.csv,decision_tree_f1_val_minimum_acceptance,0.6,0.747,,PASS,Decision-tree validation F1 minimum acceptance. Mandatory acceptance passed: 0.747; required rule: value >= 0.6.
-outputs/part_c_models.csv,default_rf_f1_val_reference_reference,0.8,0.7848,0.001,MISMATCH,Default Random Forest validation F1 benchmark. Reference comparison mismatch: absolute difference 0.0152 exceeds tolerance 0.001. This is informational and does not fail validation by itself.
-outputs/part_c_models.csv,default_rf_f1_val_minimum_acceptance,0.65,0.7848,,PASS,Default Random Forest validation F1 minimum acceptance. Mandatory acceptance passed: 0.7848; required rule: value >= 0.65.
-outputs/part_c_models.csv,logistic_regression_accuracy_val_minimum_acceptance,0.883,0.9056,,PASS,Validation of logistic_regression_accuracy_val_minimum. Mandatory acceptance passed: 0.9056; required rule: value >= 0.883.
-outputs/part_c_models.csv,logistic_regression_accuracy_val_maximum_acceptance,0.911,0.9056,,PASS,Validation of logistic_regression_accuracy_val_maximum. Mandatory acceptance passed: 0.9056; required rule: value <= 0.911.
-outputs/part_c_models.csv,best_tree_depth_reference_acceptance,6.0,6.0,Exact,PASS,Required selected decision-tree depth. Mandatory exact acceptance passed: actual='6.0'; expected='6.0'.
-outputs/part_c_models.csv,decision_tree_accuracy_val_minimum_acceptance,0.883,0.8833,,PASS,Validation of decision_tree_accuracy_val_minimum. Mandatory acceptance passed: 0.8833; required rule: value >= 0.883.
-outputs/part_c_models.csv,decision_tree_accuracy_val_maximum_acceptance,0.911,0.8833,,PASS,Validation of decision_tree_accuracy_val_maximum. Mandatory acceptance passed: 0.8833; required rule: value <= 0.911.
-outputs/part_c_models.csv,default_rf_accuracy_val_minimum_acceptance,0.883,0.9056,,PASS,Validation of default_rf_accuracy_val_minimum. Mandatory acceptance passed: 0.9056; required rule: value >= 0.883.
-outputs/part_c_models.csv,default_rf_accuracy_val_maximum_acceptance,0.911,0.9056,,PASS,Validation of default_rf_accuracy_val_maximum. Mandatory acceptance passed: 0.9056; required rule: value <= 0.911.
-outputs/part_c_feature_scores.csv,row_count_acceptance,17.0,17.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='17.0'; expected='17.0'.
-outputs/part_c_feature_scores.csv,top_seven_f_score_order_correct_acceptance,1.0,1.0,Exact,PASS,Top seven features match the expected order. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
-outputs/part_c_feature_scores.csv,selected_feature_distance_km_position_acceptance,1.0,1.0,Exact,PASS,Validation of selected_feature_distance_km_position. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
-outputs/part_c_feature_scores.csv,selected_feature_hub_tier_position_acceptance,2.0,2.0,Exact,PASS,Validation of selected_feature_hub_tier_position. Mandatory exact acceptance passed: actual='2.0'; expected='2.0'.
-outputs/part_c_feature_scores.csv,selected_feature_hub_daily_capacity_position_acceptance,3.0,3.0,Exact,PASS,Validation of selected_feature_hub_daily_capacity_position. Mandatory exact acceptance passed: actual='3.0'; expected='3.0'.
-outputs/part_c_feature_scores.csv,selected_feature_n_stops_position_acceptance,4.0,4.0,Exact,PASS,Validation of selected_feature_n_stops_position. Mandatory exact acceptance passed: actual='4.0'; expected='4.0'.
-outputs/part_c_feature_scores.csv,selected_feature_promised_hours_position_acceptance,5.0,5.0,Exact,PASS,Validation of selected_feature_promised_hours_position. Mandatory exact acceptance passed: actual='5.0'; expected='5.0'.
-outputs/part_c_feature_scores.csv,selected_feature_rain_flag_position_acceptance,6.0,6.0,Exact,PASS,Validation of selected_feature_rain_flag_position. Mandatory exact acceptance passed: actual='6.0'; expected='6.0'.
-outputs/part_c_feature_scores.csv,selected_feature_sale_event_flag_position_acceptance,7.0,7.0,Exact,PASS,Validation of selected_feature_sale_event_flag_position. Mandatory exact acceptance passed: actual='7.0'; expected='7.0'.
-outputs/part_c_feature_scores.csv,sale_event_flag_f_score_minimum_acceptance,30.0,36.7281,,PASS,F-score for sale_event_flag meets the minimum. Mandatory acceptance passed: 36.7281; required rule: value >= 30.
-outputs/part_c_feature_scores.csv,noise_columns_outside_top_seven_acceptance,1.0,1.0,Exact,PASS,Noise columns are outside the top seven. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
-outputs/part_c_feature_scores.csv,every_noise_column_f_rank_minimum_acceptance,8.0,8.0,,PASS,Lowest noise-column F-score rank meets the minimum. Mandatory acceptance passed: 8; required rule: value >= 8.
-outputs/part_c_feature_scores.csv,every_noise_column_f_score_strict_maximum_acceptance,10.0,4.5847,0.0,PASS,Every noise-column F-score is strictly below the maximum. Strict acceptance requires actual < 10.0; actual=4.5847.
-outputs/part_c_feature_scores.csv,combined_noise_importance_reference_reference,0.225,0.2245,0.0001,MISMATCH,Combined Random Forest importance of noise columns. Reference comparison mismatch: absolute difference 0.0005 exceeds tolerance 0.0001. This is informational and does not fail validation by itself.
-outputs/part_c_feature_scores.csv,combined_noise_importance_minimum_acceptance,0.15,0.2245,,PASS,Combined noise importance meets the lower bound. Mandatory acceptance passed: 0.2245; required rule: value >= 0.15.
-outputs/part_c_feature_scores.csv,combined_noise_importance_maximum_acceptance,0.3,0.2245,,PASS,Combined noise importance meets the upper bound. Mandatory acceptance passed: 0.2245; required rule: value <= 0.3.
-outputs/part_c_selectk.csv,row_count_acceptance,5.0,5.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='5.0'; expected='5.0'.
-outputs/part_c_tuning.csv,row_count_acceptance,3.0,3.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='3.0'; expected='3.0'.
-outputs/part_c_tuning.csv,grid_search_candidates_acceptance,27.0,27.0,Exact,PASS,Validation of grid_search_candidates. Mandatory exact acceptance passed: actual='27.0'; expected='27.0'.
-outputs/part_c_tuning.csv,grid_search_cv_folds_acceptance,5.0,5.0,Exact,PASS,Validation of grid_search_cv_folds. Mandatory exact acceptance passed: actual='5.0'; expected='5.0'.
-outputs/part_c_tuning.csv,grid_search_total_fits_acceptance,135.0,135.0,Exact,PASS,Validation of grid_search_total_fits. Mandatory exact acceptance passed: actual='135.0'; expected='135.0'.
-outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_reference_reference,0.8952,0.8952,0.0001,PASS,Grid-search best cross-validation accuracy benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
-outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_minimum_acceptance,0.86,0.8952,,PASS,Validation of grid_search_best_cv_accuracy_minimum. Mandatory acceptance passed: 0.8952; required rule: value >= 0.86.
-outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_maximum_acceptance,0.93,0.8952,,PASS,Validation of grid_search_best_cv_accuracy_maximum. Mandatory acceptance passed: 0.8952; required rule: value <= 0.93.
-outputs/part_c_tuning.csv,grid_search_f1_val_reference_reference,0.775,0.775,0.0001,PASS,Grid-search validation F1 benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
-outputs/part_c_tuning.csv,grid_search_f1_val_minimum_acceptance,0.65,0.775,,PASS,Validation of grid_search_f1_val_minimum. Mandatory acceptance passed: 0.775; required rule: value >= 0.65.
-outputs/part_c_tuning.csv,randomized_search_candidates_acceptance,9.0,9.0,Exact,PASS,Validation of randomized_search_candidates. Mandatory exact acceptance passed: actual='9.0'; expected='9.0'.
-outputs/part_c_tuning.csv,randomized_search_cv_folds_acceptance,5.0,5.0,Exact,PASS,Validation of randomized_search_cv_folds. Mandatory exact acceptance passed: actual='5.0'; expected='5.0'.
-outputs/part_c_tuning.csv,randomized_search_total_fits_acceptance,45.0,45.0,Exact,PASS,Validation of randomized_search_total_fits. Mandatory exact acceptance passed: actual='45.0'; expected='45.0'.
-outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_reference_reference,0.8905,0.8905,0.0001,PASS,Randomized-search best cross-validation accuracy benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
-outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_minimum_acceptance,0.86,0.8905,,PASS,Validation of randomized_search_best_cv_accuracy_minimum. Mandatory acceptance passed: 0.8905; required rule: value >= 0.86.
-outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_maximum_acceptance,0.93,0.8905,,PASS,Validation of randomized_search_best_cv_accuracy_maximum. Mandatory acceptance passed: 0.8905; required rule: value <= 0.93.
-outputs/part_c_tuning.csv,randomized_search_f1_val_reference_reference,0.79,0.7848,0.0001,MISMATCH,Randomized-search validation F1 benchmark. Reference comparison mismatch: absolute difference 0.0052 exceeds tolerance 0.0001. This is informational and does not fail validation by itself.
-outputs/part_c_tuning.csv,randomized_search_f1_val_minimum_acceptance,0.65,0.7848,,PASS,Validation of randomized_search_f1_val_minimum. Mandatory acceptance passed: 0.7848; required rule: value >= 0.65.
-outputs/part_c_tuning.csv,default_forest_same_7_features_candidates_acceptance,1.0,1.0,Exact,PASS,Validation of default_forest_same_7_features_candidates. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
-outputs/part_c_tuning.csv,default_forest_same_7_features_cv_folds_acceptance,0.0,0.0,Exact,PASS,Validation of default_forest_same_7_features_cv_folds. Mandatory exact acceptance passed: actual='0.0'; expected='0.0'.
-outputs/part_c_tuning.csv,default_forest_same_7_features_total_fits_acceptance,1.0,1.0,Exact,PASS,Validation of default_forest_same_7_features_total_fits. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
-outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_reference_reference,0.833,0.8333,0.0001,MISMATCH,Seven-feature default forest validation F1 benchmark. Reference comparison mismatch: absolute difference 0.0003 exceeds tolerance 0.0001. This is informational and does not fail validation by itself.
-outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_minimum_acceptance,0.65,0.8333,,PASS,Validation of default_forest_same_7_features_f1_val_minimum. Mandatory acceptance passed: 0.8333; required rule: value >= 0.65.
-outputs/part_c_thresholds.csv,row_count_acceptance,9.0,9.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='9.0'; expected='9.0'.
-outputs/part_c_thresholds.csv,recall_nonincreasing_with_threshold_acceptance,1.0,1.0,Exact,PASS,Recall does not increase as the threshold rises. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
-outputs/part_c_final_config.csv,selected_threshold_acceptance,0.5,0.5,Exact,PASS,Selected alert threshold. Mandatory exact acceptance passed: actual='0.5'; expected='0.5'.
-outputs/part_c_final_test.csv,row_count_acceptance,1.0,1.0,Exact,PASS,Number of rows in the specified source or output. Mandatory exact acceptance passed: actual='1.0'; expected='1.0'.
-outputs/part_c_final_test.csv,selected_threshold_acceptance,0.5,0.5,Exact,PASS,Selected alert threshold. Mandatory exact acceptance passed: actual='0.5'; expected='0.5'.
-outputs/part_c_final_test.csv,test_precision_reference_reference,0.6889,0.6889,0.0001,PASS,Final-test precision benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
-outputs/part_c_final_test.csv,test_precision_minimum_acceptance,0.45,0.6889,,PASS,Final-test precision acceptance. Mandatory acceptance passed: 0.6889; required rule: value >= 0.45.
-outputs/part_c_final_test.csv,test_recall_reference_reference,0.7561,0.7561,0.0001,PASS,Final-test recall benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
-outputs/part_c_final_test.csv,test_recall_minimum_acceptance,0.55,0.7561,,PASS,Final-test recall acceptance. Mandatory acceptance passed: 0.7561; required rule: value >= 0.55.
-outputs/part_c_final_test.csv,test_f1_reference_reference,0.7209,0.7209,0.0001,PASS,Final-test F1 benchmark. Reference comparison passed: absolute difference 0 is within tolerance 0.0001.
-outputs/part_c_final_test.csv,test_f1_minimum_acceptance,0.6,0.7209,,PASS,Final-test F1 acceptance. Mandatory acceptance passed: 0.7209; required rule: value >= 0.6.
+﻿source_file,metric_name,value_type,description,reference,generated,status,comment,brief_ref
+data/modelling_table.csv,row_count,ACCEPTANCE,Rows in the modelling table,1200,1200,PASS,Exact match,Task C1
+data/modelling_table.csv,train_row_count,ACCEPTANCE,Training rows = all rows minus validation and test rows,840,840,PASS,Exact match,Task C1 / acceptance
+outputs/part_c_models.csv,val_row_count,ACCEPTANCE,Validation rows (cells of the blind row),180,180,PASS,Exact match,Task C1 / acceptance
+outputs/part_c_final_test.csv,test_row_count,ACCEPTANCE,Test rows (cells of the final test row),180,180,PASS,Exact match,Task C1 / acceptance
+data/modelling_table.csv,delayed_train_count,ACCEPTANCE,Delayed parcels in training rows,195,195,PASS,Exact match,Task C1 / acceptance
+outputs/part_c_models.csv,delayed_val_count,ACCEPTANCE,Delayed parcels in validation rows,42,42,PASS,Exact match,Task C1 / acceptance
+outputs/part_c_final_test.csv,delayed_test_count,ACCEPTANCE,Delayed parcels in test rows,41,41,PASS,Exact match,Task C1 / acceptance
+part_c_classification.py,stratified_split_both_calls,ACCEPTANCE,stratify used in both train_test_split calls,≥ 2,2,PASS,Meets ≥ 2,Task C1
+part_c_classification.py,split_configuration,ACCEPTANCE,Both split calls use the pinned test_size and random_state,1,1,PASS,Exact match,Task C1
+outputs/part_c_models.csv,models_schema_matches,ACCEPTANCE,"Columns are exactly model, TN, FP, FN, TP, accuracy, precision, recall, f1",1,1,PASS,Exact match,Task C2
+outputs/part_c_models.csv,models_row_count,ACCEPTANCE,Four rows,4,4,PASS,Exact match,Task C2
+outputs/part_c_models.csv,models_rows_exact,ACCEPTANCE,"Rows are blind_all_on_time, logistic_regression, decision_tree_depth_<d> (d in 2-10 grid), random_forest_default",1,1,PASS,Exact match,Task C2
+outputs/part_c_models.csv,every_model_confusion_consistent,ACCEPTANCE,"TN/FP/FN/TP reproduce accuracy, precision, recall and f1 in every row",1,1,PASS,Exact match,Task C2 / acceptance
+outputs/part_c_models.csv,blind_tn_val,ACCEPTANCE,Blind baseline TN,138,138,PASS,Exact match,Acceptance C
+outputs/part_c_models.csv,blind_fp_val,ACCEPTANCE,Blind baseline FP,0,0,PASS,Exact match,Acceptance C
+outputs/part_c_models.csv,blind_fn_val,ACCEPTANCE,Blind baseline FN,42,42,PASS,Exact match,Acceptance C
+outputs/part_c_models.csv,blind_tp_val,ACCEPTANCE,Blind baseline TP,0,0,PASS,Exact match,Acceptance C
+outputs/part_c_models.csv,blind_accuracy_val,ACCEPTANCE,Blind baseline accuracy (exact ±0.001),0.7667 ± 0.001,0.7667,PASS,Within ±0.001 (diff +0),Reference table C
+outputs/part_c_models.csv,blind_precision_written_as_zero,ACCEPTANCE,Blind precision written as 0,0,0,PASS,Exact match,Task C2
+outputs/part_c_models.csv,logistic_regression_f1_val_reference,REFERENCE,Logistic regression F1 on validation,0.805 ± 0.001,0.8046,PASS,Within ±0.001 (diff -0.0004),Reference table C
+outputs/part_c_models.csv,logistic_regression_f1_val_minimum,ACCEPTANCE,Logistic regression F1 band,≥ 0.65,0.8046,PASS,Meets ≥ 0.65,Reference table C
+outputs/part_c_models.csv,best_tree_depth_reference,REFERENCE,Chosen decision-tree depth,6,6,PASS,Exact match,Reference table C
+outputs/part_c_models.csv,decision_tree_f1_val_reference,REFERENCE,Best decision tree F1 on validation,0.747 ± 0.001,0.747,PASS,Within ±0.001 (diff +0),Reference table C
+outputs/part_c_models.csv,decision_tree_f1_val_minimum,ACCEPTANCE,Best decision tree F1 band,≥ 0.6,0.747,PASS,Meets ≥ 0.6,Reference table C
+outputs/part_c_models.csv,default_rf_f1_val_reference,REFERENCE,Default random forest F1 on validation,0.8 ± 0.001,0.7848,WARN,Off by -0.0152 (allowed ±0.001),Reference table C
+outputs/part_c_models.csv,default_rf_f1_val_minimum,ACCEPTANCE,Default random forest F1 band,≥ 0.65,0.7848,PASS,Meets ≥ 0.65,Reference table C
+outputs/part_c_models.csv,trained_models_accuracy_above_blind,ACCEPTANCE,Every trained model's validation accuracy beats the blind baseline,> 0.7667,0.8833,PASS,Meets > 0.7667,Reference table C
+outputs/part_c_models.csv,logistic_regression_accuracy_val_minimum,REFERENCE,Pinned-run accuracy range 0.883-0.911 (lower),≥ 0.883,0.9056,PASS,Meets ≥ 0.883,Reference table C
+outputs/part_c_models.csv,logistic_regression_accuracy_val_maximum,REFERENCE,Pinned-run accuracy range 0.883-0.911 (upper),≤ 0.911,0.9056,PASS,Meets ≤ 0.911,Reference table C
+outputs/part_c_models.csv,decision_tree_accuracy_val_minimum,REFERENCE,Pinned-run accuracy range 0.883-0.911 (lower),≥ 0.883,0.8833,PASS,Meets ≥ 0.883,Reference table C
+outputs/part_c_models.csv,decision_tree_accuracy_val_maximum,REFERENCE,Pinned-run accuracy range 0.883-0.911 (upper),≤ 0.911,0.8833,PASS,Meets ≤ 0.911,Reference table C
+outputs/part_c_models.csv,default_rf_accuracy_val_minimum,REFERENCE,Pinned-run accuracy range 0.883-0.911 (lower),≥ 0.883,0.9056,PASS,Meets ≥ 0.883,Reference table C
+outputs/part_c_models.csv,default_rf_accuracy_val_maximum,REFERENCE,Pinned-run accuracy range 0.883-0.911 (upper),≤ 0.911,0.9056,PASS,Meets ≤ 0.911,Reference table C
+outputs/part_c_models.csv,models_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+outputs/part_c_feature_scores.csv,feature_scores_schema_matches,ACCEPTANCE,"Columns are exactly feature, f_score, f_rank, rf_importance, is_noise",1,1,PASS,Exact match,Task C3
+outputs/part_c_feature_scores.csv,feature_scores_row_count,ACCEPTANCE,One row per feature,17,17,PASS,Exact match,Acceptance C
+outputs/part_c_feature_scores.csv,feature_names_unique,ACCEPTANCE,"17 distinct feature names, all columns of the modelling table",1,1,PASS,Exact match,Task C3
+outputs/part_c_feature_scores.csv,feature_scores_finite,ACCEPTANCE,No missing or infinite scores,1,1,PASS,Exact match,Task C3
+outputs/part_c_feature_scores.csv,f_rank_follows_f_score,ACCEPTANCE,"f_rank 1 = highest F-score, through 17",1,1,PASS,Exact match,Task C3
+outputs/part_c_feature_scores.csv,top_seven_features_exact,ACCEPTANCE,Ranks 1-7 are exactly the seven signal columns,1,1,PASS,Exact match,Acceptance C
+outputs/part_c_feature_scores.csv,selected_feature_distance_km_position,REFERENCE,F-score rank of distance_km in the pinned run,1,1,PASS,Exact match,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_hub_tier_position,REFERENCE,F-score rank of hub_tier in the pinned run,2,2,PASS,Exact match,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_hub_daily_capacity_position,REFERENCE,F-score rank of hub_daily_capacity in the pinned run,3,3,PASS,Exact match,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_n_stops_position,REFERENCE,F-score rank of n_stops in the pinned run,4,4,PASS,Exact match,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_promised_hours_position,REFERENCE,F-score rank of promised_hours in the pinned run,5,5,PASS,Exact match,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_rain_flag_position,REFERENCE,F-score rank of rain_flag in the pinned run,6,6,PASS,Exact match,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_sale_event_flag_position,REFERENCE,F-score rank of sale_event_flag in the pinned run,7,7,PASS,Exact match,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,top_seven_min_f_score_minimum,ACCEPTANCE,Smallest F-score among the top seven is above 30,> 30,36.7281,PASS,Meets > 30,Acceptance C
+outputs/part_c_feature_scores.csv,noise_columns_identified,ACCEPTANCE,is_noise is True for exactly the five NOISE_COLUMNS,1,1,PASS,Exact match,Task C3
+outputs/part_c_feature_scores.csv,every_noise_column_f_rank_minimum,ACCEPTANCE,Every noise column ranks 8 or lower (outside the top seven),≥ 8,8,PASS,Meets ≥ 8,Acceptance C
+outputs/part_c_feature_scores.csv,every_noise_column_f_score_strict_maximum,ACCEPTANCE,Every noise column has F-score below 10,< 10,4.5847,PASS,Meets < 10,Acceptance C
+outputs/part_c_feature_scores.csv,combined_noise_importance_reference,REFERENCE,Noise columns' share of forest importance,0.225 ± 0.001,0.2245,PASS,Within ±0.001 (diff -0.0005),Reference table C
+outputs/part_c_feature_scores.csv,combined_noise_importance_minimum,ACCEPTANCE,Noise share band lower edge,≥ 0.15,0.2245,PASS,Meets ≥ 0.15,Reference table C
+outputs/part_c_feature_scores.csv,combined_noise_importance_maximum,ACCEPTANCE,Noise share band upper edge,≤ 0.3,0.2245,PASS,Meets ≤ 0.3,Reference table C
+outputs/part_c_feature_scores.csv,forest_importance_sums_to_one,ACCEPTANCE,Forest importances add up to 1 (allowing for rounding),1 ± 0.002,1.0002,PASS,Within ±0.002 (diff +0.0002),Task C3
+outputs/part_c_feature_scores.csv,feature_scores_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+outputs/part_c_selectk.csv,selectk_schema_matches,ACCEPTANCE,"Columns are exactly k, val_f1",1,1,PASS,Exact match,Task C3
+outputs/part_c_selectk.csv,selectk_row_count,ACCEPTANCE,Five k values,5,5,PASS,Exact match,Acceptance C
+outputs/part_c_selectk.csv,required_k_values_present,ACCEPTANCE,"k is 5, 7, 10, 12, 17",1,1,PASS,Exact match,Task C3
+outputs/part_c_selectk.csv,validation_f1_values_valid,ACCEPTANCE,Every val_f1 is between 0 and 1,1,1,PASS,Exact match,Task C3
+outputs/part_c_selectk.csv,selectk_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+outputs/part_c_tuning.csv,tuning_schema_matches,ACCEPTANCE,"Columns are exactly search, candidates, cv_folds, total_fits, best_params, best_cv_accuracy, val_f1",1,1,PASS,Exact match,Task C4
+outputs/part_c_tuning.csv,tuning_row_count,ACCEPTANCE,Three rows,3,3,PASS,Exact match,Task C4
+outputs/part_c_tuning.csv,required_search_rows_present,ACCEPTANCE,"Rows are grid_search, randomized_search, default_forest_same_7_features",1,1,PASS,Exact match,Task C4
+outputs/part_c_tuning.csv,grid_search_candidates,ACCEPTANCE,Grid candidates,27,27,PASS,Exact match,Acceptance C
+outputs/part_c_tuning.csv,grid_search_cv_folds,ACCEPTANCE,Grid CV folds,5,5,PASS,Exact match,Task C4
+outputs/part_c_tuning.csv,grid_search_total_fits,ACCEPTANCE,Grid total fits = 27 x 5,135,135,PASS,Exact match,Acceptance C
+outputs/part_c_tuning.csv,randomized_search_candidates,ACCEPTANCE,Randomized candidates,9,9,PASS,Exact match,Acceptance C
+outputs/part_c_tuning.csv,randomized_search_cv_folds,ACCEPTANCE,Randomized CV folds,5,5,PASS,Exact match,Task C4
+outputs/part_c_tuning.csv,randomized_search_total_fits,ACCEPTANCE,Randomized total fits = 9 x 5,45,45,PASS,Exact match,Acceptance C
+outputs/part_c_tuning.csv,default_forest_same_7_features_candidates,ACCEPTANCE,Untuned forest: candidates 1,1,1,PASS,Exact match,Task C4
+outputs/part_c_tuning.csv,default_forest_same_7_features_cv_folds,ACCEPTANCE,Untuned forest: cv_folds 0,0,0,PASS,Exact match,Task C4
+outputs/part_c_tuning.csv,default_forest_same_7_features_total_fits,ACCEPTANCE,Untuned forest: total_fits 1,1,1,PASS,Exact match,Task C4
+outputs/part_c_tuning.csv,default_forest_best_params_is_defaults,ACCEPTANCE,Untuned forest: best_params = defaults,defaults,defaults,PASS,Matches,Task C4
+outputs/part_c_tuning.csv,default_forest_best_cv_accuracy_blank,ACCEPTANCE,Untuned forest: best_cv_accuracy left blank,1,1,PASS,Exact match,Task C4
+outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_reference,REFERENCE,Grid best CV accuracy,0.8952 ± 0.0001,0.8952,PASS,Within ±0.0001 (diff +0),Reference table C
+outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_minimum,ACCEPTANCE,Grid best CV accuracy band lower edge,≥ 0.86,0.8952,PASS,Meets ≥ 0.86,Reference table C
+outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_maximum,ACCEPTANCE,Grid best CV accuracy band upper edge,≤ 0.93,0.8952,PASS,Meets ≤ 0.93,Reference table C
+outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_reference,REFERENCE,Randomized best CV accuracy,0.8905 ± 0.0001,0.8905,PASS,Within ±0.0001 (diff +0),Reference table C
+outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_minimum,ACCEPTANCE,Randomized best CV accuracy band lower edge,≥ 0.86,0.8905,PASS,Meets ≥ 0.86,Reference table C
+outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_maximum,ACCEPTANCE,Randomized best CV accuracy band upper edge,≤ 0.93,0.8905,PASS,Meets ≤ 0.93,Reference table C
+outputs/part_c_tuning.csv,grid_best_cv_accuracy_at_least_randomized,ACCEPTANCE,Grid best_cv_accuracy >= randomized,1,1,PASS,Exact match,Acceptance C
+outputs/part_c_tuning.csv,grid_search_f1_val_reference,REFERENCE,Grid winner F1 on validation,0.775 ± 0.001,0.775,PASS,Within ±0.001 (diff +0),Reference table C
+outputs/part_c_tuning.csv,grid_search_f1_val_minimum,ACCEPTANCE,Grid val_f1 band,≥ 0.65,0.775,PASS,Meets ≥ 0.65,Reference table C
+outputs/part_c_tuning.csv,randomized_search_f1_val_reference,REFERENCE,Randomized winner F1 on validation,0.79 ± 0.001,0.7848,WARN,Off by -0.0052 (allowed ±0.001),Reference table C
+outputs/part_c_tuning.csv,randomized_search_f1_val_minimum,ACCEPTANCE,Randomized val_f1 band,≥ 0.65,0.7848,PASS,Meets ≥ 0.65,Reference table C
+outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_reference,REFERENCE,Untuned forest F1 on validation,0.833 ± 0.001,0.8333,PASS,Within ±0.001 (diff +0.0003),Reference table C
+outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_minimum,ACCEPTANCE,Untuned forest val_f1 band,≥ 0.65,0.8333,PASS,Meets ≥ 0.65,Reference table C
+outputs/part_c_tuning.csv,tuning_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+outputs/part_c_thresholds.csv,thresholds_schema_matches,ACCEPTANCE,"Columns are exactly threshold, TN, FP, FN, TP, accuracy, precision, recall, f1",1,1,PASS,Exact match,Task C6
+outputs/part_c_thresholds.csv,thresholds_row_count,ACCEPTANCE,Nine thresholds,9,9,PASS,Exact match,Acceptance C
+outputs/part_c_thresholds.csv,required_thresholds_present,ACCEPTANCE,Thresholds are exactly 0.1 to 0.9 in steps of 0.1,1,1,PASS,Exact match,Task C6
+outputs/part_c_thresholds.csv,thresholds_cover_validation_rows,ACCEPTANCE,Each threshold row covers the 180 validation rows,1,1,PASS,Exact match,Task C6
+outputs/part_c_thresholds.csv,threshold_metrics_consistent,ACCEPTANCE,"TN/FP/FN/TP reproduce accuracy, precision, recall and f1 in every row",1,1,PASS,Exact match,Task C6
+outputs/part_c_thresholds.csv,recall_nonincreasing_with_threshold,ACCEPTANCE,Recall never increases as threshold rises,1,1,PASS,Exact match,Acceptance C
+outputs/part_c_thresholds.csv,thresholds_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+part_c_classification.py,thresholds_not_unrounded_arange,ACCEPTANCE,Thresholds not built with an unrounded np.arange,1,1,PASS,Exact match,Task C6
+outputs/part_c_final_config.csv,final_config_schema_matches,ACCEPTANCE,"Columns are exactly selector_k, n_estimators, max_depth, min_samples_leaf, threshold, chosen_from",1,1,PASS,Exact match,Task C7
+outputs/part_c_final_config.csv,final_config_row_count,ACCEPTANCE,One row,1,1,PASS,Exact match,Task C7
+outputs/part_c_final_config.csv,final_config_selector_k,ACCEPTANCE,selector_k = 7,7,7,PASS,Exact match,Task C5 / C7
+outputs/part_c_final_config.csv,chosen_from_follows_tie_rule,ACCEPTANCE,"chosen_from = highest val_f1 in the tuning table (ties: default, grid, randomized)",1,1,PASS,Exact match,Task C5
+outputs/part_c_final_config.csv,final_params_match_chosen_row,ACCEPTANCE,n_estimators / max_depth / min_samples_leaf match the chosen tuning row,1,1,PASS,Exact match,Task C5 / C7
+outputs/part_c_final_config.csv,chosen_from_reference,REFERENCE,Winning candidate in the pinned run,default_forest_same_7_features,default_forest_same_7_features,PASS,Matches,Task C5 note
+outputs/part_c_final_config.csv,threshold_rule_satisfied,ACCEPTANCE,Threshold = highest t with validation recall >= 0.80 (else 0.1),1,1,PASS,Exact match,Task C6 / acceptance
+outputs/part_c_final_config.csv,selected_threshold,REFERENCE,Chosen threshold in the pinned run,0.5,0.5,PASS,Exact match,Reference table C
+outputs/part_c_final_test.csv,final_test_schema_matches,ACCEPTANCE,"Columns are exactly threshold, TN, FP, FN, TP, accuracy, precision, recall, f1",1,1,PASS,Exact match,Task C7
+outputs/part_c_final_test.csv,final_test_row_count,ACCEPTANCE,One row,1,1,PASS,Exact match,Acceptance C
+outputs/part_c_final_test.csv,threshold_matches_config,ACCEPTANCE,Test threshold equals the chosen threshold,1,1,PASS,Exact match,Acceptance C
+outputs/part_c_final_test.csv,confusion_metrics_consistent,ACCEPTANCE,"TN/FP/FN/TP reproduce accuracy, precision, recall and f1",1,1,PASS,Exact match,Task C7
+outputs/part_c_final_test.csv,test_precision_reference,REFERENCE,Test precision,0.6889 ± 0.0001,0.6889,PASS,Within ±0.0001 (diff +0),Reference table C
+outputs/part_c_final_test.csv,test_precision_minimum,ACCEPTANCE,Test precision band,≥ 0.45,0.6889,PASS,Meets ≥ 0.45,Reference table C
+outputs/part_c_final_test.csv,test_recall_reference,REFERENCE,Test recall,0.7561 ± 0.0001,0.7561,PASS,Within ±0.0001 (diff +0),Reference table C
+outputs/part_c_final_test.csv,test_recall_minimum,ACCEPTANCE,Test recall band,≥ 0.55,0.7561,PASS,Meets ≥ 0.55,Reference table C
+outputs/part_c_final_test.csv,test_f1_reference,REFERENCE,Test F1,0.7209 ± 0.0001,0.7209,PASS,Within ±0.0001 (diff +0),Reference table C
+outputs/part_c_final_test.csv,test_f1_minimum,ACCEPTANCE,Test F1 band,≥ 0.6,0.7209,PASS,Meets ≥ 0.6,Reference table C
+outputs/part_c_final_test.csv,final_test_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+part_c_classification.py,no_fit_on_val_or_test_rows,ACCEPTANCE,"Selector, scaler and models fitted on training rows only (generated shows any offending call)",none,none,PASS,Matches,Task C4 / acceptance
+part_c_classification.py,test_rows_scored_once,ACCEPTANCE,Exactly one predict / predict_proba / score call on test rows,1,1,PASS,Exact match,Task C7 / acceptance

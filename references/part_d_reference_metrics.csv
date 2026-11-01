@@ -1,78 +1,103 @@
-source_file,metric_name,metric_value,tolerance
-hub_profile.csv,row_count,24,0
-hub_profile.csv,shipments_per_hub,50,0
-hub_profile.csv,HUB01.mean_delivery_hours,45.685,0.01
-hub_profile.csv,HUB01.delay_rate,0.0200,0.01
-hub_profile.csv,HUB01.mean_distance_km,185.061,0.01
-hub_profile.csv,HUB01.mean_n_stops,54.70,0.01
-hub_profile.csv,HUB13.mean_delivery_hours,66.074,0.01
-hub_profile.csv,HUB13.delay_rate,0.4600,0.01
-hub_profile.csv,HUB13.mean_distance_km,473.320,0.01
-hub_profile.csv,HUB13.mean_n_stops,83.92,0.01
-hub_profile.csv,HUB17.mean_delivery_hours,60.851,0.01
-hub_profile.csv,HUB17.delay_rate,0.4600,0.01
-hub_profile.csv,HUB17.mean_distance_km,443.285,0.01
-hub_profile.csv,HUB17.mean_n_stops,84.18,0.01
-part_d_separation.csv,row_count,4,0
-part_d_separation.csv,K2.cluster_size_rank_1,15,0
-part_d_separation.csv,K2.cluster_size_rank_2,9,0
-part_d_separation.csv,K2.across_over_within,2.894,0.01
-part_d_separation.csv,K3.cluster_size_rank_1,9,0
-part_d_separation.csv,K3.cluster_size_rank_2,8,0
-part_d_separation.csv,K3.cluster_size_rank_3,7,0
-part_d_separation.csv,K3.across_over_within,5.393,0.01
-part_d_separation.csv,K4.cluster_size_rank_1,8,0
-part_d_separation.csv,K4.cluster_size_rank_2,7,0
-part_d_separation.csv,K4.cluster_size_rank_3,5,0
-part_d_separation.csv,K4.cluster_size_rank_4,4,0
-part_d_separation.csv,K4.across_over_within,6.305,0.01
-part_d_separation.csv,K5.cluster_size_rank_1,8,0
-part_d_separation.csv,K5.cluster_size_rank_2,7,0
-part_d_separation.csv,K5.cluster_size_rank_3,4,0
-part_d_separation.csv,K5.cluster_size_rank_4,3,0
-part_d_separation.csv,K5.cluster_size_rank_5,2,0
-part_d_separation.csv,K5.across_over_within,6.887,0.01
-segment_profile.csv,row_count,3,0
-segment_profile.csv,Standard.hubs,7,0
-segment_profile.csv,Standard.mean_delivery_hours,47.24,0.01
-segment_profile.csv,Standard.delay_rate,0.0257,0.01
-segment_profile.csv,Standard.mean_distance_km,188.93,0.01
-segment_profile.csv,Standard.mean_n_stops,55.37,0.01
-segment_profile.csv,Watch.hubs,8,0
-segment_profile.csv,Watch.mean_delivery_hours,56.81,0.01
-segment_profile.csv,Watch.delay_rate,0.1550,0.01
-segment_profile.csv,Watch.mean_distance_km,314.18,0.01
-segment_profile.csv,Watch.mean_n_stops,70.72,0.01
-segment_profile.csv,Escalate.hubs,9,0
-segment_profile.csv,Escalate.mean_delivery_hours,64.65,0.01
-segment_profile.csv,Escalate.delay_rate,0.4600,0.01
-segment_profile.csv,Escalate.mean_distance_km,470.48,0.01
-segment_profile.csv,Escalate.mean_n_stops,84.34,0.01
-tier_vs_segment_mismatch.csv,row_count,4,0
-tier_vs_segment_mismatch.csv,HUB07.city_code,1,0
-tier_vs_segment_mismatch.csv,HUB07.hub_tier,1,0
-tier_vs_segment_mismatch.csv,HUB07.segment_code,2,0
-tier_vs_segment_mismatch.csv,HUB07.expected_segment_code,1,0
-tier_vs_segment_mismatch.csv,HUB13.city_code,2,0
-tier_vs_segment_mismatch.csv,HUB13.hub_tier,2,0
-tier_vs_segment_mismatch.csv,HUB13.segment_code,3,0
-tier_vs_segment_mismatch.csv,HUB13.expected_segment_code,2,0
-tier_vs_segment_mismatch.csv,HUB15.city_code,3,0
-tier_vs_segment_mismatch.csv,HUB15.hub_tier,2,0
-tier_vs_segment_mismatch.csv,HUB15.segment_code,3,0
-tier_vs_segment_mismatch.csv,HUB15.expected_segment_code,2,0
-tier_vs_segment_mismatch.csv,HUB22.city_code,4,0
-tier_vs_segment_mismatch.csv,HUB22.hub_tier,3,0
-tier_vs_segment_mismatch.csv,HUB22.segment_code,2,0
-tier_vs_segment_mismatch.csv,HUB22.expected_segment_code,3,0
-data/new_shipments.csv,row_count,48,0
-data/new_shipments.csv,missing_distance_km,3,0
-data/new_shipments.csv,missing_parcel_weight_kg,2,0
-data/new_shipments.csv,missing_declared_value,1,0
-data/new_shipments.csv,missing_payment_mode,2,0
-data/new_shipments.csv,service_type_unique_spellings,8,0
-part_d_reload_check.csv,test_rows_scored,180,0
-part_d_reload_check.csv,reload_max_abs_probability_diff,0,0.000000001
-part_d_reload_check.csv,threshold,0.5,0
-new_shipment_actions.csv,row_count,48,0
-new_shipment_actions.csv,unique_shipment_ids,48,0
+source_file,metric_name,value_type,metric_value,tolerance,comparison,expression,description,brief_ref
+outputs/hub_profile.csv,hub_profile_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['hub_id', 'shipments', 'mean_delivery_hours', 'delay_rate', 'mean_distance_km', 'mean_n_stops'])","Columns are exactly hub_id, shipments, mean_delivery_hours, delay_rate, mean_distance_km, mean_n_stops",Task D1
+outputs/hub_profile.csv,row_count,ACCEPTANCE,24,0,EQ,len(df),One row per hub,Acceptance D
+outputs/hub_profile.csv,sorted_by_hub_id,ACCEPTANCE,1,0,EQ,int(df.hub_id.tolist() == sorted(df.hub_id)),Rows sorted by ascending hub_id,Task D1
+outputs/hub_profile.csv,every_hub_has_50_shipments,ACCEPTANCE,1,0,EQ,int((df.shipments == 50).all()),Every shipments value is 50,Acceptance D
+outputs/hub_profile.csv,HUB01.mean_delivery_hours,ACCEPTANCE,45.685,0.01,EQ,get('mean_delivery_hours__HUB01'),HUB01 mean_delivery_hours,Reference table D
+outputs/hub_profile.csv,HUB01.delay_rate,ACCEPTANCE,0.02,0.01,EQ,get('delay_rate__HUB01'),HUB01 delay_rate,Reference table D
+outputs/hub_profile.csv,HUB01.mean_distance_km,ACCEPTANCE,185.061,0.01,EQ,get('mean_distance_km__HUB01'),HUB01 mean_distance_km,Reference table D
+outputs/hub_profile.csv,HUB01.mean_n_stops,ACCEPTANCE,54.7,0.01,EQ,get('mean_n_stops__HUB01'),HUB01 mean_n_stops,Reference table D
+outputs/hub_profile.csv,HUB13.mean_delivery_hours,ACCEPTANCE,66.074,0.01,EQ,get('mean_delivery_hours__HUB13'),HUB13 mean_delivery_hours,Reference table D
+outputs/hub_profile.csv,HUB13.delay_rate,ACCEPTANCE,0.46,0.01,EQ,get('delay_rate__HUB13'),HUB13 delay_rate,Reference table D
+outputs/hub_profile.csv,HUB13.mean_distance_km,ACCEPTANCE,473.32,0.01,EQ,get('mean_distance_km__HUB13'),HUB13 mean_distance_km,Reference table D
+outputs/hub_profile.csv,HUB13.mean_n_stops,ACCEPTANCE,83.92,0.01,EQ,get('mean_n_stops__HUB13'),HUB13 mean_n_stops,Reference table D
+outputs/hub_profile.csv,HUB17.mean_delivery_hours,ACCEPTANCE,60.851,0.01,EQ,get('mean_delivery_hours__HUB17'),HUB17 mean_delivery_hours,Reference table D
+outputs/hub_profile.csv,HUB17.delay_rate,ACCEPTANCE,0.46,0.01,EQ,get('delay_rate__HUB17'),HUB17 delay_rate,Reference table D
+outputs/hub_profile.csv,HUB17.mean_distance_km,ACCEPTANCE,443.285,0.01,EQ,get('mean_distance_km__HUB17'),HUB17 mean_distance_km,Reference table D
+outputs/hub_profile.csv,HUB17.mean_n_stops,ACCEPTANCE,84.18,0.01,EQ,get('mean_n_stops__HUB17'),HUB17 mean_n_stops,Reference table D
+outputs/hub_profile.csv,hub_profile_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule (outputs/ and models/)
+outputs/part_d_separation.csv,separation_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['K', 'across_over_within', 'cluster_sizes'])","Columns are exactly K, across_over_within, cluster_sizes",Task D3
+outputs/part_d_separation.csv,row_count,ACCEPTANCE,4,0,EQ,len(df),"K = 2, 3, 4, 5",Acceptance D
+outputs/part_d_separation.csv,k_values_exact,ACCEPTANCE,1,0,EQ,"int(df.K.tolist() == [2, 3, 4, 5])","K is 2, 3, 4, 5",Task D3
+outputs/part_d_separation.csv,cluster_sizes_well_formed,ACCEPTANCE,1,0,EQ,"int(all(len(s.split('-')) == k and sum(map(int, s.split('-'))) == 24 and list(map(int, s.split('-'))) == sorted(map(int, s.split('-')), reverse=True) for k, s in zip(df.K, df.cluster_sizes)))","Each row has K sizes, in descending order, adding up to 24",Task D3
+outputs/part_d_separation.csv,K2.cluster_sizes,ACCEPTANCE,15-9,0,EQ,get('cluster_sizes__2'),K = 2 cluster sizes,Reference table D
+outputs/part_d_separation.csv,K3.cluster_sizes,ACCEPTANCE,9-8-7,0,EQ,get('cluster_sizes__3'),K = 3 cluster sizes,Reference table D
+outputs/part_d_separation.csv,K4.cluster_sizes,ACCEPTANCE,8-7-5-4,0,EQ,get('cluster_sizes__4'),K = 4 cluster sizes,Reference table D
+outputs/part_d_separation.csv,K5.cluster_sizes,ACCEPTANCE,8-7-4-3-2,0,EQ,get('cluster_sizes__5'),K = 5 cluster sizes,Reference table D
+outputs/part_d_separation.csv,K2.across_over_within,ACCEPTANCE,2.894,0.01,EQ,get('across_over_within__2'),K = 2 across-to-within distance ratio,Reference table D
+outputs/part_d_separation.csv,K3.across_over_within,ACCEPTANCE,5.393,0.01,EQ,get('across_over_within__3'),K = 3 across-to-within distance ratio,Reference table D
+outputs/part_d_separation.csv,K4.across_over_within,ACCEPTANCE,6.305,0.01,EQ,get('across_over_within__4'),K = 4 across-to-within distance ratio,Reference table D
+outputs/part_d_separation.csv,K5.across_over_within,ACCEPTANCE,6.887,0.01,EQ,get('across_over_within__5'),K = 5 across-to-within distance ratio,Reference table D
+outputs/part_d_separation.csv,k4_k5_have_cluster_under_6_hubs,ACCEPTANCE,1,0,EQ,"int(all(min(map(int, get(f'cluster_sizes__{k}').split('-'))) < 6 for k in (4, 5)))",K = 4 and K = 5 each contain a cluster of fewer than 6 hubs (why K = 3 is kept),Acceptance D
+outputs/part_d_separation.csv,separation_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule (outputs/ and models/)
+outputs/hub_segments.csv,hub_segments_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['hub_id', 'segment', 'hub_city', 'hub_tier'])","Columns are exactly hub_id, segment, hub_city, hub_tier",Task D4
+outputs/hub_segments.csv,row_count,ACCEPTANCE,24,0,EQ,len(df),One row per hub,Task D4
+outputs/hub_segments.csv,segment_names_valid,ACCEPTANCE,1,0,EQ,"int(set(df.segment) == {'Standard', 'Watch', 'Escalate'})","Segments are named Standard, Watch, Escalate",Task D4
+outputs/segment_profile.csv,segment_profile_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['segment', 'hubs', 'mean_delivery_hours', 'delay_rate', 'mean_distance_km', 'mean_n_stops'])","Columns are exactly segment, hubs, mean_delivery_hours, delay_rate, mean_distance_km, mean_n_stops",Task D4
+outputs/segment_profile.csv,row_count,ACCEPTANCE,3,0,EQ,len(df),Three segments,Task D4
+outputs/segment_profile.csv,names_follow_delay_rate_order,ACCEPTANCE,1,0,EQ,int(get('delay_rate__Standard') < get('delay_rate__Watch') < get('delay_rate__Escalate')),Standard < Watch < Escalate by delay rate,Acceptance D
+outputs/segment_profile.csv,hubs_match_hub_segments,ACCEPTANCE,1,0,EQ,int(df.set_index('segment').hubs.to_dict() == read('outputs/hub_segments.csv').segment.value_counts().to_dict()),Segment sizes agree with hub_segments.csv,Task D4
+outputs/segment_profile.csv,Standard.hubs,ACCEPTANCE,7,0,EQ,get('hubs__Standard'),Standard segment hubs,Reference table D
+outputs/segment_profile.csv,Standard.mean_delivery_hours,ACCEPTANCE,47.24,0.01,EQ,get('mean_delivery_hours__Standard'),Standard segment mean_delivery_hours,Reference table D
+outputs/segment_profile.csv,Standard.delay_rate,ACCEPTANCE,0.0257,0.01,EQ,get('delay_rate__Standard'),Standard segment delay_rate,Reference table D
+outputs/segment_profile.csv,Standard.mean_distance_km,ACCEPTANCE,188.93,0.01,EQ,get('mean_distance_km__Standard'),Standard segment mean_distance_km,Reference table D
+outputs/segment_profile.csv,Standard.mean_n_stops,ACCEPTANCE,55.37,0.01,EQ,get('mean_n_stops__Standard'),Standard segment mean_n_stops,Reference table D
+outputs/segment_profile.csv,Watch.hubs,ACCEPTANCE,8,0,EQ,get('hubs__Watch'),Watch segment hubs,Reference table D
+outputs/segment_profile.csv,Watch.mean_delivery_hours,ACCEPTANCE,56.81,0.01,EQ,get('mean_delivery_hours__Watch'),Watch segment mean_delivery_hours,Reference table D
+outputs/segment_profile.csv,Watch.delay_rate,ACCEPTANCE,0.155,0.01,EQ,get('delay_rate__Watch'),Watch segment delay_rate,Reference table D
+outputs/segment_profile.csv,Watch.mean_distance_km,ACCEPTANCE,314.18,0.01,EQ,get('mean_distance_km__Watch'),Watch segment mean_distance_km,Reference table D
+outputs/segment_profile.csv,Watch.mean_n_stops,ACCEPTANCE,70.72,0.01,EQ,get('mean_n_stops__Watch'),Watch segment mean_n_stops,Reference table D
+outputs/segment_profile.csv,Escalate.hubs,ACCEPTANCE,9,0,EQ,get('hubs__Escalate'),Escalate segment hubs,Reference table D
+outputs/segment_profile.csv,Escalate.mean_delivery_hours,ACCEPTANCE,64.65,0.01,EQ,get('mean_delivery_hours__Escalate'),Escalate segment mean_delivery_hours,Reference table D
+outputs/segment_profile.csv,Escalate.delay_rate,ACCEPTANCE,0.46,0.01,EQ,get('delay_rate__Escalate'),Escalate segment delay_rate,Reference table D
+outputs/segment_profile.csv,Escalate.mean_distance_km,ACCEPTANCE,470.48,0.01,EQ,get('mean_distance_km__Escalate'),Escalate segment mean_distance_km,Reference table D
+outputs/segment_profile.csv,Escalate.mean_n_stops,ACCEPTANCE,84.34,0.01,EQ,get('mean_n_stops__Escalate'),Escalate segment mean_n_stops,Reference table D
+outputs/segment_profile.csv,segment_profile_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule (outputs/ and models/)
+outputs/tier_vs_segment_mismatch.csv,mismatch_schema_matches,ACCEPTANCE,1,0,EQ,"int({'hub_id', 'segment', 'hub_city', 'hub_tier'} <= set(df.columns))","Contains hub_id, segment, hub_city, hub_tier (extra columns allowed; brief does not fix the column list)",Task D4
+outputs/tier_vs_segment_mismatch.csv,row_count,ACCEPTANCE,4,0,EQ,len(df),Four mismatched hubs,Acceptance D
+outputs/tier_vs_segment_mismatch.csv,mismatch_hubs_exact,ACCEPTANCE,1,0,EQ,"int(sorted(df.hub_id) == ['HUB07', 'HUB13', 'HUB15', 'HUB22'])","Exactly HUB07, HUB13, HUB15, HUB22",Acceptance D
+outputs/tier_vs_segment_mismatch.csv,mismatch_follows_tier_rule,ACCEPTANCE,1,0,EQ,"(lambda s: int(set(df.hub_id) == set(s[s.segment != s.hub_tier.map({1: 'Standard', 2: 'Watch', 3: 'Escalate'})].hub_id)))(read('outputs/hub_segments.csv'))","Rows are exactly the hubs whose segment differs from their tier's (1 Standard, 2 Watch, 3 Escalate)",Task D4
+outputs/tier_vs_segment_mismatch.csv,HUB07.hub_city,ACCEPTANCE,Kolkata,0,EQ,get('hub_city__HUB07'),HUB07 hub_city,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB07.hub_tier,ACCEPTANCE,1,0,EQ,get('hub_tier__HUB07'),HUB07 hub_tier,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB07.segment,ACCEPTANCE,Watch,0,EQ,get('segment__HUB07'),HUB07 segment,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB13.hub_city,ACCEPTANCE,Nagpur,0,EQ,get('hub_city__HUB13'),HUB13 hub_city,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB13.hub_tier,ACCEPTANCE,2,0,EQ,get('hub_tier__HUB13'),HUB13 hub_tier,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB13.segment,ACCEPTANCE,Escalate,0,EQ,get('segment__HUB13'),HUB13 segment,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB15.hub_city,ACCEPTANCE,Kochi,0,EQ,get('hub_city__HUB15'),HUB15 hub_city,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB15.hub_tier,ACCEPTANCE,2,0,EQ,get('hub_tier__HUB15'),HUB15 hub_tier,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB15.segment,ACCEPTANCE,Escalate,0,EQ,get('segment__HUB15'),HUB15 segment,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB22.hub_city,ACCEPTANCE,Dehradun,0,EQ,get('hub_city__HUB22'),HUB22 hub_city,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB22.hub_tier,ACCEPTANCE,3,0,EQ,get('hub_tier__HUB22'),HUB22 hub_tier,Reference table D
+outputs/tier_vs_segment_mismatch.csv,HUB22.segment,ACCEPTANCE,Watch,0,EQ,get('segment__HUB22'),HUB22 segment,Reference table D
+data/new_shipments.csv,row_count,ACCEPTANCE,48,0,EQ,len(df),New parcels,Reference table D
+data/new_shipments.csv,missing_distance_km,ACCEPTANCE,3,0,EQ,int(df.distance_km.isna().sum()),Missing distance_km before cleaning,Reference table D
+data/new_shipments.csv,missing_parcel_weight_kg,ACCEPTANCE,2,0,EQ,int(df.parcel_weight_kg.isna().sum()),Missing parcel_weight_kg before cleaning,Reference table D
+data/new_shipments.csv,missing_declared_value,ACCEPTANCE,1,0,EQ,int(df.declared_value.isna().sum()),Missing declared_value before cleaning,Reference table D
+data/new_shipments.csv,missing_payment_mode,ACCEPTANCE,2,0,EQ,int(df.payment_mode.isna().sum()),Missing payment_mode before cleaning,Reference table D
+data/new_shipments.csv,service_type_unique_spellings,ACCEPTANCE,8,0,EQ,df.service_type.nunique(),Distinct service_type spellings before cleaning,Reference table D
+models/delay_model.pkl,model_pickle_exists,ACCEPTANCE,1,0,EQ,1,models/delay_model.pkl exists,Task D5 / acceptance
+models/delay_threshold.csv,threshold_file_matches_config,ACCEPTANCE,1,0,EQ,int(list(df.columns) == ['threshold'] and len(df) == 1 and abs(df.threshold.item() - read('outputs/part_c_final_config.csv').threshold.item()) < 1e-9),"One column threshold, equal to Part C's chosen threshold",Task D5
+models/feature_order.csv,feature_order_matches_pinned_list,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['feature'] and df.feature.tolist() == ['promised_hours', 'distance_km', 'parcel_weight_kg', 'log_declared_value', 'n_stops', 'rain_flag', 'sale_event_flag', 'is_cod', 'is_weekend', 'dispatch_hour', 'hub_tier', 'hub_daily_capacity', 'label_print_batch', 'scanner_build_no', 'tape_roll_no', 'sticker_serial_mod', 'shelf_slot_no'])",feature column holds the 17 FEATURES in the pinned order,Acceptance D
+models/impute_values.csv,impute_values_schema,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['column', 'median'] and sorted(df.column) == ['declared_value_inr', 'distance_km', 'parcel_weight_kg'])","Columns column, median with the three median keys",Task D5
+models/impute_values.csv,impute_values_match_part_a_medians,ACCEPTANCE,1,0,EQ,"(lambda a: int(all(abs(get(f'median__{c}') - get(f'median_{k}', a)) <= 0.01 for c, k in [('distance_km', 'distance_km'), ('parcel_weight_kg', 'parcel_weight_kg'), ('declared_value_inr', 'declared_value_inr')])))(read('outputs/part_a_checks.csv'))",Stored medians equal Part A's medians (±0.01),Task D5
+models/delay_threshold.csv,delay_threshold_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule (outputs/ and models/)
+models/feature_order.csv,feature_order_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule (outputs/ and models/)
+models/impute_values.csv,impute_values_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule (outputs/ and models/)
+outputs/part_d_reload_check.csv,reload_check_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['metric', 'value'] and sorted(df.metric) == ['reload_max_abs_probability_diff', 'test_rows_scored', 'threshold'])","metric,value with the three metrics",Task D5
+outputs/part_d_reload_check.csv,test_rows_scored,ACCEPTANCE,180,0,EQ,get('test_rows_scored'),Test rows scored with both pipelines,Acceptance D
+outputs/part_d_reload_check.csv,reload_max_abs_probability_diff,ACCEPTANCE,0.000000001,0,LE,get('reload_max_abs_probability_diff'),Reloaded and in-memory probabilities agree,Acceptance D
+outputs/part_d_reload_check.csv,threshold_matches_config,ACCEPTANCE,1,0,EQ,int(abs(get('threshold') - read('outputs/part_c_final_config.csv').threshold.item()) < 1e-9),Threshold equals Part C's chosen threshold,Task D5
+outputs/part_d_reload_check.csv,threshold,REFERENCE,0.5,0,EQ,get('threshold'),Threshold in the pinned run,Reference table C
+outputs/part_d_reload_check.csv,reload_check_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule (outputs/ and models/)
+outputs/new_shipment_actions.csv,actions_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['shipment_id', 'hub_id', 'segment', 'delay_probability', 'flagged', 'action'])","Columns are exactly shipment_id, hub_id, segment, delay_probability, flagged, action",Task D6
+outputs/new_shipment_actions.csv,row_count,ACCEPTANCE,48,0,EQ,len(df),One row per new parcel,Acceptance D
+outputs/new_shipment_actions.csv,unique_shipment_ids,ACCEPTANCE,48,0,EQ,df.shipment_id.nunique(),shipment_id values are unique,Acceptance D
+outputs/new_shipment_actions.csv,no_missing_values,ACCEPTANCE,0,0,EQ,int(df.isna().sum().sum()),No missing value anywhere,Acceptance D
+outputs/new_shipment_actions.csv,same_order_as_new_shipments,ACCEPTANCE,1,0,EQ,int(df.shipment_id.tolist() == read('data/new_shipments.csv').shipment_id.tolist()),Rows in the same order as data/new_shipments.csv,Task D6
+outputs/new_shipment_actions.csv,probabilities_valid,ACCEPTANCE,1,0,EQ,"int(df.delay_probability.between(0, 1).all() and ((df.delay_probability - df.delay_probability.round(4)).abs() < 1e-9).all())","delay_probability between 0 and 1, rounded to 4 decimals",Task D6
+outputs/new_shipment_actions.csv,flagged_follows_threshold,ACCEPTANCE,1,0,EQ,int((df.flagged == (df.delay_probability >= read('models/delay_threshold.csv').threshold.item()).astype(int)).all()),flagged = 1 exactly when delay_probability >= stored threshold,Acceptance D
+outputs/new_shipment_actions.csv,segment_matches_hub_segments,ACCEPTANCE,1,0,EQ,int((df.segment == df.hub_id.map(read('outputs/hub_segments.csv').set_index('hub_id').segment)).all()),segment is the parcel's hub segment from hub_segments.csv,Task D6
+outputs/new_shipment_actions.csv,action_follows_rule,ACCEPTANCE,1,0,EQ,"int((df.action == np.where(df.flagged == 0, 'No action', np.where(df.segment == 'Escalate', 'Escalate to hub manager', 'Proactive customer call'))).all())",Escalate to hub manager / Proactive customer call / No action per the rule,Acceptance D
+outputs/new_shipment_actions.csv,flagged_count_reference,REFERENCE,8,0,EQ,int(df.flagged.sum()),Flagged parcels in the pinned run (quoted in the README),Task D7
+outputs/new_shipment_actions.csv,escalations_reference,REFERENCE,6,0,EQ,int((df.action == 'Escalate to hub manager').sum()),Hub-manager escalations in the pinned run (quoted in the README),Task D7
+outputs/new_shipment_actions.csv,actions_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule (outputs/ and models/)

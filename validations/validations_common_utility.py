@@ -1,924 +1,226 @@
+"""Shared validation utility used by every part (validate_part_a.py, _b, _c, _d).
+
+Everything that is checked comes from the part's reference CSV. One row = one check.
+
+Required columns
+    source_file   file to read, relative to the project root (.csv, .py, .md, ...)
+    metric_name   name of the check (also used to find the value, see below)
+    value_type    ACCEPTANCE -> a miss is a FAIL (graded criterion)
+                  REFERENCE  -> a miss is a WARN (value from the pinned configuration;
+                                the brief grades the band, not this exact number)
+    metric_value  reference value from the brief
+    tolerance     allowed absolute difference for EQ (0 = exact)
+
+Optional columns (Part A works without them)
+    comparison    EQ (default) |generated - reference| <= tolerance
+                  GE generated >= reference      LE generated <= reference
+                  GT generated >  reference      LT generated <  reference
+    expression    Python expression that computes the generated value.
+                  Blank -> the value is looked up with the metric_name convention.
+    description   plain-words meaning of the check
+    brief_ref     where the reference comes from in the brief
+
+Metric_name lookup convention (used when expression is blank, and by get()):
+    raw_rows                       row whose first column is "raw_rows"; value in the last column
+    R2__linear_regression__val     column "R2" on the row whose leading columns are
+                                   linear_regression, val (in order)
+    ROW_COUNT                      number of data rows in the file
+
+Names available inside an expression
+    df            the source_file as a DataFrame (CSV files only)
+    src, code     the source_file as text; code has # comments and all whitespace removed
+    get(name)     a value from df by the lookup convention; get(name, other_df) for another table
+    read(path)    another CSV file as a DataFrame
+    clean_csv(df) 1 if df has no stray index column and no value with more than 4 decimals
+    confusion_ok(df) 1 if TN/FP/FN/TP in every row reproduce accuracy/precision/recall/f1
+    literal(text) turn text such as "{'max_depth': 6}" into a Python value
+    rerun_identical(script, output) 1 if running the script twice gives a byte-identical output file
+    (any file type can be a source_file; a missing file is reported as ERROR, so "1" checks existence)
+    re, np, math, pd
+Booleans are written as int(...) so that a pass is 1 and the reference is 1.
+"""
+import math
+import re
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+VALIDATION_DIR = PROJECT_ROOT / "validations"
+REPORT_DIR = VALIDATION_DIR / "reports"
 
-# ============================================================
-# SHARED SCHEMAS
-# ============================================================
-
-REFERENCE_COLUMNS = [
-    "source_file",
-    "metric_name",
-    "value_type",
-    "metric_value",
-    "tolerance",
-]
-
-REPORT_COLUMNS = [
-    "source_file",
-    "metric_name",
-    "reference_value",
-    "code_value",
-    "tolerance",
-    "status",
-    "comment",
-]
-
-VALID_VALUE_TYPES = {"REFERENCE", "ACCEPTANCE"}
-
-VALID_STATUSES = {"PASS", "MISMATCH", "ERROR"}
-
-VALID_COMPARISON_OPERATORS = {
-    "numeric",
-    "exact",
-    "categorical",
-    "boolean",
-    "structural",
-    "minimum",
-    "maximum",
-    "range",
+COMPARE = {
+    "EQ": lambda a, e, t: abs(a - e) <= t + 1e-9,
+    "GE": lambda a, e, t: a >= e,
+    "LE": lambda a, e, t: a <= e,
+    "GT": lambda a, e, t: a > e,
+    "LT": lambda a, e, t: a < e,
 }
+SYMBOL = {"EQ": "=", "GE": "≥", "LE": "≤", "GT": ">", "LT": "<"}
 
 
-# ============================================================
-# STANDARDIZED REPORT ROWS
-# ============================================================
-
-def make_report_row(
-    source_file,
-    metric_name,
-    reference_value="",
-    code_value="",
-    tolerance="",
-    status="ERROR",
-    comment="",
-):
-    """Create a report row with the standard seven-column schema."""
-    if status not in VALID_STATUSES:
-        status = "ERROR"
-        comment = (
-            f"Invalid report status supplied. "
-            f"Allowed statuses: {sorted(VALID_STATUSES)}."
-        )
-
-    return {
-        "source_file": source_file,
-        "metric_name": metric_name,
-        "reference_value": reference_value,
-        "code_value": code_value,
-        "tolerance": tolerance,
-        "status": status,
-        "comment": comment,
-    }
-
-
-def error_row(source_file, metric_name, comment):
-    """Create a standardized ERROR report row."""
-    return make_report_row(
-        source_file=source_file,
-        metric_name=metric_name,
-        status="ERROR",
-        comment=comment,
-    )
-
-
-# ============================================================
-# REFERENCE CSV LOADING AND VALIDATION
-# ============================================================
-
-def load_reference(reference_path):
-    """
-    Load and validate the shared reference CSV.
-
-    Required schema:
-        source_file, metric_name, value_type, metric_value, tolerance
-
-    value_type:
-        REFERENCE  - verified benchmark
-        ACCEPTANCE - mandatory acceptance criterion
-
-    A metric may have one REFERENCE row and one ACCEPTANCE row.
-    Duplicate rows with the same source_file, metric_name, and
-    value_type are invalid.
-
-    Returns
-    -------
-    reference : pandas.DataFrame
-        Valid reference entries with numeric metric_value and tolerance.
-
-    errors : list[dict]
-        Standardized ERROR report rows describing reference problems.
-    """
-    reference_path = Path(reference_path)
-    errors = []
-
-    empty_reference = pd.DataFrame(columns=REFERENCE_COLUMNS)
-
-    if not reference_path.is_file():
-        errors.append(
-            error_row(
-                str(reference_path),
-                "__reference_file__",
-                "Reference CSV does not exist.",
-            )
-        )
-        return empty_reference, errors
-
+def as_number(x):
+    """Return x as a float, or None if it is not a number."""
     try:
-        reference = pd.read_csv(
-            reference_path,
-            dtype=str,
-            keep_default_na=False,
-        )
-    except Exception as exc:
-        errors.append(
-            error_row(
-                str(reference_path),
-                "__reference_file__",
-                f"Could not read reference CSV: {exc}",
-            )
-        )
-        return empty_reference, errors
-
-    if reference.columns.tolist() != REFERENCE_COLUMNS:
-        errors.append(
-            error_row(
-                str(reference_path),
-                "__reference_schema__",
-                "Reference CSV must contain exactly these columns "
-                f"in this order: {REFERENCE_COLUMNS}. "
-                f"Found: {reference.columns.tolist()}",
-            )
-        )
-        return empty_reference, errors
-
-    valid_rows = []
-
-    for index, row in reference.iterrows():
-        row_number = index + 2
-
-        source_file = row["source_file"].strip()
-        metric_name = row["metric_name"].strip()
-        value_type = row["value_type"].strip().upper()
-
-        row_identifier = (
-            metric_name
-            or f"__reference_row_{row_number}__"
-        )
-
-        if not source_file or not metric_name:
-            errors.append(
-                error_row(
-                    source_file or str(reference_path),
-                    row_identifier,
-                    f"Reference CSV row {row_number} has a blank "
-                    "source_file or metric_name.",
-                )
-            )
-            continue
-
-        if value_type not in VALID_VALUE_TYPES:
-            errors.append(
-                error_row(
-                    source_file,
-                    metric_name,
-                    f"Reference CSV row {row_number} has invalid "
-                    f"value_type {value_type!r}. Expected "
-                    f"REFERENCE or ACCEPTANCE.",
-                )
-            )
-            continue
-
-        try:
-            metric_value = float(row["metric_value"])
-            tolerance = float(row["tolerance"])
-        except (TypeError, ValueError):
-            errors.append(
-                error_row(
-                    source_file,
-                    metric_name,
-                    f"Reference CSV row {row_number} has a nonnumeric "
-                    "metric_value or tolerance.",
-                )
-            )
-            continue
-
-        if not np.isfinite(metric_value):
-            errors.append(
-                error_row(
-                    source_file,
-                    metric_name,
-                    "Reference metric_value must be finite.",
-                )
-            )
-            continue
-
-        if not np.isfinite(tolerance) or tolerance < 0:
-            errors.append(
-                error_row(
-                    source_file,
-                    metric_name,
-                    "Reference tolerance must be finite and nonnegative.",
-                )
-            )
-            continue
-
-        valid_rows.append(
-            {
-                "source_file": source_file,
-                "metric_name": metric_name,
-                "value_type": value_type,
-                "metric_value": metric_value,
-                "tolerance": tolerance,
-            }
-        )
-
-    validated = pd.DataFrame(
-        valid_rows,
-        columns=REFERENCE_COLUMNS,
-    )
-
-    if validated.empty:
-        return validated, errors
-
-    # REFERENCE and ACCEPTANCE entries for the same logical metric
-    # are permitted. Duplicate entries of the same type are not.
-    duplicate_columns = [
-        "source_file",
-        "metric_name",
-        "value_type",
-    ]
-
-    duplicate_mask = validated.duplicated(
-        subset=duplicate_columns,
-        keep=False,
-    )
-
-    duplicate_rows = validated.loc[duplicate_mask]
-
-    for _, row in duplicate_rows.iterrows():
-        errors.append(
-            error_row(
-                row["source_file"],
-                row["metric_name"],
-                "Reference CSV contains duplicate entries for "
-                f"(source_file, metric_name, value_type) = "
-                f"({row['source_file']!r}, "
-                f"{row['metric_name']!r}, "
-                f"{row['value_type']!r}).",
-            )
-        )
-
-    validated = validated.loc[~duplicate_mask].copy()
-
-    return validated, errors
-
-
-# ============================================================
-# NUMERIC REFERENCE COMPARISON
-# ============================================================
-
-def compare_numeric(
-    source_file,
-    metric_name,
-    reference_value,
-    code_value,
-    tolerance=0.0001,
-):
-    """
-    Compare numeric values against a reference benchmark.
-
-    A difference beyond tolerance produces MISMATCH, not ERROR.
-    Missing, nonnumeric, non-finite, or invalid comparison inputs
-    produce ERROR.
-    """
-    try:
-        expected = float(reference_value)
-        actual = float(code_value)
-        allowed_difference = float(tolerance)
+        v = float(x)
+        return None if math.isnan(v) else v
     except (TypeError, ValueError):
-        return error_row(
-            source_file,
-            metric_name,
-            "Reference value, code value, or tolerance is nonnumeric.",
-        )
-
-    if (
-        not np.isfinite(expected)
-        or not np.isfinite(actual)
-        or not np.isfinite(allowed_difference)
-        or allowed_difference < 0
-    ):
-        return error_row(
-            source_file,
-            metric_name,
-            "Cannot compare non-finite values or a negative tolerance.",
-        )
-
-    difference = abs(actual - expected)
-
-    if difference <= allowed_difference:
-        status = "PASS"
-        comment = (
-            "Reference comparison passed: absolute difference "
-            f"{difference:.8g} is within tolerance "
-            f"{allowed_difference:.8g}."
-        )
-    else:
-        status = "MISMATCH"
-        comment = (
-            "Reference comparison mismatch: absolute difference "
-            f"{difference:.8g} exceeds tolerance "
-            f"{allowed_difference:.8g}. This is informational "
-            "and does not fail validation by itself."
-        )
-
-    return make_report_row(
-        source_file=source_file,
-        metric_name=metric_name,
-        reference_value=expected,
-        code_value=actual,
-        tolerance=allowed_difference,
-        status=status,
-        comment=comment,
-    )
-
-
-# ============================================================
-# ACCEPTANCE COMPARISONS
-# ============================================================
-
-def compare_acceptance(
-    source_file,
-    metric_name,
-    code_value,
-    operator,
-    threshold=None,
-    lower_bound=None,
-    upper_bound=None,
-    tolerance=0.0,
-):
-    """
-    Evaluate an explicitly configured mandatory acceptance criterion.
-
-    Supported operators
-    -------------------
-    numeric:
-        Absolute difference from threshold <= tolerance.
-
-    exact:
-        Exact equality with threshold.
-
-    categorical:
-        Exact equality with threshold after string conversion.
-
-    boolean:
-        Exact equality with the expected Boolean value.
-
-    structural:
-        Exact equality with threshold. Use for counts, dimensions,
-        column order, feature lists, or other structural values.
-
-    minimum:
-        code_value >= threshold.
-
-    maximum:
-        code_value <= threshold.
-
-    range:
-        lower_bound <= code_value <= upper_bound.
-
-    Acceptance failures are ERROR, not MISMATCH.
-
-    The operator must be supplied by the validator configuration.
-    It is never inferred from the metric name.
-    """
-    if operator not in VALID_COMPARISON_OPERATORS:
-        return error_row(
-            source_file,
-            metric_name,
-            f"Invalid acceptance operator {operator!r}. "
-            f"Allowed operators: "
-            f"{sorted(VALID_COMPARISON_OPERATORS)}.",
-        )
-
-    if code_value is None:
-        return error_row(
-            source_file,
-            metric_name,
-            "Acceptance check cannot be evaluated because "
-            "the code-generated value is missing.",
-        )
-
-    if isinstance(code_value, (float, np.floating)):
-        if not np.isfinite(code_value):
-            return error_row(
-                source_file,
-                metric_name,
-                "Acceptance check cannot be evaluated because "
-                "the code-generated value is non-finite.",
-            )
-
-    if operator in {"numeric", "minimum", "maximum", "range"}:
-        try:
-            actual = float(code_value)
-        except (TypeError, ValueError):
-            return error_row(
-                source_file,
-                metric_name,
-                "Acceptance check requires a numeric code value.",
-            )
-
-        if not np.isfinite(actual):
-            return error_row(
-                source_file,
-                metric_name,
-                "Acceptance check requires a finite code value.",
-            )
-
-        if operator == "numeric":
-            if threshold is None:
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Numeric acceptance requires a threshold.",
-                )
-
-            try:
-                expected = float(threshold)
-                allowed_difference = float(tolerance)
-            except (TypeError, ValueError):
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Numeric acceptance threshold or tolerance "
-                    "is invalid.",
-                )
-
-            if (
-                not np.isfinite(expected)
-                or not np.isfinite(allowed_difference)
-                or allowed_difference < 0
-            ):
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Numeric acceptance requires a finite threshold "
-                    "and nonnegative finite tolerance.",
-                )
-
-            passed = abs(actual - expected) <= allowed_difference
-            rule = (
-                f"absolute difference from {expected:g} "
-                f"<= {allowed_difference:g}"
-            )
-            displayed_threshold = expected
-            displayed_tolerance = allowed_difference
-
-        elif operator == "minimum":
-            if threshold is None:
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Minimum acceptance requires a threshold.",
-                )
-
-            try:
-                minimum = float(threshold)
-            except (TypeError, ValueError):
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Minimum acceptance threshold is invalid.",
-                )
-
-            if not np.isfinite(minimum):
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Minimum acceptance threshold must be finite.",
-                )
-
-            passed = actual >= minimum
-            rule = f"value >= {minimum:g}"
-            displayed_threshold = minimum
-            displayed_tolerance = ""
-
-        elif operator == "maximum":
-            if threshold is None:
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Maximum acceptance requires a threshold.",
-                )
-
-            try:
-                maximum = float(threshold)
-            except (TypeError, ValueError):
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Maximum acceptance threshold is invalid.",
-                )
-
-            if not np.isfinite(maximum):
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Maximum acceptance threshold must be finite.",
-                )
-
-            passed = actual <= maximum
-            rule = f"value <= {maximum:g}"
-            displayed_threshold = maximum
-            displayed_tolerance = ""
-
-        else:  # range
-            if lower_bound is None or upper_bound is None:
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Range acceptance requires lower_bound and "
-                    "upper_bound.",
-                )
-
-            try:
-                lower = float(lower_bound)
-                upper = float(upper_bound)
-            except (TypeError, ValueError):
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Range acceptance bounds must be numeric.",
-                )
-
-            if (
-                not np.isfinite(lower)
-                or not np.isfinite(upper)
-                or lower > upper
-            ):
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Range acceptance bounds must be finite and "
-                    "lower_bound must not exceed upper_bound.",
-                )
-
-            passed = lower <= actual <= upper
-            rule = f"{lower:g} <= value <= {upper:g}"
-            displayed_threshold = f"[{lower:g}, {upper:g}]"
-            displayed_tolerance = ""
-
-        status = "PASS" if passed else "ERROR"
-
-        comment = (
-            f"Mandatory acceptance {'passed' if passed else 'failed'}: "
-            f"{actual:g}; required rule: {rule}."
-        )
-
-        return make_report_row(
-            source_file=source_file,
-            metric_name=metric_name,
-            reference_value=displayed_threshold,
-            code_value=actual,
-            tolerance=displayed_tolerance,
-            status=status,
-            comment=comment,
-        )
-
-    # Exact, categorical, Boolean, and structural comparisons.
-    if operator == "boolean":
-        if isinstance(code_value, (bool, np.bool_)):
-            actual_bool = bool(code_value)
-        elif isinstance(code_value, (int, np.integer)) and code_value in (0, 1):
-            actual_bool = bool(code_value)
-        elif isinstance(code_value, str):
-            normalized = code_value.strip().lower()
-
-            if normalized in {"true", "1"}:
-                actual_bool = True
-            elif normalized in {"false", "0"}:
-                actual_bool = False
-            else:
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Boolean acceptance received an invalid code value.",
-                )
-        else:
-            return error_row(
-                source_file,
-                metric_name,
-                "Boolean acceptance requires a Boolean or 0/1 value.",
-            )
-
-        if isinstance(threshold, (bool, np.bool_)):
-            expected_bool = bool(threshold)
-        elif threshold in (0, 1, "0", "1"):
-            expected_bool = str(threshold).strip() == "1"
-        elif isinstance(threshold, str):
-            normalized = threshold.strip().lower()
-
-            if normalized == "true":
-                expected_bool = True
-            elif normalized == "false":
-                expected_bool = False
-            else:
-                return error_row(
-                    source_file,
-                    metric_name,
-                    "Boolean acceptance expected value is invalid.",
-                )
-        else:
-            return error_row(
-                source_file,
-                metric_name,
-                "Boolean acceptance requires an explicit expected "
-                "Boolean value.",
-            )
-
-        passed = actual_bool == expected_bool
-        displayed_actual = actual_bool
-        displayed_expected = expected_bool
-
-    elif operator == "categorical":
-        if threshold is None:
-            return error_row(
-                source_file,
-                metric_name,
-                "Categorical acceptance requires an expected value.",
-            )
-
-        displayed_actual = str(code_value)
-        displayed_expected = str(threshold)
-        passed = displayed_actual == displayed_expected
-
-    else:  # exact or structural
-        if threshold is None:
-            return error_row(
-                source_file,
-                metric_name,
-                f"{operator.capitalize()} acceptance requires "
-                "an expected value.",
-            )
-
-        if operator == "structural":
-            # Structural expectations may be lists, tuples, mappings,
-            # or scalars. Python equality preserves type-specific
-            # structural checks when the expected value is structured.
-            passed = code_value == threshold
-        else:
-            passed = type(code_value) is type(threshold) and (
-                code_value == threshold
-            )
-
-        displayed_actual = repr(code_value)
-        displayed_expected = repr(threshold)
-
-    status = "PASS" if passed else "ERROR"
-
-    comment = (
-        f"Mandatory {operator} acceptance "
-        f"{'passed' if passed else 'failed'}: "
-        f"actual={displayed_actual!r}; "
-        f"expected={displayed_expected!r}."
-    )
-
-    return make_report_row(
-        source_file=source_file,
-        metric_name=metric_name,
-        reference_value=displayed_expected,
-        code_value=displayed_actual,
-        tolerance="Exact",
-        status=status,
-        comment=comment,
-    )
-
-
-# ============================================================
-# COMPARISON DISPATCHER
-# ============================================================
-
-def compare_metric(
-    source_file,
-    metric_name,
-    code_value,
-    value_type,
-    operator,
-    reference_value=None,
-    tolerance=0.0001,
-    threshold=None,
-    lower_bound=None,
-    upper_bound=None,
-):
-    """
-    Dispatch a check to reference comparison or acceptance comparison.
-
-    REFERENCE:
-        Numeric benchmark comparison. A difference beyond tolerance
-        returns MISMATCH, which is informational.
-
-    ACCEPTANCE:
-        Mandatory acceptance comparison. A failed rule returns ERROR.
-
-    The operator and all acceptance bounds must be provided explicitly.
-    """
-    normalized_type = str(value_type).strip().upper()
-
-    if normalized_type == "REFERENCE":
-        if reference_value is None:
-            return error_row(
-                source_file,
-                metric_name,
-                "Reference comparison cannot be evaluated because "
-                "the reference value is missing.",
-            )
-
-        if operator not in {"numeric", "exact"}:
-            return error_row(
-                source_file,
-                metric_name,
-                "Reference comparisons currently support numeric "
-                "benchmarks. Use compare_acceptance for categorical, "
-                "Boolean, structural, minimum, maximum, or range checks.",
-            )
-
-        if operator == "numeric":
-            return compare_numeric(
-                source_file=source_file,
-                metric_name=metric_name,
-                reference_value=reference_value,
-                code_value=code_value,
-                tolerance=tolerance,
-            )
-
-        # Exact reference comparison uses zero tolerance and numeric
-        # equality. It is intended for numeric structural quantities
-        # such as counts when represented numerically.
-        return compare_numeric(
-            source_file=source_file,
-            metric_name=metric_name,
-            reference_value=reference_value,
-            code_value=code_value,
-            tolerance=0.0,
-        )
-
-    if normalized_type == "ACCEPTANCE":
-        return compare_acceptance(
-            source_file=source_file,
-            metric_name=metric_name,
-            code_value=code_value,
-            operator=operator,
-            threshold=threshold,
-            lower_bound=lower_bound,
-            upper_bound=upper_bound,
-            tolerance=tolerance,
-        )
-
-    return error_row(
-        source_file,
-        metric_name,
-        f"Invalid value_type {value_type!r}. Expected REFERENCE "
-        "or ACCEPTANCE.",
-    )
-
-
-# ============================================================
-# REPORT WRITING AND PROCESS EXIT CODE
-# ============================================================
-
-def write_report(report_rows, report_path):
-    """
-    Write the standard seven-column validation report.
-
-    Exit behavior
-    -------------
-    0: The report contains PASS and/or MISMATCH, but no ERROR.
-    1: The report contains one or more ERROR rows, or no checks ran.
-
-    MISMATCH is informational and does not fail the process.
-    """
-    report_path = Path(report_path)
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-
-    report = pd.DataFrame(
-        report_rows,
-        columns=REPORT_COLUMNS,
-    )
-
-    if report.empty:
-        report = pd.DataFrame(
-            [
-                error_row(
-                    str(report_path),
-                    "__validation__",
-                    "No validation metrics were evaluated.",
-                )
-            ],
-            columns=REPORT_COLUMNS,
-        )
-
-    # Prevent invalid status values from being silently treated as success.
-    invalid_status_mask = ~report["status"].isin(VALID_STATUSES)
-
-    for index in report.index[invalid_status_mask]:
-        report.at[index, "status"] = "ERROR"
-        report.at[index, "comment"] = (
-            "Invalid or missing status was found in a report row."
-        )
-
-    # Enforce the report schema and order.
-    report = report[REPORT_COLUMNS]
-
-    report.to_csv(
-        report_path,
-        index=False,
-    )
-
-    counts = report["status"].value_counts()
-
-    passed = int(counts.get("PASS", 0))
-    mismatches = int(counts.get("MISMATCH", 0))
-    errors = int(counts.get("ERROR", 0))
-
-    print(
-        f"Validation summary: {passed} PASS, "
-        f"{mismatches} MISMATCH, {errors} ERROR"
-    )
-    print(f"Report saved to: {report_path}")
-
-    if errors:
-        print(
-            "Validation failed: at least one mandatory acceptance "
-            "check or validation integrity check produced ERROR."
-        )
-        return 1
-
-    if mismatches:
-        print(
-            "Validation completed with informational reference "
-            "MISMATCH results. No ERROR results were found."
-        )
-        return 0
-
-    print("All validation checks passed.")
-    return 0
-
-def run_dual_validation(
-    validation_runner,
-    reference_path,
-    internal_reference_path,
-    report_path,
-    internal_report_path,
-):
-    """
-    Run official PDF-defined validation and internal validation separately.
-
-    The validation_runner must accept keyword arguments:
-        reference_path
-        report_path
-
-    Returns:
-        A dictionary containing the independent exit codes.
-
-    Exit code 0 means the corresponding report contains no ERROR.
-    MISMATCH remains informational.
-    """
-    print("\n" + "=" * 65)
-    print("OFFICIAL PDF-DEFINED VALIDATION")
-    print("=" * 65)
-
-    reference_exit_code = validation_runner(
-        reference_path=reference_path,
-        report_path=report_path,
-    )
-
-    print("\n" + "=" * 65)
-    print("INTERNAL VALIDATION")
-    print("=" * 65)
-
-    internal_exit_code = validation_runner(
-        reference_path=internal_reference_path,
-        report_path=internal_report_path,
-    )
-
-    results = {
-        "reference_exit_code": int(reference_exit_code),
-        "internal_exit_code": int(internal_exit_code),
+        return None
+
+
+def find_value(df, metric_name):
+    """Pick one value out of a table using the metric_name convention."""
+    if metric_name == "ROW_COUNT":
+        return len(df)
+    parts = metric_name.split("__")
+    column, keys = (df.columns[-1], parts) if len(parts) == 1 else (parts[0], parts[1:])
+    rows = df
+    for i, key in enumerate(keys):
+        rows = rows[rows.iloc[:, i].astype(str) == key]
+    if len(rows) != 1:
+        raise LookupError(f"{len(rows)} rows match {keys}")
+    if column not in df.columns:
+        raise LookupError(f"no column '{column}'")
+    return rows[column].iloc[0]
+
+
+def clean_csv(df):
+    """1 when the table has no 'Unnamed' index column and no value with more than 4 decimals."""
+    floats = df.select_dtypes("float")
+    over = ((floats - floats.round(4)).abs() > 1e-9).any().any()
+    unnamed = any(str(c).startswith("Unnamed") for c in df.columns)
+    return int(not over and not unnamed)
+
+def confusion_ok(df, tol=0.0001):
+    """1 when TN/FP/FN/TP in every row reproduce accuracy, precision, recall and f1
+    (precision/recall/f1 taken as 0 when undefined), within rounding."""
+    n = df.TN + df.FP + df.FN + df.TP
+    expected = {
+        "accuracy": (df.TP + df.TN) / n,
+        "precision": (df.TP / (df.TP + df.FP)).fillna(0),
+        "recall": (df.TP / (df.TP + df.FN)).fillna(0),
+        "f1": (2 * df.TP / (2 * df.TP + df.FP + df.FN)).fillna(0),
     }
+    return int(all(((df[c] - v).abs() <= tol).all() for c, v in expected.items()))
 
-    print("\n" + "=" * 65)
-    print("DUAL VALIDATION SUMMARY")
-    print("=" * 65)
-    print(
-        "Official report: "
-        f"{'PASS (no ERROR)' if results['reference_exit_code'] == 0 else 'ERROR(S) FOUND'}"
-    )
-    print(
-        "Internal report: "
-        f"{'PASS (no ERROR)' if results['internal_exit_code'] == 0 else 'ERROR(S) FOUND'}"
-    )
+def generated_value(r, root):
+    """Compute the value to compare for one reference row."""
+    path = root / r["source_file"]
+    is_csv = path.suffix.lower() == ".csv"
+    df = pd.read_csv(path) if is_csv else None
+    src = path.read_text(encoding="utf-8", errors="replace")  # errors=replace: binary files such as .pkl
+    expression = str(r.get("expression", "") or "").strip()
+    if not expression:
+        return find_value(df, r["metric_name"])
+    names = {
+        "df": df, "src": src, "code": re.sub(r"\s+", "", re.sub(r"#.*", "", src)),
+        "get": lambda name, table=None: find_value(df if table is None else table, name),
+        "read": lambda p: pd.read_csv(root / p),
+        "clean_csv": clean_csv, "confusion_ok": confusion_ok,
+        "literal": __import__("ast").literal_eval,
+        "re": re, "np": np, "math": math, "pd": pd,
+    }
+    value = eval(expression, names)  # expressions come only from your own reference CSV
+    return value.item() if hasattr(value, "item") else value
 
-    return results
+
+def judge(r, actual):
+    """Return (status, comment) for one generated value."""
+    op = (str(r.get("comparison", "") or "").strip().upper()) or "EQ"
+    ref, tol_text = r["metric_value"], (r["tolerance"] or "0")
+    a, e, tol = as_number(actual), as_number(ref), as_number(tol_text) or 0.0
+    miss = "WARN" if r["value_type"].strip().upper() == "REFERENCE" else "FAIL"
+
+    if a is None or e is None:  # text, e.g. a model name
+        ok = str(actual).strip() == str(ref).strip()
+        return ("PASS", "Matches") if ok else (miss, f"Expected '{ref}'")
+
+    if COMPARE[op](a, e, tol):
+        if op != "EQ":
+            return "PASS", f"Meets {SYMBOL[op]} {ref}"
+        return "PASS", "Exact match" if tol == 0 else f"Within ±{tol_text} (diff {a - e:+.4g})"
+    if op == "EQ":
+        limit = "exact match required" if tol == 0 else f"allowed ±{tol_text}"
+        return miss, f"Off by {a - e:+.4g} ({limit})"
+    return miss, f"Needs {SYMBOL[op]} {ref}; short by {abs(a - e):.4g}"
+
+
+def check(r, root):
+    """Run one check. Returns (generated value, status, comment)."""
+    try:
+        actual = generated_value(r, root)
+    except FileNotFoundError:
+        return "", "ERROR", f"File not found: {r['source_file']}"
+    except Exception as ex:
+        # A REFERENCE row may name a model your run did not pick (e.g. a different CV pair): only warn.
+        status = "WARN" if r["value_type"].strip().upper() == "REFERENCE" else "ERROR"
+        return "", status, f"Could not compute value: {type(ex).__name__}: {ex}"
+    status, comment = judge(r, actual)
+    return actual, status, comment
+
+
+def show(x):
+    """Readable value: 1224.0 -> 1224, True -> 1, long floats shortened."""
+    v = as_number(x)
+    if v is None:
+        return str(x)
+    return str(int(v)) if v == int(v) else f"{v:.6g}"
+
+
+def reference_text(r):
+    op = (str(r.get("comparison", "") or "").strip().upper()) or "EQ"
+    if op == "EQ":
+        tol = as_number(r["tolerance"]) or 0
+        return r["metric_value"] if tol == 0 else f"{r['metric_value']} ± {r['tolerance']}"
+    return f"{SYMBOL[op]} {r['metric_value']}"
+
+
+def validate(part, reference_csv):
+    """Run every check in the reference CSV, print a summary, write the report.
+    Returns 0 when there is no FAIL or ERROR (WARN does not fail the run)."""
+    ref = pd.read_csv(VALIDATION_DIR / reference_csv, dtype=str, keep_default_na=False)
+
+    results = []
+    for _, r in ref.iterrows():
+        actual, status, comment = check(r, PROJECT_ROOT)
+        results.append({
+            "source_file": r["source_file"], "metric_name": r["metric_name"],
+            "value_type": r["value_type"], "description": r.get("description", ""),
+            "reference": reference_text(r), "generated": show(actual),
+            "status": status, "comment": comment, "brief_ref": r.get("brief_ref", ""),
+        })
+        #print(f"[{status:<5}] {r['metric_name']:<46} ref={reference_text(r):<14} "
+        #      f"got={show(actual):<10} {comment}")
+
+    report = pd.DataFrame(results)
+    n = report["status"].value_counts()
+    counts = {k: int(n.get(k, 0)) for k in ("PASS", "FAIL", "ERROR", "WARN")}
+    print(f"\nPart {part}: {counts['PASS']}/{len(report)} passed, {counts['FAIL']} failed, "
+          f"{counts['ERROR']} errors, {counts['WARN']} warnings")
+
+    stem = f"part_{part.lower()}_validation_report"
+    report.to_csv(REPORT_DIR / f"{stem}.csv", index=False, encoding="utf-8-sig")
+    write_markdown(report, part, counts, REPORT_DIR / f"{stem}.md")
+    print(f"Report: validation/{stem}.csv and validation/{stem}.md")
+    return 0 if counts["FAIL"] == 0 and counts["ERROR"] == 0 else 1
+
+def write_markdown(report, part, counts, path):
+    """Same results as a readable table; problems first."""
+    summary = " · ".join(f"{k} {v}" for k, v in counts.items())
+    lines = [f"# Part {part} validation report", "",
+             f"Run: {datetime.now():%Y-%m-%d %H:%M} · **{counts['PASS']}/{len(report)} passed** · {summary}",
+             "",
+             "FAIL = graded criterion not met · ERROR = value could not be computed · "
+             "WARN = differs from the pinned-configuration reference (graded on the band, not this number)",
+             "",
+             "| Metric | Type | Reference | Generated | Status | Comment |",
+             "|---|---|---|---|---|---|"]
+    order = {"ERROR": 0, "FAIL": 1, "WARN": 2, "PASS": 3}
+    sorted_report = report.assign(_o=report["status"].map(order)).sort_values("_o", kind="stable")
+    for _, r in sorted_report.iterrows():
+        status = r["status"] if r["status"] == "PASS" else f"**{r['status']}**"
+        cells = [r["metric_name"], r["value_type"], r["reference"], r["generated"], status, r["comment"]]
+        lines.append("| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")

@@ -1,67 +1,71 @@
-source_file,metric_name,reference_value,code_value,tolerance,status,comment
-outputs/part_b_checks.csv,row_count,5.0,5.0,0.0,PASS,Number of rows in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_checks.csv,column_count,2.0,2.0,0.0,PASS,Number of columns in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_checks.csv,train_rows,840.0,840.0,0.0,PASS,Number of training rows in the established data split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_checks.csv,val_rows,180.0,180.0,0.0,PASS,Number of validation rows in the established data split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_checks.csv,test_rows,180.0,180.0,0.0,PASS,Number of test rows in the established data split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_checks.csv,train_scaled_max_abs_mean,0.0,0.0,0.0,PASS,Largest absolute training-feature mean after training-only scaling. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_checks.csv,test_scaled_max_abs_mean,0.2187,0.2187,0.02,PASS,Largest absolute test-feature mean after applying the training-fitted scaler. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.02.
-outputs/part_b_checks.csv,train_scaled_mean_below_1e_9,1.0,1.0,0.0,PASS,Whether the recorded training scaled mean is below 1e-9. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_checks.csv,test_scaled_mean_exceeds_0_01,1.0,1.0,0.0,PASS,Whether the recorded test scaled mean exceeds 0.01. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,row_count,6.0,6.0,0.0,PASS,Number of rows in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,column_count,6.0,6.0,0.0,PASS,Number of columns in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,schema_matches,1.0,1.0,0.0,PASS,Whether the output columns match the required schema and order. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,val_row_count,5.0,5.0,0.0,PASS,Part B output metric or acceptance criterion. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,test_row_count,1.0,1.0,0.0,PASS,Part B output metric or acceptance criterion. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,model_present__val__baseline,1.0,1.0,0.0,PASS,Whether exactly one baseline row exists for the val split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,model_present__val__linear_regression,1.0,1.0,0.0,PASS,Whether exactly one linear_regression row exists for the val split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,model_present__val__decision_tree,1.0,1.0,0.0,PASS,Whether exactly one decision_tree row exists for the val split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,model_present__val__random_forest,1.0,1.0,0.0,PASS,Whether exactly one random_forest row exists for the val split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,model_present__val__gradient_boosting,1.0,1.0,0.0,PASS,Whether exactly one gradient_boosting row exists for the val split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,model_present__test__linear_regression,1.0,1.0,0.0,PASS,Whether exactly one linear_regression row exists for the test split. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,rmse_consistency,1.0,1.0,0.0,PASS,Whether RMSE equals sqrt(MSE) for every metrics row within 0.001. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_metrics.csv,val_r2__baseline,-0.021,-0.0212,0.01,PASS,Validation R² for model 'baseline'. Values match within tolerance. Absolute difference: 0.0002; allowed tolerance: 0.01.
-outputs/part_b_metrics.csv,val_r2__linear_regression,0.931,0.9313,0.01,PASS,Validation R² for model 'linear_regression'. Values match within tolerance. Absolute difference: 0.0003; allowed tolerance: 0.01.
-outputs/part_b_metrics.csv,val_r2__decision_tree,0.887,0.8867,0.01,PASS,Validation R² for model 'decision_tree'. Values match within tolerance. Absolute difference: 0.0003; allowed tolerance: 0.01.
-outputs/part_b_metrics.csv,val_r2__random_forest,0.914,0.9141,0.01,PASS,Validation R² for model 'random_forest'. Values match within tolerance. Absolute difference: 0.0001; allowed tolerance: 0.01.
-outputs/part_b_metrics.csv,val_r2__gradient_boosting,0.931,0.9306,0.01,PASS,Validation R² for model 'gradient_boosting'. Values match within tolerance. Absolute difference: 0.0004; allowed tolerance: 0.01.
-outputs/part_b_metrics.csv,test_r2__linear_regression,0.949,0.9493,0.01,PASS,Final test R² for model 'linear_regression'. Values match within tolerance. Absolute difference: 0.0003; allowed tolerance: 0.01.
-outputs/part_b_tree_depth.csv,row_count,8.0,8.0,0.0,PASS,Number of rows in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,column_count,3.0,3.0,0.0,PASS,Number of columns in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_depth_present__1,1.0,1.0,0.0,PASS,Whether the required tree-depth configuration '1' appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_depth_present__2,1.0,1.0,0.0,PASS,Whether the required tree-depth configuration '2' appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_depth_present__3,1.0,1.0,0.0,PASS,Whether the required tree-depth configuration '3' appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_depth_present__4,1.0,1.0,0.0,PASS,Whether the required tree-depth configuration '4' appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_depth_present__6,1.0,1.0,0.0,PASS,Whether the required tree-depth configuration '6' appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_depth_present__8,1.0,1.0,0.0,PASS,Whether the required tree-depth configuration '8' appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_depth_present__12,1.0,1.0,0.0,PASS,Whether the required tree-depth configuration '12' appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_depth_present__unlimited,1.0,1.0,0.0,PASS,Whether the required tree-depth configuration 'unlimited' appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_best_depth,6.0,6.0,0.0,PASS,Tree depth with the lowest validation RMSE. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_best_val_rmse,6.28,6.2796,0.5,PASS,Lowest validation RMSE among the tree-depth experiments. Values match within tolerance. Absolute difference: 0.0004; allowed tolerance: 0.5.
-outputs/part_b_tree_depth.csv,tree_train_rmse_nonincreasing,1.0,1.0,0.0,PASS,Whether training RMSE does not increase as tree depth increases. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_tree_depth.csv,tree_depth_1_gap,0.5,0.49900000000000055,0.01,PASS,Depth-1 validation RMSE minus training RMSE; evidence for the high-bias check. Values match within tolerance. Absolute difference: 0.001; allowed tolerance: 0.01.
-outputs/part_b_tree_depth.csv,tree_depth_1_vs_best_gap,5.85,5.8528,0.5,PASS,Depth-1 validation RMSE minus the best tree validation RMSE. Values match within tolerance. Absolute difference: 0.0028; allowed tolerance: 0.5.
-outputs/part_b_tree_depth.csv,tree_unlimited_train_rmse,0.0,0.0,0.01,PASS,Training RMSE for the unlimited-depth tree. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.01.
-outputs/part_b_tree_depth.csv,tree_unlimited_gap,7.79,7.789,0.5,PASS,Unlimited-depth validation RMSE minus training RMSE; evidence for the high-variance check. Values match within tolerance. Absolute difference: 0.001; allowed tolerance: 0.5.
-outputs/part_b_tree_depth.csv,tree_decision_tree_rmse_matches_best,1.0,1.0,0.0,PASS,Whether the decision-tree validation RMSE matches the best depth experiment within 0.001. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_gb_learning_rate.csv,row_count,3.0,3.0,0.0,PASS,Number of rows in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_gb_learning_rate.csv,column_count,3.0,3.0,0.0,PASS,Number of columns in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_gb_learning_rate.csv,gb_learning_rate_present__0.01,1.0,1.0,0.0,PASS,Whether the required learning rate 0.01 appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_gb_learning_rate.csv,gb_learning_rate_present__0.1,1.0,1.0,0.0,PASS,Whether the required learning rate 0.1 appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_gb_learning_rate.csv,gb_learning_rate_present__1.0,1.0,1.0,0.0,PASS,Whether the required learning rate 1.0 appears exactly once. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_gb_learning_rate.csv,gb_val_r2__lr_0.01,0.713,0.7127,0.02,PASS,Validation R² for gradient boosting learning-rate experiment '0.01'. Values match within tolerance. Absolute difference: 0.0003; allowed tolerance: 0.02.
-outputs/part_b_gb_learning_rate.csv,gb_val_r2__lr_0.1,0.931,0.9306,0.02,PASS,Validation R² for gradient boosting learning-rate experiment '0.1'. Values match within tolerance. Absolute difference: 0.0004; allowed tolerance: 0.02.
-outputs/part_b_gb_learning_rate.csv,gb_val_r2__lr_1.0,0.844,0.844,0.02,PASS,Validation R² for gradient boosting learning-rate experiment '1.0'. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.02.
-outputs/part_b_gb_learning_rate.csv,gb_r2_ranking_ok,1.0,1.0,0.0,PASS,Whether validation R² ranks learning rates as 0.1 > 1.0 > 0.01. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_gb_learning_rate.csv,gb_r2_0_1_minimum_met,1.0,1.0,0.0,PASS,Whether the 0.1 learning-rate validation R² is at least 0.90. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_gb_learning_rate.csv,gb_r2_0_01_maximum_met,1.0,1.0,0.0,PASS,Whether the 0.01 learning-rate validation R² is at most 0.80. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_cv.csv,row_count,2.0,2.0,0.0,PASS,Number of rows in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_cv.csv,column_count,3.0,3.0,0.0,PASS,Number of columns in the generated output. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_cv.csv,cv_model_present__linear_regression,1.0,1.0,0.0,PASS,Whether model 'linear_regression' appears exactly once in cross-validation results. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_cv.csv,cv_model_present__gradient_boosting,1.0,1.0,0.0,PASS,Whether model 'gradient_boosting' appears exactly once in cross-validation results. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_cv.csv,cv_mean_r2__linear_regression,0.926,0.9261,0.02,PASS,Mean five-fold cross-validation R² for model 'linear_regression'. Values match within tolerance. Absolute difference: 0.0001; allowed tolerance: 0.02.
-outputs/part_b_cv.csv,cv_mean_r2__gradient_boosting,0.935,0.9352,0.02,PASS,Mean five-fold cross-validation R² for model 'gradient_boosting'. Values match within tolerance. Absolute difference: 0.0002; allowed tolerance: 0.02.
-outputs/part_b_cv.csv,cv_std_r2__linear_regression,0.0048,0.0048,0.01,PASS,Standard deviation of five-fold cross-validation R² for model 'linear_regression'. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.01.
-outputs/part_b_cv.csv,cv_std_r2__gradient_boosting,0.0044,0.0044,0.01,PASS,Standard deviation of five-fold cross-validation R² for model 'gradient_boosting'. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.01.
-outputs/part_b_cv.csv,cv_all_means_at_least_0_90,1.0,1.0,0.0,PASS,Whether both cross-validation mean R² values are at least 0.90. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
-outputs/part_b_cv.csv,cv_all_stds_at_most_0_03,1.0,1.0,0.0,PASS,Whether both cross-validation R² standard deviations are at most 0.03. Values match within tolerance. Absolute difference: 0; allowed tolerance: 0.
+﻿source_file,metric_name,value_type,description,reference,generated,status,comment,brief_ref
+outputs/part_b_checks.csv,checks_schema_matches,ACCEPTANCE,"Columns are exactly metric, value",1,1,PASS,Exact match,Task B2
+outputs/part_b_checks.csv,checks_row_count,ACCEPTANCE,Five metrics written,5,5,PASS,Exact match,Task B2
+outputs/part_b_checks.csv,train_rows,ACCEPTANCE,Training rows (70%),840,840,PASS,Exact match,Task B1 / acceptance
+outputs/part_b_checks.csv,val_rows,ACCEPTANCE,Validation rows,180,180,PASS,Exact match,Task B1 / acceptance
+outputs/part_b_checks.csv,test_rows,ACCEPTANCE,Test rows,180,180,PASS,Exact match,Task B1 / acceptance
+outputs/part_b_checks.csv,train_scaled_max_abs_mean_max,ACCEPTANCE,Scaled training columns have mean ~0 (scaler fitted on train),< 0.000000001,0,PASS,Meets < 0.000000001,Acceptance B
+outputs/part_b_checks.csv,test_scaled_max_abs_mean_min,ACCEPTANCE,Scaled test columns are clearly non-zero (scaler not fitted on test),> 0.01,0.2187,PASS,Meets > 0.01,Acceptance B
+outputs/part_b_checks.csv,checks_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+outputs/part_b_metrics.csv,metrics_schema_matches,ACCEPTANCE,"Columns are exactly model, split, MAE, MSE, RMSE, R2",1,1,PASS,Exact match,Task B5
+outputs/part_b_metrics.csv,metrics_row_count,ACCEPTANCE,Five validation rows + one test row,6,6,PASS,Exact match,Acceptance B
+outputs/part_b_metrics.csv,metrics_val_row_count,ACCEPTANCE,Five rows with split = val,5,5,PASS,Exact match,Task B5
+outputs/part_b_metrics.csv,metrics_test_row_count,ACCEPTANCE,Exactly one row with split = test,1,1,PASS,Exact match,Acceptance B
+outputs/part_b_metrics.csv,baseline_present_val,ACCEPTANCE,mean_baseline validation row present,1,1,PASS,Exact match,Task B5
+outputs/part_b_metrics.csv,linear_regression_present_val,ACCEPTANCE,linear_regression validation row present,1,1,PASS,Exact match,Task B5
+outputs/part_b_metrics.csv,decision_tree_present_val,ACCEPTANCE,decision_tree validation row present,1,1,PASS,Exact match,Task B5
+outputs/part_b_metrics.csv,random_forest_present_val,ACCEPTANCE,random_forest validation row present,1,1,PASS,Exact match,Task B5
+outputs/part_b_metrics.csv,gradient_boosting_present_val,ACCEPTANCE,gradient_boosting validation row present,1,1,PASS,Exact match,Task B5
+outputs/part_b_metrics.csv,final_model_is_lowest_val_rmse,ACCEPTANCE,Test row belongs to the candidate with the lowest validation RMSE,1,1,PASS,Exact match,Task B7
+outputs/part_b_metrics.csv,rmse_mse_consistency,ACCEPTANCE,Every RMSE equals sqrt(MSE) within 0.001,1,1,PASS,Exact match,Task B5 / acceptance
+outputs/part_b_metrics.csv,baseline_r2_val,REFERENCE,Baseline R2 on validation,-0.021 ± 0.01,-0.0212,PASS,Within ±0.01 (diff -0.0002),Reference table B
+outputs/part_b_metrics.csv,baseline_r2_val_minimum,ACCEPTANCE,Baseline R2 band lower edge,≥ -0.1,-0.0212,PASS,Meets ≥ -0.1,Reference table B
+outputs/part_b_metrics.csv,baseline_r2_val_maximum,ACCEPTANCE,Baseline R2 band upper edge,≤ 0.02,-0.0212,PASS,Meets ≤ 0.02,Reference table B
+outputs/part_b_metrics.csv,linear_regression_r2_val,REFERENCE,Linear regression R2 on validation,0.931 ± 0.01,0.9313,PASS,Within ±0.01 (diff +0.0003),Reference table B
+outputs/part_b_metrics.csv,linear_regression_r2_val_minimum,ACCEPTANCE,Linear regression R2 band,≥ 0.88,0.9313,PASS,Meets ≥ 0.88,Reference table B
+outputs/part_b_metrics.csv,decision_tree_r2_val,REFERENCE,Decision tree R2 on validation,0.887 ± 0.01,0.8867,PASS,Within ±0.01 (diff -0.0003),Reference table B
+outputs/part_b_metrics.csv,decision_tree_r2_val_minimum,ACCEPTANCE,Decision tree R2 band,≥ 0.82,0.8867,PASS,Meets ≥ 0.82,Reference table B
+outputs/part_b_metrics.csv,random_forest_r2_val,REFERENCE,Random forest R2 on validation,0.914 ± 0.01,0.9141,PASS,Within ±0.01 (diff +0.0001),Reference table B
+outputs/part_b_metrics.csv,random_forest_r2_val_minimum,ACCEPTANCE,Random forest R2 band,≥ 0.86,0.9141,PASS,Meets ≥ 0.86,Reference table B
+outputs/part_b_metrics.csv,gradient_boosting_r2_val,REFERENCE,Gradient boosting R2 on validation,0.931 ± 0.01,0.9306,PASS,Within ±0.01 (diff -0.0004),Reference table B
+outputs/part_b_metrics.csv,gradient_boosting_r2_val_minimum,ACCEPTANCE,Gradient boosting R2 band,≥ 0.88,0.9306,PASS,Meets ≥ 0.88,Reference table B
+outputs/part_b_metrics.csv,final_model_r2_test,REFERENCE,Final model R2 on test (linear regression in the pinned run),0.949 ± 0.01,0.9493,PASS,Within ±0.01 (diff +0.0003),Reference table B
+outputs/part_b_metrics.csv,final_model_r2_test_minimum,ACCEPTANCE,Final model R2 on test band,≥ 0.88,0.9493,PASS,Meets ≥ 0.88,Reference table B
+outputs/part_b_metrics.csv,decision_tree_rmse_val_best_depth_abs_diff_max,ACCEPTANCE,decision_tree val RMSE equals the lowest val_rmse in the depth table,≤ 0.001,0,PASS,Meets ≤ 0.001,Acceptance B
+outputs/part_b_metrics.csv,metrics_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+outputs/part_b_tree_depth.csv,tree_depth_schema_matches,ACCEPTANCE,"Columns are exactly max_depth, train_rmse, val_rmse",1,1,PASS,Exact match,Task B4
+outputs/part_b_tree_depth.csv,tree_depth_row_count,ACCEPTANCE,Eight depths,8,8,PASS,Exact match,Acceptance B
+outputs/part_b_tree_depth.csv,tree_depths_exact_order,ACCEPTANCE,"Depths are 1, 2, 3, 4, 6, 8, 12, unlimited in that order",1,1,PASS,Exact match,Task B4
+outputs/part_b_tree_depth.csv,decision_tree_train_rmse_nonincreasing_depths,ACCEPTANCE,train_rmse never rises as depth grows,1,1,PASS,Exact match,Acceptance B
+outputs/part_b_tree_depth.csv,decision_tree_best_depth_val,REFERENCE,Depth with the lowest val_rmse (ties -> smaller depth),6,6,PASS,Exact match,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_best_depth_val_minimum,ACCEPTANCE,"Best depth is 4 or more, or unlimited",1,1,PASS,Exact match,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_best_rmse_val,REFERENCE,Lowest val_rmse,6.28 ± 0.01,6.2796,PASS,Within ±0.01 (diff -0.0004),Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_depth_1,REFERENCE,Depth 1: val_rmse - train_rmse,0.5 ± 0.01,0.499,PASS,Within ±0.01 (diff -0.001),Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_depth_1_maximum,ACCEPTANCE,Depth 1 gap small (high bias),≤ 2.5,0.499,PASS,Meets ≤ 2.5,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_depth_1_vs_best,REFERENCE,Depth 1 val_rmse minus best val_rmse,5.85 ± 0.01,5.8528,PASS,Within ±0.01 (diff +0.0028),Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_depth_1_vs_best_minimum,ACCEPTANCE,Depth 1 clearly worse than best,≥ 4,5.8528,PASS,Meets ≥ 4,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_train_rmse_unlimited,REFERENCE,No depth limit: train_rmse,0 ± 0.01,0,PASS,Within ±0.01 (diff +0),Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_val_rmse_unlimited,REFERENCE,No depth limit: val_rmse,7.79 ± 0.01,7.789,PASS,Within ±0.01 (diff -0.001),Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_unlimited,REFERENCE,No depth limit: val_rmse - train_rmse,7.79 ± 0.01,7.789,PASS,Within ±0.01 (diff -0.001),Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_unlimited_minimum,ACCEPTANCE,No depth limit gap large (high variance),≥ 5,7.789,PASS,Meets ≥ 5,Reference table B
+outputs/part_b_tree_depth.csv,tree_depth_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+outputs/part_b_gb_learning_rate.csv,gb_learning_rate_schema_matches,ACCEPTANCE,"Columns are exactly learning_rate, val_rmse, val_r2",1,1,PASS,Exact match,Task B6
+outputs/part_b_gb_learning_rate.csv,gb_learning_rate_row_count,ACCEPTANCE,Three learning rates,3,3,PASS,Exact match,Acceptance B
+outputs/part_b_gb_learning_rate.csv,gb_learning_rates_exact,ACCEPTANCE,"Learning rates are 0.01, 0.1, 1.0",1,1,PASS,Exact match,Task B6
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_ranking_correct,ACCEPTANCE,R2(0.1) > R2(1.0) > R2(0.01),1,1,PASS,Exact match,Acceptance B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_0.01,REFERENCE,Validation R2 at learning rate 0.01,0.713 ± 0.01,0.7127,PASS,Within ±0.01 (diff -0.0003),Reference table B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_0.01_maximum,ACCEPTANCE,Learning rate 0.01 too slow,≤ 0.8,0.7127,PASS,Meets ≤ 0.8,Reference table B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_0.1,REFERENCE,Validation R2 at learning rate 0.1,0.931 ± 0.01,0.9306,PASS,Within ±0.01 (diff -0.0004),Reference table B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_0.1_minimum,ACCEPTANCE,Learning rate 0.1 band,≥ 0.9,0.9306,PASS,Meets ≥ 0.9,Reference table B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_1.0,REFERENCE,Validation R2 at learning rate 1.0,0.844 ± 0.01,0.844,PASS,Within ±0.01 (diff +0),Reference table B
+outputs/part_b_gb_learning_rate.csv,gb_learning_rate_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule
+outputs/part_b_cv.csv,cv_schema_matches,ACCEPTANCE,"Columns are exactly model, mean_r2, std_r2",1,1,PASS,Exact match,Task B7
+outputs/part_b_cv.csv,cv_row_count,ACCEPTANCE,Two cross-validated models,2,2,PASS,Exact match,Acceptance B
+outputs/part_b_cv.csv,cv_models_are_top2_by_val_rmse,ACCEPTANCE,CV models are the two best candidates by validation RMSE,1,1,PASS,Exact match,Task B7
+outputs/part_b_cv.csv,linear_regression_mean_r2_cv,REFERENCE,Linear regression CV mean R2,0.926 ± 0.01,0.9261,PASS,Within ±0.01 (diff +0.0001),Reference table B
+outputs/part_b_cv.csv,gradient_boosting_mean_r2_cv,REFERENCE,Gradient boosting CV mean R2,0.935 ± 0.01,0.9352,PASS,Within ±0.01 (diff +0.0002),Reference table B
+outputs/part_b_cv.csv,linear_regression_std_r2_cv,REFERENCE,Linear regression CV std R2,0.0048 ± 0.0001,0.0048,PASS,Within ±0.0001 (diff +0),Reference table B
+outputs/part_b_cv.csv,gradient_boosting_std_r2_cv,REFERENCE,Gradient boosting CV std R2,0.0044 ± 0.0001,0.0044,PASS,Within ±0.0001 (diff +0),Reference table B
+outputs/part_b_cv.csv,cv_mean_r2_minimum,ACCEPTANCE,Each CV model mean R2 >= 0.90,≥ 0.9,0.9261,PASS,Meets ≥ 0.9,Reference table B
+outputs/part_b_cv.csv,cv_std_r2_maximum,ACCEPTANCE,Each CV model std R2 <= 0.03,≤ 0.03,0.0048,PASS,Meets ≤ 0.03,Reference table B
+outputs/part_b_cv.csv,cv_csv_clean,ACCEPTANCE,No index column; values rounded to 4 decimals,1,1,PASS,Exact match,Brief p6 output rule

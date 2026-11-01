@@ -1,60 +1,62 @@
-source_file,metric_name,value_type,metric_value,tolerance
-outputs/part_a_checks.csv,raw_rows,ACCEPTANCE,1224,0
-outputs/part_a_checks.csv,duplicate_rows_removed,ACCEPTANCE,24,0
-outputs/part_a_checks.csv,rows_after_dedup,ACCEPTANCE,1200,0
-outputs/part_a_checks.csv,missing_distance_km_before,ACCEPTANCE,36,0
-outputs/part_a_checks.csv,missing_parcel_weight_before,ACCEPTANCE,24,0
-outputs/part_a_checks.csv,sentinel_weight_rows,ACCEPTANCE,5,0
-outputs/part_a_checks.csv,missing_declared_value_before,ACCEPTANCE,12,0
-outputs/part_a_checks.csv,missing_payment_mode_before,ACCEPTANCE,18,0
-outputs/part_a_checks.csv,service_type_spellings_before,ACCEPTANCE,12,0
-outputs/part_a_checks.csv,service_type_spellings_after,ACCEPTANCE,3,0
-outputs/part_a_checks.csv,declared_value_mean_inr,ACCEPTANCE,1533.05,0.01
-outputs/part_a_checks.csv,declared_value_median_inr,ACCEPTANCE,1121.5,0.01
-outputs/part_a_checks.csv,log_declared_value_mean,ACCEPTANCE,7.028,0.01
-outputs/part_a_checks.csv,log_declared_value_median,ACCEPTANCE,7.022,0.01
-outputs/part_a_checks.csv,median_distance_km,ACCEPTANCE,314.95,0.01
-outputs/part_a_checks.csv,median_parcel_weight_kg,ACCEPTANCE,1.83,0.01
-outputs/part_a_checks.csv,median_declared_value_inr,ACCEPTANCE,1121.5,0.01
-outputs/part_a_checks.csv,rows_after_hub_merge,ACCEPTANCE,1200,0
-outputs/part_a_checks.csv,nulls_in_features_and_target,ACCEPTANCE,0,0
-outputs/part_a_checks.csv,delayed_count,ACCEPTANCE,278,0
-outputs/part_a_checks.csv,delay_rate,ACCEPTANCE,0.2317,0.0001
-outputs/part_a_checks.csv,hours_q1,ACCEPTANCE,43.26,0.01
-outputs/part_a_checks.csv,hours_q3,ACCEPTANCE,72.56,0.01
-outputs/part_a_checks.csv,hours_lower_bound,ACCEPTANCE,-0.71,0.01
-outputs/part_a_checks.csv,hours_upper_bound,ACCEPTANCE,116.52,0.01
-outputs/part_a_checks.csv,hours_outlier_count,ACCEPTANCE,1,0
-outputs/part_a_delay_by_group.csv,shipments__service_type__Economy,ACCEPTANCE,315,0
-outputs/part_a_delay_by_group.csv,delayed__service_type__Economy,ACCEPTANCE,27,0
-outputs/part_a_delay_by_group.csv,delay_rate__service_type__Economy,ACCEPTANCE,0.0857,0.00005
-outputs/part_a_delay_by_group.csv,shipments__service_type__Express,ACCEPTANCE,243,0
-outputs/part_a_delay_by_group.csv,delayed__service_type__Express,ACCEPTANCE,119,0
-outputs/part_a_delay_by_group.csv,delay_rate__service_type__Express,ACCEPTANCE,0.4897,0.00005
-outputs/part_a_delay_by_group.csv,shipments__service_type__Standard,ACCEPTANCE,642,0
-outputs/part_a_delay_by_group.csv,delayed__service_type__Standard,ACCEPTANCE,132,0
-outputs/part_a_delay_by_group.csv,delay_rate__service_type__Standard,ACCEPTANCE,0.2056,0.00005
-outputs/part_a_delay_by_group.csv,shipments__hub_tier__1,ACCEPTANCE,400,0
-outputs/part_a_delay_by_group.csv,delayed__hub_tier__1,ACCEPTANCE,16,0
-outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__1,ACCEPTANCE,0.0400,0.00005
-outputs/part_a_delay_by_group.csv,shipments__hub_tier__2,ACCEPTANCE,400,0
-outputs/part_a_delay_by_group.csv,delayed__hub_tier__2,ACCEPTANCE,86,0
-outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__2,ACCEPTANCE,0.2150,0.00005
-outputs/part_a_delay_by_group.csv,shipments__hub_tier__3,ACCEPTANCE,400,0
-outputs/part_a_delay_by_group.csv,delayed__hub_tier__3,ACCEPTANCE,176,0
-outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__3,ACCEPTANCE,0.4400,0.00005
-outputs/part_a_delay_by_group.csv,shipments__distance_band__0-200,ACCEPTANCE,274,0
-outputs/part_a_delay_by_group.csv,delayed__distance_band__0-200,ACCEPTANCE,6,0
-outputs/part_a_delay_by_group.csv,delay_rate__distance_band__0-200,ACCEPTANCE,0.0219,0.00005
-outputs/part_a_delay_by_group.csv,shipments__distance_band__201-400,ACCEPTANCE,563,0
-outputs/part_a_delay_by_group.csv,delayed__distance_band__201-400,ACCEPTANCE,77,0
-outputs/part_a_delay_by_group.csv,delay_rate__distance_band__201-400,ACCEPTANCE,0.1368,0.00005
-outputs/part_a_delay_by_group.csv,shipments__distance_band__401-600,ACCEPTANCE,275,0
-outputs/part_a_delay_by_group.csv,delayed__distance_band__401-600,ACCEPTANCE,120,0
-outputs/part_a_delay_by_group.csv,delay_rate__distance_band__401-600,ACCEPTANCE,0.4364,0.00005
-outputs/part_a_delay_by_group.csv,shipments__distance_band__601+,ACCEPTANCE,88,0
-outputs/part_a_delay_by_group.csv,delayed__distance_band__601+,ACCEPTANCE,75,0
-outputs/part_a_delay_by_group.csv,delay_rate__distance_band__601+,ACCEPTANCE,0.8523,0.00005
-outputs/part_a_correlations.csv,corr__delivery_hours__promised_hours,ACCEPTANCE,0.837,0.01
-outputs/part_a_correlations.csv,corr__delivery_hours__distance_km,ACCEPTANCE,0.401,0.01
-outputs/part_a_correlations.csv,corr__is_delayed__distance_km,ACCEPTANCE,0.546,0.01
+source_file,metric_name,value_type,metric_value,tolerance,description,brief_ref
+outputs/part_a_checks.csv,raw_rows,ACCEPTANCE,1224,0,Rows in raw_shipments.csv,Part A reference table
+outputs/part_a_checks.csv,duplicate_rows_removed,ACCEPTANCE,24,0,Exact duplicate rows dropped,Part A reference table
+outputs/part_a_checks.csv,rows_after_dedup,ACCEPTANCE,1200,0,Rows after dropping duplicates,Part A reference table
+outputs/part_a_checks.csv,missing_distance_km_before,ACCEPTANCE,36,0,Missing distance_km before filling,Part A reference table
+outputs/part_a_checks.csv,missing_parcel_weight_before,ACCEPTANCE,24,0,Missing parcel_weight_kg before filling (sentinels excluded),Part A reference table
+outputs/part_a_checks.csv,sentinel_weight_rows,ACCEPTANCE,5,0,Weights above 100 kg (scanner-fault sentinel),Part A reference table
+outputs/part_a_checks.csv,missing_declared_value_before,ACCEPTANCE,12,0,Missing declared_value before filling,Part A reference table
+outputs/part_a_checks.csv,missing_payment_mode_before,ACCEPTANCE,18,0,Missing payment_mode before filling,Part A reference table
+outputs/part_a_checks.csv,service_type_spellings_before,ACCEPTANCE,12,0,Distinct service_type strings before cleaning,Part A reference table
+outputs/part_a_checks.csv,service_type_spellings_after,ACCEPTANCE,3,0,Distinct service_type strings after strip + title case,Part A reference table
+outputs/part_a_checks.csv,declared_value_mean_inr,ACCEPTANCE,1533.05,0.01,Mean of median-filled declared_value_inr,Part A reference table
+outputs/part_a_checks.csv,declared_value_median_inr,ACCEPTANCE,1121.5,0.01,Median of median-filled declared_value_inr,Part A reference table
+outputs/part_a_checks.csv,log_declared_value_mean,ACCEPTANCE,7.028,0.01,Mean of log_declared_value,Part A reference table
+outputs/part_a_checks.csv,log_declared_value_median,ACCEPTANCE,7.022,0.01,Median of log_declared_value,Part A reference table
+outputs/part_a_checks.csv,median_distance_km,ACCEPTANCE,314.95,0.01,Fill median for distance_km,Part A reference table
+outputs/part_a_checks.csv,median_parcel_weight_kg,ACCEPTANCE,1.83,0.01,Fill median for parcel_weight_kg,Part A reference table
+outputs/part_a_checks.csv,median_declared_value_inr,ACCEPTANCE,1121.5,0.01,Fill median for declared_value_inr,Part A reference table
+outputs/part_a_checks.csv,rows_after_hub_merge,ACCEPTANCE,1200,0,Rows after left merge with hubs,Part A reference table
+outputs/part_a_checks.csv,nulls_in_features_and_target,ACCEPTANCE,0,0,Missing cells in 17 FEATURES + delivery_hours + is_delayed,Part A reference table
+outputs/part_a_checks.csv,delayed_count,ACCEPTANCE,278,0,Parcels with delivery_hours > promised_hours,Part A reference table
+outputs/part_a_checks.csv,delay_rate,ACCEPTANCE,0.2317,0.0001,Share of delayed parcels,Part A reference table
+outputs/part_a_checks.csv,hours_q1,ACCEPTANCE,43.26,0.01,25th percentile of delivery_hours,Part A reference table
+outputs/part_a_checks.csv,hours_q3,ACCEPTANCE,72.56,0.01,75th percentile of delivery_hours,Part A reference table
+outputs/part_a_checks.csv,hours_lower_bound,ACCEPTANCE,-0.71,0.01,Q1 - 1.5 x IQR,Part A reference table
+outputs/part_a_checks.csv,hours_upper_bound,ACCEPTANCE,116.52,0.01,Q3 + 1.5 x IQR,Part A reference table
+outputs/part_a_checks.csv,hours_outlier_count,ACCEPTANCE,1,0,delivery_hours outside the IQR bounds,Part A reference table
+outputs/part_a_delay_by_group.csv,shipments__service_type__Economy,ACCEPTANCE,315,0,Shipments for service_type = Economy,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__service_type__Economy,ACCEPTANCE,27,0,Delayed parcels for service_type = Economy,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__service_type__Economy,ACCEPTANCE,0.0857,0.00005,Delay rate for service_type = Economy,Part A group table
+outputs/part_a_delay_by_group.csv,shipments__service_type__Express,ACCEPTANCE,243,0,Shipments for service_type = Express,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__service_type__Express,ACCEPTANCE,119,0,Delayed parcels for service_type = Express,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__service_type__Express,ACCEPTANCE,0.4897,0.00005,Delay rate for service_type = Express,Part A group table
+outputs/part_a_delay_by_group.csv,shipments__service_type__Standard,ACCEPTANCE,642,0,Shipments for service_type = Standard,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__service_type__Standard,ACCEPTANCE,132,0,Delayed parcels for service_type = Standard,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__service_type__Standard,ACCEPTANCE,0.2056,0.00005,Delay rate for service_type = Standard,Part A group table
+outputs/part_a_delay_by_group.csv,shipments__hub_tier__1,ACCEPTANCE,400,0,Shipments for hub_tier = 1,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__hub_tier__1,ACCEPTANCE,16,0,Delayed parcels for hub_tier = 1,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__1,ACCEPTANCE,0.0400,0.00005,Delay rate for hub_tier = 1,Part A group table
+outputs/part_a_delay_by_group.csv,shipments__hub_tier__2,ACCEPTANCE,400,0,Shipments for hub_tier = 2,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__hub_tier__2,ACCEPTANCE,86,0,Delayed parcels for hub_tier = 2,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__2,ACCEPTANCE,0.2150,0.00005,Delay rate for hub_tier = 2,Part A group table
+outputs/part_a_delay_by_group.csv,shipments__hub_tier__3,ACCEPTANCE,400,0,Shipments for hub_tier = 3,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__hub_tier__3,ACCEPTANCE,176,0,Delayed parcels for hub_tier = 3,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__hub_tier__3,ACCEPTANCE,0.4400,0.00005,Delay rate for hub_tier = 3,Part A group table
+outputs/part_a_delay_by_group.csv,shipments__distance_band__0-200,ACCEPTANCE,274,0,Shipments for distance_band = 0-200,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__distance_band__0-200,ACCEPTANCE,6,0,Delayed parcels for distance_band = 0-200,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__distance_band__0-200,ACCEPTANCE,0.0219,0.00005,Delay rate for distance_band = 0-200,Part A group table
+outputs/part_a_delay_by_group.csv,shipments__distance_band__201-400,ACCEPTANCE,563,0,Shipments for distance_band = 201-400,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__distance_band__201-400,ACCEPTANCE,77,0,Delayed parcels for distance_band = 201-400,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__distance_band__201-400,ACCEPTANCE,0.1368,0.00005,Delay rate for distance_band = 201-400,Part A group table
+outputs/part_a_delay_by_group.csv,shipments__distance_band__401-600,ACCEPTANCE,275,0,Shipments for distance_band = 401-600,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__distance_band__401-600,ACCEPTANCE,120,0,Delayed parcels for distance_band = 401-600,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__distance_band__401-600,ACCEPTANCE,0.4364,0.00005,Delay rate for distance_band = 401-600,Part A group table
+outputs/part_a_delay_by_group.csv,shipments__distance_band__601+,ACCEPTANCE,88,0,Shipments for distance_band = 601+,Part A group table
+outputs/part_a_delay_by_group.csv,delayed__distance_band__601+,ACCEPTANCE,75,0,Delayed parcels for distance_band = 601+,Part A group table
+outputs/part_a_delay_by_group.csv,delay_rate__distance_band__601+,ACCEPTANCE,0.8523,0.00005,Delay rate for distance_band = 601+,Part A group table
+outputs/part_a_correlations.csv,promised_hours__delivery_hours,ACCEPTANCE,0.837,0.01,Correlation of delivery_hours with promised_hours,Part A correlation spot-checks
+outputs/part_a_correlations.csv,distance_km__delivery_hours,ACCEPTANCE,0.401,0.01,Correlation of delivery_hours with distance_km,Part A correlation spot-checks
+outputs/part_a_correlations.csv,distance_km__is_delayed,ACCEPTANCE,0.546,0.01,Correlation of is_delayed with distance_km,Part A correlation spot-checks
+data/modelling_table.csv,ROW_COUNT,ACCEPTANCE,1200,0,Rows in the modelling table (one per unique shipment),Part A acceptance criteria
+outputs/part_a_delay_by_group.csv,ROW_COUNT,ACCEPTANCE,10,0,Groups: 3 service types + 3 tiers + 4 distance bands,Part A task 6

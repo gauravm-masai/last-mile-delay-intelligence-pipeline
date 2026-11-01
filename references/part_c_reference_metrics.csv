@@ -1,77 +1,119 @@
-source_file,metric_name,value_type,metric_value,tolerance
-data/modelling_table.csv,row_count,ACCEPTANCE,1200,0
-data/modelling_table.csv,train_row_count,ACCEPTANCE,840,0
-data/modelling_table.csv,val_row_count,ACCEPTANCE,180,0
-data/modelling_table.csv,test_row_count,ACCEPTANCE,180,0
-data/modelling_table.csv,delayed_train_count,ACCEPTANCE,195,0
-data/modelling_table.csv,delayed_val_count,ACCEPTANCE,42,0
-data/modelling_table.csv,delayed_test_count,ACCEPTANCE,41,0
-outputs/part_c_models.csv,every_model_accuracy_matches_confusion_matrix,ACCEPTANCE,1,0
-outputs/part_c_models.csv,blind_accuracy_val_reference,REFERENCE,0.7667,0.001
-outputs/part_c_models.csv,blind_tn_val,ACCEPTANCE,138,0
-outputs/part_c_models.csv,blind_fp_val,ACCEPTANCE,0,0
-outputs/part_c_models.csv,blind_fn_val,ACCEPTANCE,42,0
-outputs/part_c_models.csv,blind_tp_val,ACCEPTANCE,0,0
-outputs/part_c_models.csv,logistic_regression_f1_val_reference,REFERENCE,0.805,0.001
-outputs/part_c_models.csv,logistic_regression_f1_val_minimum,ACCEPTANCE,0.65,0
-outputs/part_c_models.csv,decision_tree_f1_val_reference,REFERENCE,0.747,0.001
-outputs/part_c_models.csv,decision_tree_f1_val_minimum,ACCEPTANCE,0.60,0
-outputs/part_c_models.csv,default_rf_f1_val_reference,REFERENCE,0.8000,0.001
-outputs/part_c_models.csv,default_rf_f1_val_minimum,ACCEPTANCE,0.65,0
-outputs/part_c_models.csv,logistic_regression_accuracy_val_minimum,ACCEPTANCE,0.883,0
-outputs/part_c_models.csv,logistic_regression_accuracy_val_maximum,ACCEPTANCE,0.911,0
-outputs/part_c_models.csv,best_tree_depth_reference,ACCEPTANCE,6,0
-outputs/part_c_models.csv,decision_tree_accuracy_val_minimum,ACCEPTANCE,0.883,0
-outputs/part_c_models.csv,decision_tree_accuracy_val_maximum,ACCEPTANCE,0.911,0
-outputs/part_c_models.csv,default_rf_accuracy_val_minimum,ACCEPTANCE,0.883,0
-outputs/part_c_models.csv,default_rf_accuracy_val_maximum,ACCEPTANCE,0.911,0
-outputs/part_c_feature_scores.csv,row_count,ACCEPTANCE,17,0
-outputs/part_c_feature_scores.csv,top_seven_f_score_order_correct,ACCEPTANCE,1,0
-outputs/part_c_feature_scores.csv,selected_feature_distance_km_position,ACCEPTANCE,1,0
-outputs/part_c_feature_scores.csv,selected_feature_hub_tier_position,ACCEPTANCE,2,0
-outputs/part_c_feature_scores.csv,selected_feature_hub_daily_capacity_position,ACCEPTANCE,3,0
-outputs/part_c_feature_scores.csv,selected_feature_n_stops_position,ACCEPTANCE,4,0
-outputs/part_c_feature_scores.csv,selected_feature_promised_hours_position,ACCEPTANCE,5,0
-outputs/part_c_feature_scores.csv,selected_feature_rain_flag_position,ACCEPTANCE,6,0
-outputs/part_c_feature_scores.csv,selected_feature_sale_event_flag_position,ACCEPTANCE,7,0
-outputs/part_c_feature_scores.csv,sale_event_flag_f_score_minimum,ACCEPTANCE,30,0
-outputs/part_c_feature_scores.csv,noise_columns_outside_top_seven,ACCEPTANCE,1,0
-outputs/part_c_feature_scores.csv,every_noise_column_f_rank_minimum,ACCEPTANCE,8,0
-outputs/part_c_feature_scores.csv,every_noise_column_f_score_strict_maximum,ACCEPTANCE,10,0
-outputs/part_c_feature_scores.csv,combined_noise_importance_reference,REFERENCE,0.225,0.0001
-outputs/part_c_feature_scores.csv,combined_noise_importance_minimum,ACCEPTANCE,0.15,0
-outputs/part_c_feature_scores.csv,combined_noise_importance_maximum,ACCEPTANCE,0.30,0
-outputs/part_c_selectk.csv,row_count,ACCEPTANCE,5,0
-outputs/part_c_tuning.csv,row_count,ACCEPTANCE,3,0
-outputs/part_c_tuning.csv,grid_search_candidates,ACCEPTANCE,27,0
-outputs/part_c_tuning.csv,grid_search_cv_folds,ACCEPTANCE,5,0
-outputs/part_c_tuning.csv,grid_search_total_fits,ACCEPTANCE,135,0
-outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_reference,REFERENCE,0.8952,0.0001
-outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_minimum,ACCEPTANCE,0.86,0
-outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_maximum,ACCEPTANCE,0.93,0
-outputs/part_c_tuning.csv,grid_search_f1_val_reference,REFERENCE,0.775,0.0001
-outputs/part_c_tuning.csv,grid_search_f1_val_minimum,ACCEPTANCE,0.65,0
-outputs/part_c_tuning.csv,randomized_search_candidates,ACCEPTANCE,9,0
-outputs/part_c_tuning.csv,randomized_search_cv_folds,ACCEPTANCE,5,0
-outputs/part_c_tuning.csv,randomized_search_total_fits,ACCEPTANCE,45,0
-outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_reference,REFERENCE,0.8905,0.0001
-outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_minimum,ACCEPTANCE,0.86,0
-outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_maximum,ACCEPTANCE,0.93,0
-outputs/part_c_tuning.csv,randomized_search_f1_val_reference,REFERENCE,0.790,0.0001
-outputs/part_c_tuning.csv,randomized_search_f1_val_minimum,ACCEPTANCE,0.65,0
-outputs/part_c_tuning.csv,default_forest_same_7_features_candidates,ACCEPTANCE,1,0
-outputs/part_c_tuning.csv,default_forest_same_7_features_cv_folds,ACCEPTANCE,0,0
-outputs/part_c_tuning.csv,default_forest_same_7_features_total_fits,ACCEPTANCE,1,0
-outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_reference,REFERENCE,0.833,0.0001
-outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_minimum,ACCEPTANCE,0.65,0
-outputs/part_c_thresholds.csv,row_count,ACCEPTANCE,9,0
-outputs/part_c_thresholds.csv,recall_nonincreasing_with_threshold,ACCEPTANCE,1,0
-outputs/part_c_final_config.csv,selected_threshold,ACCEPTANCE,0.5,0
-outputs/part_c_final_test.csv,row_count,ACCEPTANCE,1,0
-outputs/part_c_final_test.csv,selected_threshold,ACCEPTANCE,0.5,0
-outputs/part_c_final_test.csv,test_precision_reference,REFERENCE,0.6889,0.0001
-outputs/part_c_final_test.csv,test_precision_minimum,ACCEPTANCE,0.45,0
-outputs/part_c_final_test.csv,test_recall_reference,REFERENCE,0.7561,0.0001
-outputs/part_c_final_test.csv,test_recall_minimum,ACCEPTANCE,0.55,0
-outputs/part_c_final_test.csv,test_f1_reference,REFERENCE,0.7209,0.0001
-outputs/part_c_final_test.csv,test_f1_minimum,ACCEPTANCE,0.60,0
+source_file,metric_name,value_type,metric_value,tolerance,comparison,expression,description,brief_ref
+data/modelling_table.csv,row_count,ACCEPTANCE,1200,0,EQ,len(df),Rows in the modelling table,Task C1
+data/modelling_table.csv,train_row_count,ACCEPTANCE,840,0,EQ,"len(df) - read('outputs/part_c_models.csv').query(""model == 'blind_all_on_time'"")[['TN', 'FP', 'FN', 'TP']].sum(axis=1).item() - read('outputs/part_c_final_test.csv')[['TN', 'FP', 'FN', 'TP']].sum(axis=1).item()",Training rows = all rows minus validation and test rows,Task C1 / acceptance
+outputs/part_c_models.csv,val_row_count,ACCEPTANCE,180,0,EQ,"df.query(""model == 'blind_all_on_time'"")[['TN', 'FP', 'FN', 'TP']].sum(axis=1).item()",Validation rows (cells of the blind row),Task C1 / acceptance
+outputs/part_c_final_test.csv,test_row_count,ACCEPTANCE,180,0,EQ,"df[['TN', 'FP', 'FN', 'TP']].sum(axis=1).item()",Test rows (cells of the final test row),Task C1 / acceptance
+data/modelling_table.csv,delayed_train_count,ACCEPTANCE,195,0,EQ,"df.is_delayed.sum() - read('outputs/part_c_models.csv').query(""model == 'blind_all_on_time'"")[['FN', 'TP']].sum(axis=1).item() - read('outputs/part_c_final_test.csv')[['FN', 'TP']].sum(axis=1).item()",Delayed parcels in training rows,Task C1 / acceptance
+outputs/part_c_models.csv,delayed_val_count,ACCEPTANCE,42,0,EQ,"df.query(""model == 'blind_all_on_time'"")[['FN', 'TP']].sum(axis=1).item()",Delayed parcels in validation rows,Task C1 / acceptance
+outputs/part_c_final_test.csv,delayed_test_count,ACCEPTANCE,41,0,EQ,"df[['FN', 'TP']].sum(axis=1).item()",Delayed parcels in test rows,Task C1 / acceptance
+part_c_classification.py,stratified_split_both_calls,ACCEPTANCE,2,0,GE,code.count('stratify='),stratify used in both train_test_split calls,Task C1
+part_c_classification.py,split_configuration,ACCEPTANCE,1,0,EQ,"int('test_size=0.3,random_state=42' in code and 'test_size=0.5,random_state=42' in code)",Both split calls use the pinned test_size and random_state,Task C1
+outputs/part_c_models.csv,models_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['model', 'TN', 'FP', 'FN', 'TP', 'accuracy', 'precision', 'recall', 'f1'])","Columns are exactly model, TN, FP, FN, TP, accuracy, precision, recall, f1",Task C2
+outputs/part_c_models.csv,models_row_count,ACCEPTANCE,4,0,EQ,len(df),Four rows,Task C2
+outputs/part_c_models.csv,models_rows_exact,ACCEPTANCE,1,0,EQ,"int(sorted(re.sub(r'_depth_(2|3|4|5|6|8|10)$', '_depth_d', m) for m in df.model) == sorted(['blind_all_on_time', 'logistic_regression', 'decision_tree_depth_d', 'random_forest_default']))","Rows are blind_all_on_time, logistic_regression, decision_tree_depth_<d> (d in 2-10 grid), random_forest_default",Task C2
+outputs/part_c_models.csv,every_model_confusion_consistent,ACCEPTANCE,1,0,EQ,confusion_ok(df),"TN/FP/FN/TP reproduce accuracy, precision, recall and f1 in every row",Task C2 / acceptance
+outputs/part_c_models.csv,blind_tn_val,ACCEPTANCE,138,0,EQ,get('TN__blind_all_on_time'),Blind baseline TN,Acceptance C
+outputs/part_c_models.csv,blind_fp_val,ACCEPTANCE,0,0,EQ,get('FP__blind_all_on_time'),Blind baseline FP,Acceptance C
+outputs/part_c_models.csv,blind_fn_val,ACCEPTANCE,42,0,EQ,get('FN__blind_all_on_time'),Blind baseline FN,Acceptance C
+outputs/part_c_models.csv,blind_tp_val,ACCEPTANCE,0,0,EQ,get('TP__blind_all_on_time'),Blind baseline TP,Acceptance C
+outputs/part_c_models.csv,blind_accuracy_val,ACCEPTANCE,0.7667,0.001,EQ,get('accuracy__blind_all_on_time'),Blind baseline accuracy (exact ±0.001),Reference table C
+outputs/part_c_models.csv,blind_precision_written_as_zero,ACCEPTANCE,0,0,EQ,get('precision__blind_all_on_time'),Blind precision written as 0,Task C2
+outputs/part_c_models.csv,logistic_regression_f1_val_reference,REFERENCE,0.805,0.001,EQ,get('f1__logistic_regression'),Logistic regression F1 on validation,Reference table C
+outputs/part_c_models.csv,logistic_regression_f1_val_minimum,ACCEPTANCE,0.65,0,GE,get('f1__logistic_regression'),Logistic regression F1 band,Reference table C
+outputs/part_c_models.csv,best_tree_depth_reference,REFERENCE,6,0,EQ,"int(df[df.model.str.startswith('decision_tree_depth_')].model.item().rsplit('_', 1)[1])",Chosen decision-tree depth,Reference table C
+outputs/part_c_models.csv,decision_tree_f1_val_reference,REFERENCE,0.747,0.001,EQ,df[df.model.str.startswith('decision_tree_depth_')].f1.item(),Best decision tree F1 on validation,Reference table C
+outputs/part_c_models.csv,decision_tree_f1_val_minimum,ACCEPTANCE,0.6,0,GE,df[df.model.str.startswith('decision_tree_depth_')].f1.item(),Best decision tree F1 band,Reference table C
+outputs/part_c_models.csv,default_rf_f1_val_reference,REFERENCE,0.8,0.001,EQ,get('f1__random_forest_default'),Default random forest F1 on validation,Reference table C
+outputs/part_c_models.csv,default_rf_f1_val_minimum,ACCEPTANCE,0.65,0,GE,get('f1__random_forest_default'),Default random forest F1 band,Reference table C
+outputs/part_c_models.csv,trained_models_accuracy_above_blind,ACCEPTANCE,0.7667,0,GT,df[df.model != 'blind_all_on_time'].accuracy.min(),Every trained model's validation accuracy beats the blind baseline,Reference table C
+outputs/part_c_models.csv,logistic_regression_accuracy_val_minimum,REFERENCE,0.883,0,GE,get('accuracy__logistic_regression'),Pinned-run accuracy range 0.883-0.911 (lower),Reference table C
+outputs/part_c_models.csv,logistic_regression_accuracy_val_maximum,REFERENCE,0.911,0,LE,get('accuracy__logistic_regression'),Pinned-run accuracy range 0.883-0.911 (upper),Reference table C
+outputs/part_c_models.csv,decision_tree_accuracy_val_minimum,REFERENCE,0.883,0,GE,df[df.model.str.startswith('decision_tree_depth_')].accuracy.item(),Pinned-run accuracy range 0.883-0.911 (lower),Reference table C
+outputs/part_c_models.csv,decision_tree_accuracy_val_maximum,REFERENCE,0.911,0,LE,df[df.model.str.startswith('decision_tree_depth_')].accuracy.item(),Pinned-run accuracy range 0.883-0.911 (upper),Reference table C
+outputs/part_c_models.csv,default_rf_accuracy_val_minimum,REFERENCE,0.883,0,GE,get('accuracy__random_forest_default'),Pinned-run accuracy range 0.883-0.911 (lower),Reference table C
+outputs/part_c_models.csv,default_rf_accuracy_val_maximum,REFERENCE,0.911,0,LE,get('accuracy__random_forest_default'),Pinned-run accuracy range 0.883-0.911 (upper),Reference table C
+outputs/part_c_models.csv,models_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+outputs/part_c_feature_scores.csv,feature_scores_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['feature', 'f_score', 'f_rank', 'rf_importance', 'is_noise'])","Columns are exactly feature, f_score, f_rank, rf_importance, is_noise",Task C3
+outputs/part_c_feature_scores.csv,feature_scores_row_count,ACCEPTANCE,17,0,EQ,len(df),One row per feature,Acceptance C
+outputs/part_c_feature_scores.csv,feature_names_unique,ACCEPTANCE,1,0,EQ,int(df.feature.is_unique and set(df.feature) <= set(read('data/modelling_table.csv').columns)),"17 distinct feature names, all columns of the modelling table",Task C3
+outputs/part_c_feature_scores.csv,feature_scores_finite,ACCEPTANCE,1,0,EQ,"int(np.isfinite(df[['f_score', 'rf_importance']]).all().all())",No missing or infinite scores,Task C3
+outputs/part_c_feature_scores.csv,f_rank_follows_f_score,ACCEPTANCE,1,0,EQ,"int(df.sort_values('f_score', ascending=False).f_rank.tolist() == list(range(1, 18)))","f_rank 1 = highest F-score, through 17",Task C3
+outputs/part_c_feature_scores.csv,top_seven_features_exact,ACCEPTANCE,1,0,EQ,"int(set(df[df.f_rank <= 7].feature) == {'distance_km', 'hub_tier', 'hub_daily_capacity', 'n_stops', 'promised_hours', 'rain_flag', 'sale_event_flag'})",Ranks 1-7 are exactly the seven signal columns,Acceptance C
+outputs/part_c_feature_scores.csv,selected_feature_distance_km_position,REFERENCE,1,0,EQ,get('f_rank__distance_km'),F-score rank of distance_km in the pinned run,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_hub_tier_position,REFERENCE,2,0,EQ,get('f_rank__hub_tier'),F-score rank of hub_tier in the pinned run,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_hub_daily_capacity_position,REFERENCE,3,0,EQ,get('f_rank__hub_daily_capacity'),F-score rank of hub_daily_capacity in the pinned run,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_n_stops_position,REFERENCE,4,0,EQ,get('f_rank__n_stops'),F-score rank of n_stops in the pinned run,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_promised_hours_position,REFERENCE,5,0,EQ,get('f_rank__promised_hours'),F-score rank of promised_hours in the pinned run,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_rain_flag_position,REFERENCE,6,0,EQ,get('f_rank__rain_flag'),F-score rank of rain_flag in the pinned run,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,selected_feature_sale_event_flag_position,REFERENCE,7,0,EQ,get('f_rank__sale_event_flag'),F-score rank of sale_event_flag in the pinned run,Acceptance C (listed order)
+outputs/part_c_feature_scores.csv,top_seven_min_f_score_minimum,ACCEPTANCE,30,0,GT,df[df.f_rank <= 7].f_score.min(),Smallest F-score among the top seven is above 30,Acceptance C
+outputs/part_c_feature_scores.csv,noise_columns_identified,ACCEPTANCE,1,0,EQ,"int(set(df[df.is_noise.astype(str) == 'True'].feature) == {'label_print_batch', 'scanner_build_no', 'tape_roll_no', 'sticker_serial_mod', 'shelf_slot_no'})",is_noise is True for exactly the five NOISE_COLUMNS,Task C3
+outputs/part_c_feature_scores.csv,every_noise_column_f_rank_minimum,ACCEPTANCE,8,0,GE,df[df.is_noise.astype(str) == 'True'].f_rank.min(),Every noise column ranks 8 or lower (outside the top seven),Acceptance C
+outputs/part_c_feature_scores.csv,every_noise_column_f_score_strict_maximum,ACCEPTANCE,10,0,LT,df[df.is_noise.astype(str) == 'True'].f_score.max(),Every noise column has F-score below 10,Acceptance C
+outputs/part_c_feature_scores.csv,combined_noise_importance_reference,REFERENCE,0.225,0.001,EQ,df[df.is_noise.astype(str) == 'True'].rf_importance.sum(),Noise columns' share of forest importance,Reference table C
+outputs/part_c_feature_scores.csv,combined_noise_importance_minimum,ACCEPTANCE,0.15,0,GE,df[df.is_noise.astype(str) == 'True'].rf_importance.sum(),Noise share band lower edge,Reference table C
+outputs/part_c_feature_scores.csv,combined_noise_importance_maximum,ACCEPTANCE,0.3,0,LE,df[df.is_noise.astype(str) == 'True'].rf_importance.sum(),Noise share band upper edge,Reference table C
+outputs/part_c_feature_scores.csv,forest_importance_sums_to_one,ACCEPTANCE,1,0.002,EQ,df.rf_importance.sum(),Forest importances add up to 1 (allowing for rounding),Task C3
+outputs/part_c_feature_scores.csv,feature_scores_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+outputs/part_c_selectk.csv,selectk_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['k', 'val_f1'])","Columns are exactly k, val_f1",Task C3
+outputs/part_c_selectk.csv,selectk_row_count,ACCEPTANCE,5,0,EQ,len(df),Five k values,Acceptance C
+outputs/part_c_selectk.csv,required_k_values_present,ACCEPTANCE,1,0,EQ,"int(df.k.tolist() == [5, 7, 10, 12, 17])","k is 5, 7, 10, 12, 17",Task C3
+outputs/part_c_selectk.csv,validation_f1_values_valid,ACCEPTANCE,1,0,EQ,"int(df.val_f1.between(0, 1).all())",Every val_f1 is between 0 and 1,Task C3
+outputs/part_c_selectk.csv,selectk_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+outputs/part_c_tuning.csv,tuning_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['search', 'candidates', 'cv_folds', 'total_fits', 'best_params', 'best_cv_accuracy', 'val_f1'])","Columns are exactly search, candidates, cv_folds, total_fits, best_params, best_cv_accuracy, val_f1",Task C4
+outputs/part_c_tuning.csv,tuning_row_count,ACCEPTANCE,3,0,EQ,len(df),Three rows,Task C4
+outputs/part_c_tuning.csv,required_search_rows_present,ACCEPTANCE,1,0,EQ,"int(sorted(df.search) == ['default_forest_same_7_features', 'grid_search', 'randomized_search'])","Rows are grid_search, randomized_search, default_forest_same_7_features",Task C4
+outputs/part_c_tuning.csv,grid_search_candidates,ACCEPTANCE,27,0,EQ,get('candidates__grid_search'),Grid candidates,Acceptance C
+outputs/part_c_tuning.csv,grid_search_cv_folds,ACCEPTANCE,5,0,EQ,get('cv_folds__grid_search'),Grid CV folds,Task C4
+outputs/part_c_tuning.csv,grid_search_total_fits,ACCEPTANCE,135,0,EQ,get('total_fits__grid_search'),Grid total fits = 27 x 5,Acceptance C
+outputs/part_c_tuning.csv,randomized_search_candidates,ACCEPTANCE,9,0,EQ,get('candidates__randomized_search'),Randomized candidates,Acceptance C
+outputs/part_c_tuning.csv,randomized_search_cv_folds,ACCEPTANCE,5,0,EQ,get('cv_folds__randomized_search'),Randomized CV folds,Task C4
+outputs/part_c_tuning.csv,randomized_search_total_fits,ACCEPTANCE,45,0,EQ,get('total_fits__randomized_search'),Randomized total fits = 9 x 5,Acceptance C
+outputs/part_c_tuning.csv,default_forest_same_7_features_candidates,ACCEPTANCE,1,0,EQ,get('candidates__default_forest_same_7_features'),Untuned forest: candidates 1,Task C4
+outputs/part_c_tuning.csv,default_forest_same_7_features_cv_folds,ACCEPTANCE,0,0,EQ,get('cv_folds__default_forest_same_7_features'),Untuned forest: cv_folds 0,Task C4
+outputs/part_c_tuning.csv,default_forest_same_7_features_total_fits,ACCEPTANCE,1,0,EQ,get('total_fits__default_forest_same_7_features'),Untuned forest: total_fits 1,Task C4
+outputs/part_c_tuning.csv,default_forest_best_params_is_defaults,ACCEPTANCE,defaults,0,EQ,get('best_params__default_forest_same_7_features'),Untuned forest: best_params = defaults,Task C4
+outputs/part_c_tuning.csv,default_forest_best_cv_accuracy_blank,ACCEPTANCE,1,0,EQ,int(pd.isna(get('best_cv_accuracy__default_forest_same_7_features'))),Untuned forest: best_cv_accuracy left blank,Task C4
+outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_reference,REFERENCE,0.8952,0.0001,EQ,get('best_cv_accuracy__grid_search'),Grid best CV accuracy,Reference table C
+outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_minimum,ACCEPTANCE,0.86,0,GE,get('best_cv_accuracy__grid_search'),Grid best CV accuracy band lower edge,Reference table C
+outputs/part_c_tuning.csv,grid_search_best_cv_accuracy_maximum,ACCEPTANCE,0.93,0,LE,get('best_cv_accuracy__grid_search'),Grid best CV accuracy band upper edge,Reference table C
+outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_reference,REFERENCE,0.8905,0.0001,EQ,get('best_cv_accuracy__randomized_search'),Randomized best CV accuracy,Reference table C
+outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_minimum,ACCEPTANCE,0.86,0,GE,get('best_cv_accuracy__randomized_search'),Randomized best CV accuracy band lower edge,Reference table C
+outputs/part_c_tuning.csv,randomized_search_best_cv_accuracy_maximum,ACCEPTANCE,0.93,0,LE,get('best_cv_accuracy__randomized_search'),Randomized best CV accuracy band upper edge,Reference table C
+outputs/part_c_tuning.csv,grid_best_cv_accuracy_at_least_randomized,ACCEPTANCE,1,0,EQ,int(get('best_cv_accuracy__grid_search') >= get('best_cv_accuracy__randomized_search')),Grid best_cv_accuracy >= randomized,Acceptance C
+outputs/part_c_tuning.csv,grid_search_f1_val_reference,REFERENCE,0.775,0.001,EQ,get('val_f1__grid_search'),Grid winner F1 on validation,Reference table C
+outputs/part_c_tuning.csv,grid_search_f1_val_minimum,ACCEPTANCE,0.65,0,GE,get('val_f1__grid_search'),Grid val_f1 band,Reference table C
+outputs/part_c_tuning.csv,randomized_search_f1_val_reference,REFERENCE,0.79,0.001,EQ,get('val_f1__randomized_search'),Randomized winner F1 on validation,Reference table C
+outputs/part_c_tuning.csv,randomized_search_f1_val_minimum,ACCEPTANCE,0.65,0,GE,get('val_f1__randomized_search'),Randomized val_f1 band,Reference table C
+outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_reference,REFERENCE,0.833,0.001,EQ,get('val_f1__default_forest_same_7_features'),Untuned forest F1 on validation,Reference table C
+outputs/part_c_tuning.csv,default_forest_same_7_features_f1_val_minimum,ACCEPTANCE,0.65,0,GE,get('val_f1__default_forest_same_7_features'),Untuned forest val_f1 band,Reference table C
+outputs/part_c_tuning.csv,tuning_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+outputs/part_c_thresholds.csv,thresholds_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['threshold', 'TN', 'FP', 'FN', 'TP', 'accuracy', 'precision', 'recall', 'f1'])","Columns are exactly threshold, TN, FP, FN, TP, accuracy, precision, recall, f1",Task C6
+outputs/part_c_thresholds.csv,thresholds_row_count,ACCEPTANCE,9,0,EQ,len(df),Nine thresholds,Acceptance C
+outputs/part_c_thresholds.csv,required_thresholds_present,ACCEPTANCE,1,0,EQ,"int(df.threshold.tolist() == [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])",Thresholds are exactly 0.1 to 0.9 in steps of 0.1,Task C6
+outputs/part_c_thresholds.csv,thresholds_cover_validation_rows,ACCEPTANCE,1,0,EQ,"int((df[['TN', 'FP', 'FN', 'TP']].sum(axis=1) == 180).all())",Each threshold row covers the 180 validation rows,Task C6
+outputs/part_c_thresholds.csv,threshold_metrics_consistent,ACCEPTANCE,1,0,EQ,confusion_ok(df),"TN/FP/FN/TP reproduce accuracy, precision, recall and f1 in every row",Task C6
+outputs/part_c_thresholds.csv,recall_nonincreasing_with_threshold,ACCEPTANCE,1,0,EQ,int(df.recall.is_monotonic_decreasing),Recall never increases as threshold rises,Acceptance C
+outputs/part_c_thresholds.csv,thresholds_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+part_c_classification.py,thresholds_not_unrounded_arange,ACCEPTANCE,1,0,EQ,int(not ('arange(' in code and 'round' not in code)),Thresholds not built with an unrounded np.arange,Task C6
+outputs/part_c_final_config.csv,final_config_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['selector_k', 'n_estimators', 'max_depth', 'min_samples_leaf', 'threshold', 'chosen_from'])","Columns are exactly selector_k, n_estimators, max_depth, min_samples_leaf, threshold, chosen_from",Task C7
+outputs/part_c_final_config.csv,final_config_row_count,ACCEPTANCE,1,0,EQ,len(df),One row,Task C7
+outputs/part_c_final_config.csv,final_config_selector_k,ACCEPTANCE,7,0,EQ,df.selector_k.item(),selector_k = 7,Task C5 / C7
+outputs/part_c_final_config.csv,chosen_from_follows_tie_rule,ACCEPTANCE,1,0,EQ,"(lambda t: int(df.chosen_from.item() == t.assign(o=t.search.map({'default_forest_same_7_features': 0, 'grid_search': 1, 'randomized_search': 2})).sort_values(['val_f1', 'o'], ascending=[False, True]).search.iloc[0]))(read('outputs/part_c_tuning.csv'))","chosen_from = highest val_f1 in the tuning table (ties: default, grid, randomized)",Task C5
+outputs/part_c_final_config.csv,final_params_match_chosen_row,ACCEPTANCE,1,0,EQ,"(lambda t, c: int([str(c.n_estimators.item()), str(c.max_depth.item()), str(c.min_samples_leaf.item())] == (['100', 'unlimited', '1'] if c.chosen_from.item() == 'default_forest_same_7_features' else (lambda p: [str(p['n_estimators']), 'unlimited' if p['max_depth'] is None else str(p['max_depth']), str(p['min_samples_leaf'])])(literal(t.set_index('search').loc[c.chosen_from.item(), 'best_params'])))))(read('outputs/part_c_tuning.csv'), df)",n_estimators / max_depth / min_samples_leaf match the chosen tuning row,Task C5 / C7
+outputs/part_c_final_config.csv,chosen_from_reference,REFERENCE,default_forest_same_7_features,0,EQ,df.chosen_from.item(),Winning candidate in the pinned run,Task C5 note
+outputs/part_c_final_config.csv,threshold_rule_satisfied,ACCEPTANCE,1,0,EQ,(lambda t: int(abs(df.threshold.item() - (t[t.recall >= 0.80].threshold.max() if (t.recall >= 0.80).any() else 0.1)) < 1e-9))(read('outputs/part_c_thresholds.csv')),Threshold = highest t with validation recall >= 0.80 (else 0.1),Task C6 / acceptance
+outputs/part_c_final_config.csv,selected_threshold,REFERENCE,0.5,0,EQ,df.threshold.item(),Chosen threshold in the pinned run,Reference table C
+outputs/part_c_final_test.csv,final_test_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['threshold', 'TN', 'FP', 'FN', 'TP', 'accuracy', 'precision', 'recall', 'f1'])","Columns are exactly threshold, TN, FP, FN, TP, accuracy, precision, recall, f1",Task C7
+outputs/part_c_final_test.csv,final_test_row_count,ACCEPTANCE,1,0,EQ,len(df),One row,Acceptance C
+outputs/part_c_final_test.csv,threshold_matches_config,ACCEPTANCE,1,0,EQ,int(abs(df.threshold.item() - read('outputs/part_c_final_config.csv').threshold.item()) < 1e-9),Test threshold equals the chosen threshold,Acceptance C
+outputs/part_c_final_test.csv,confusion_metrics_consistent,ACCEPTANCE,1,0,EQ,confusion_ok(df),"TN/FP/FN/TP reproduce accuracy, precision, recall and f1",Task C7
+outputs/part_c_final_test.csv,test_precision_reference,REFERENCE,0.6889,0.0001,EQ,df.precision.item(),Test precision,Reference table C
+outputs/part_c_final_test.csv,test_precision_minimum,ACCEPTANCE,0.45,0,GE,df.precision.item(),Test precision band,Reference table C
+outputs/part_c_final_test.csv,test_recall_reference,REFERENCE,0.7561,0.0001,EQ,df.recall.item(),Test recall,Reference table C
+outputs/part_c_final_test.csv,test_recall_minimum,ACCEPTANCE,0.55,0,GE,df.recall.item(),Test recall band,Reference table C
+outputs/part_c_final_test.csv,test_f1_reference,REFERENCE,0.7209,0.0001,EQ,df.f1.item(),Test F1,Reference table C
+outputs/part_c_final_test.csv,test_f1_minimum,ACCEPTANCE,0.6,0,GE,df.f1.item(),Test F1 band,Reference table C
+outputs/part_c_final_test.csv,final_test_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+part_c_classification.py,no_fit_on_val_or_test_rows,ACCEPTANCE,none,0,EQ,"'; '.join(re.findall(r'\.fit(?:_transform)?\([^)]*?(?:val|test|temp)[^)]*\)', code)) or 'none'","Selector, scaler and models fitted on training rows only (generated shows any offending call)",Task C4 / acceptance
+part_c_classification.py,test_rows_scored_once,ACCEPTANCE,1,0,EQ,"len(re.findall(r'\.(?:predict|predict_proba|score)\([^)]*test', code))",Exactly one predict / predict_proba / score call on test rows,Task C7 / acceptance

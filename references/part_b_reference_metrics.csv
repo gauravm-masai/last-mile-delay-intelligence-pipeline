@@ -1,67 +1,71 @@
-source_file,metric_name,metric_value,tolerance
-outputs/part_b_checks.csv,row_count,5,0
-outputs/part_b_checks.csv,column_count,2,0
-outputs/part_b_checks.csv,train_rows,840,0
-outputs/part_b_checks.csv,val_rows,180,0
-outputs/part_b_checks.csv,test_rows,180,0
-outputs/part_b_checks.csv,train_scaled_max_abs_mean,0,0
-outputs/part_b_checks.csv,test_scaled_max_abs_mean,0.2187,0.02
-outputs/part_b_checks.csv,train_scaled_mean_below_1e_9,1,0
-outputs/part_b_checks.csv,test_scaled_mean_exceeds_0_01,1,0
-outputs/part_b_metrics.csv,row_count,6,0
-outputs/part_b_metrics.csv,column_count,6,0
-outputs/part_b_metrics.csv,schema_matches,1,0
-outputs/part_b_metrics.csv,val_row_count,5,0
-outputs/part_b_metrics.csv,test_row_count,1,0
-outputs/part_b_metrics.csv,model_present__val__baseline,1,0
-outputs/part_b_metrics.csv,model_present__val__linear_regression,1,0
-outputs/part_b_metrics.csv,model_present__val__decision_tree,1,0
-outputs/part_b_metrics.csv,model_present__val__random_forest,1,0
-outputs/part_b_metrics.csv,model_present__val__gradient_boosting,1,0
-outputs/part_b_metrics.csv,model_present__test__linear_regression,1,0
-outputs/part_b_metrics.csv,rmse_consistency,1,0
-outputs/part_b_metrics.csv,val_r2__baseline,-0.021,0.01
-outputs/part_b_metrics.csv,val_r2__linear_regression,0.931,0.01
-outputs/part_b_metrics.csv,val_r2__decision_tree,0.887,0.01
-outputs/part_b_metrics.csv,val_r2__random_forest,0.914,0.01
-outputs/part_b_metrics.csv,val_r2__gradient_boosting,0.931,0.01
-outputs/part_b_metrics.csv,test_r2__linear_regression,0.949,0.01
-outputs/part_b_tree_depth.csv,row_count,8,0
-outputs/part_b_tree_depth.csv,column_count,3,0
-outputs/part_b_tree_depth.csv,tree_depth_present__1,1,0
-outputs/part_b_tree_depth.csv,tree_depth_present__2,1,0
-outputs/part_b_tree_depth.csv,tree_depth_present__3,1,0
-outputs/part_b_tree_depth.csv,tree_depth_present__4,1,0
-outputs/part_b_tree_depth.csv,tree_depth_present__6,1,0
-outputs/part_b_tree_depth.csv,tree_depth_present__8,1,0
-outputs/part_b_tree_depth.csv,tree_depth_present__12,1,0
-outputs/part_b_tree_depth.csv,tree_depth_present__unlimited,1,0
-outputs/part_b_tree_depth.csv,tree_best_depth,6,0
-outputs/part_b_tree_depth.csv,tree_best_val_rmse,6.28,0.5
-outputs/part_b_tree_depth.csv,tree_train_rmse_nonincreasing,1,0
-outputs/part_b_tree_depth.csv,tree_depth_1_gap,0.50,0.01
-outputs/part_b_tree_depth.csv,tree_depth_1_vs_best_gap,5.85,0.5
-outputs/part_b_tree_depth.csv,tree_unlimited_train_rmse,0,0.01
-outputs/part_b_tree_depth.csv,tree_unlimited_gap,7.79,0.5
-outputs/part_b_tree_depth.csv,tree_decision_tree_rmse_matches_best,1,0
-outputs/part_b_gb_learning_rate.csv,row_count,3,0
-outputs/part_b_gb_learning_rate.csv,column_count,3,0
-outputs/part_b_gb_learning_rate.csv,gb_learning_rate_present__0.01,1,0
-outputs/part_b_gb_learning_rate.csv,gb_learning_rate_present__0.1,1,0
-outputs/part_b_gb_learning_rate.csv,gb_learning_rate_present__1.0,1,0
-outputs/part_b_gb_learning_rate.csv,gb_val_r2__lr_0.01,0.713,0.02
-outputs/part_b_gb_learning_rate.csv,gb_val_r2__lr_0.1,0.931,0.02
-outputs/part_b_gb_learning_rate.csv,gb_val_r2__lr_1.0,0.844,0.02
-outputs/part_b_gb_learning_rate.csv,gb_r2_ranking_ok,1,0
-outputs/part_b_gb_learning_rate.csv,gb_r2_0_1_minimum_met,1,0
-outputs/part_b_gb_learning_rate.csv,gb_r2_0_01_maximum_met,1,0
-outputs/part_b_cv.csv,row_count,2,0
-outputs/part_b_cv.csv,column_count,3,0
-outputs/part_b_cv.csv,cv_model_present__linear_regression,1,0
-outputs/part_b_cv.csv,cv_model_present__gradient_boosting,1,0
-outputs/part_b_cv.csv,cv_mean_r2__linear_regression,0.926,0.02
-outputs/part_b_cv.csv,cv_mean_r2__gradient_boosting,0.935,0.02
-outputs/part_b_cv.csv,cv_std_r2__linear_regression,0.0048,0.01
-outputs/part_b_cv.csv,cv_std_r2__gradient_boosting,0.0044,0.01
-outputs/part_b_cv.csv,cv_all_means_at_least_0_90,1,0
-outputs/part_b_cv.csv,cv_all_stds_at_most_0_03,1,0
+source_file,metric_name,value_type,metric_value,tolerance,comparison,expression,description,brief_ref
+outputs/part_b_checks.csv,checks_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['metric', 'value'])","Columns are exactly metric, value",Task B2
+outputs/part_b_checks.csv,checks_row_count,ACCEPTANCE,5,0,EQ,len(df),Five metrics written,Task B2
+outputs/part_b_checks.csv,train_rows,ACCEPTANCE,840,0,EQ,get('train_rows'),Training rows (70%),Task B1 / acceptance
+outputs/part_b_checks.csv,val_rows,ACCEPTANCE,180,0,EQ,get('val_rows'),Validation rows,Task B1 / acceptance
+outputs/part_b_checks.csv,test_rows,ACCEPTANCE,180,0,EQ,get('test_rows'),Test rows,Task B1 / acceptance
+outputs/part_b_checks.csv,train_scaled_max_abs_mean_max,ACCEPTANCE,0.000000001,0,LT,get('train_scaled_max_abs_mean'),Scaled training columns have mean ~0 (scaler fitted on train),Acceptance B
+outputs/part_b_checks.csv,test_scaled_max_abs_mean_min,ACCEPTANCE,0.01,0,GT,get('test_scaled_max_abs_mean'),Scaled test columns are clearly non-zero (scaler not fitted on test),Acceptance B
+outputs/part_b_checks.csv,checks_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+outputs/part_b_metrics.csv,metrics_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['model', 'split', 'MAE', 'MSE', 'RMSE', 'R2'])","Columns are exactly model, split, MAE, MSE, RMSE, R2",Task B5
+outputs/part_b_metrics.csv,metrics_row_count,ACCEPTANCE,6,0,EQ,len(df),Five validation rows + one test row,Acceptance B
+outputs/part_b_metrics.csv,metrics_val_row_count,ACCEPTANCE,5,0,EQ,int((df.split == 'val').sum()),Five rows with split = val,Task B5
+outputs/part_b_metrics.csv,metrics_test_row_count,ACCEPTANCE,1,0,EQ,int((df.split == 'test').sum()),Exactly one row with split = test,Acceptance B
+outputs/part_b_metrics.csv,baseline_present_val,ACCEPTANCE,1,0,EQ,"len(df.query(""model == 'baseline' and split == 'val'""))",mean_baseline validation row present,Task B5
+outputs/part_b_metrics.csv,linear_regression_present_val,ACCEPTANCE,1,0,EQ,"len(df.query(""model == 'linear_regression' and split == 'val'""))",linear_regression validation row present,Task B5
+outputs/part_b_metrics.csv,decision_tree_present_val,ACCEPTANCE,1,0,EQ,"len(df.query(""model == 'decision_tree' and split == 'val'""))",decision_tree validation row present,Task B5
+outputs/part_b_metrics.csv,random_forest_present_val,ACCEPTANCE,1,0,EQ,"len(df.query(""model == 'random_forest' and split == 'val'""))",random_forest validation row present,Task B5
+outputs/part_b_metrics.csv,gradient_boosting_present_val,ACCEPTANCE,1,0,EQ,"len(df.query(""model == 'gradient_boosting' and split == 'val'""))",gradient_boosting validation row present,Task B5
+outputs/part_b_metrics.csv,final_model_is_lowest_val_rmse,ACCEPTANCE,1,0,EQ,"int(df.query(""split == 'test'"").model.item() == df.query(""split == 'val' and model != 'mean_baseline'"").sort_values('RMSE').model.iloc[0])",Test row belongs to the candidate with the lowest validation RMSE,Task B7
+outputs/part_b_metrics.csv,rmse_mse_consistency,ACCEPTANCE,1,0,EQ,int(((df.RMSE - df.MSE ** 0.5).abs() <= 0.001).all()),Every RMSE equals sqrt(MSE) within 0.001,Task B5 / acceptance
+outputs/part_b_metrics.csv,baseline_r2_val,REFERENCE,-0.021,0.01,EQ,get('R2__baseline__val'),Baseline R2 on validation,Reference table B
+outputs/part_b_metrics.csv,baseline_r2_val_minimum,ACCEPTANCE,-0.1,0,GE,get('R2__baseline__val'),Baseline R2 band lower edge,Reference table B
+outputs/part_b_metrics.csv,baseline_r2_val_maximum,ACCEPTANCE,0.02,0,LE,get('R2__baseline__val'),Baseline R2 band upper edge,Reference table B
+outputs/part_b_metrics.csv,linear_regression_r2_val,REFERENCE,0.931,0.01,EQ,get('R2__linear_regression__val'),Linear regression R2 on validation,Reference table B
+outputs/part_b_metrics.csv,linear_regression_r2_val_minimum,ACCEPTANCE,0.88,0,GE,get('R2__linear_regression__val'),Linear regression R2 band,Reference table B
+outputs/part_b_metrics.csv,decision_tree_r2_val,REFERENCE,0.887,0.01,EQ,get('R2__decision_tree__val'),Decision tree R2 on validation,Reference table B
+outputs/part_b_metrics.csv,decision_tree_r2_val_minimum,ACCEPTANCE,0.82,0,GE,get('R2__decision_tree__val'),Decision tree R2 band,Reference table B
+outputs/part_b_metrics.csv,random_forest_r2_val,REFERENCE,0.914,0.01,EQ,get('R2__random_forest__val'),Random forest R2 on validation,Reference table B
+outputs/part_b_metrics.csv,random_forest_r2_val_minimum,ACCEPTANCE,0.86,0,GE,get('R2__random_forest__val'),Random forest R2 band,Reference table B
+outputs/part_b_metrics.csv,gradient_boosting_r2_val,REFERENCE,0.931,0.01,EQ,get('R2__gradient_boosting__val'),Gradient boosting R2 on validation,Reference table B
+outputs/part_b_metrics.csv,gradient_boosting_r2_val_minimum,ACCEPTANCE,0.88,0,GE,get('R2__gradient_boosting__val'),Gradient boosting R2 band,Reference table B
+outputs/part_b_metrics.csv,final_model_r2_test,REFERENCE,0.949,0.01,EQ,"df.query(""split == 'test'"").R2.item()",Final model R2 on test (linear regression in the pinned run),Reference table B
+outputs/part_b_metrics.csv,final_model_r2_test_minimum,ACCEPTANCE,0.88,0,GE,"df.query(""split == 'test'"").R2.item()",Final model R2 on test band,Reference table B
+outputs/part_b_metrics.csv,decision_tree_rmse_val_best_depth_abs_diff_max,ACCEPTANCE,0.001,0,LE,abs(get('RMSE__decision_tree__val') - read('outputs/part_b_tree_depth.csv').val_rmse.min()),decision_tree val RMSE equals the lowest val_rmse in the depth table,Acceptance B
+outputs/part_b_metrics.csv,metrics_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+outputs/part_b_tree_depth.csv,tree_depth_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['max_depth', 'train_rmse', 'val_rmse'])","Columns are exactly max_depth, train_rmse, val_rmse",Task B4
+outputs/part_b_tree_depth.csv,tree_depth_row_count,ACCEPTANCE,8,0,EQ,len(df),Eight depths,Acceptance B
+outputs/part_b_tree_depth.csv,tree_depths_exact_order,ACCEPTANCE,1,0,EQ,"int(df.max_depth.astype(str).tolist() == ['1', '2', '3', '4', '6', '8', '12', 'unlimited'])","Depths are 1, 2, 3, 4, 6, 8, 12, unlimited in that order",Task B4
+outputs/part_b_tree_depth.csv,decision_tree_train_rmse_nonincreasing_depths,ACCEPTANCE,1,0,EQ,int(df.train_rmse.is_monotonic_decreasing),train_rmse never rises as depth grows,Acceptance B
+outputs/part_b_tree_depth.csv,decision_tree_best_depth_val,REFERENCE,6,0,EQ,"df.loc[df.val_rmse.idxmin(), 'max_depth']",Depth with the lowest val_rmse (ties -> smaller depth),Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_best_depth_val_minimum,ACCEPTANCE,1,0,EQ,"int(str(df.loc[df.val_rmse.idxmin(), 'max_depth']) == 'unlimited' or float(df.loc[df.val_rmse.idxmin(), 'max_depth']) >= 4)","Best depth is 4 or more, or unlimited",Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_best_rmse_val,REFERENCE,6.28,0.01,EQ,df.val_rmse.min(),Lowest val_rmse,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_depth_1,REFERENCE,0.5,0.01,EQ,get('val_rmse__1') - get('train_rmse__1'),Depth 1: val_rmse - train_rmse,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_depth_1_maximum,ACCEPTANCE,2.5,0,LE,get('val_rmse__1') - get('train_rmse__1'),Depth 1 gap small (high bias),Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_depth_1_vs_best,REFERENCE,5.85,0.01,EQ,get('val_rmse__1') - df.val_rmse.min(),Depth 1 val_rmse minus best val_rmse,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_depth_1_vs_best_minimum,ACCEPTANCE,4,0,GE,get('val_rmse__1') - df.val_rmse.min(),Depth 1 clearly worse than best,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_train_rmse_unlimited,REFERENCE,0,0.01,EQ,get('train_rmse__unlimited'),No depth limit: train_rmse,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_val_rmse_unlimited,REFERENCE,7.79,0.01,EQ,get('val_rmse__unlimited'),No depth limit: val_rmse,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_unlimited,REFERENCE,7.79,0.01,EQ,get('val_rmse__unlimited') - get('train_rmse__unlimited'),No depth limit: val_rmse - train_rmse,Reference table B
+outputs/part_b_tree_depth.csv,decision_tree_rmse_gap_unlimited_minimum,ACCEPTANCE,5,0,GE,get('val_rmse__unlimited') - get('train_rmse__unlimited'),No depth limit gap large (high variance),Reference table B
+outputs/part_b_tree_depth.csv,tree_depth_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+outputs/part_b_gb_learning_rate.csv,gb_learning_rate_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['learning_rate', 'val_rmse', 'val_r2'])","Columns are exactly learning_rate, val_rmse, val_r2",Task B6
+outputs/part_b_gb_learning_rate.csv,gb_learning_rate_row_count,ACCEPTANCE,3,0,EQ,len(df),Three learning rates,Acceptance B
+outputs/part_b_gb_learning_rate.csv,gb_learning_rates_exact,ACCEPTANCE,1,0,EQ,"int(df.learning_rate.tolist() == [0.01, 0.1, 1.0])","Learning rates are 0.01, 0.1, 1.0",Task B6
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_ranking_correct,ACCEPTANCE,1,0,EQ,int(get('val_r2__0.1') > get('val_r2__1.0') > get('val_r2__0.01')),R2(0.1) > R2(1.0) > R2(0.01),Acceptance B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_0.01,REFERENCE,0.713,0.01,EQ,get('val_r2__0.01'),Validation R2 at learning rate 0.01,Reference table B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_0.01_maximum,ACCEPTANCE,0.8,0,LE,get('val_r2__0.01'),Learning rate 0.01 too slow,Reference table B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_0.1,REFERENCE,0.931,0.01,EQ,get('val_r2__0.1'),Validation R2 at learning rate 0.1,Reference table B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_0.1_minimum,ACCEPTANCE,0.9,0,GE,get('val_r2__0.1'),Learning rate 0.1 band,Reference table B
+outputs/part_b_gb_learning_rate.csv,gradient_boosting_r2_val_lr_1.0,REFERENCE,0.844,0.01,EQ,get('val_r2__1.0'),Validation R2 at learning rate 1.0,Reference table B
+outputs/part_b_gb_learning_rate.csv,gb_learning_rate_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
+outputs/part_b_cv.csv,cv_schema_matches,ACCEPTANCE,1,0,EQ,"int(list(df.columns) == ['model', 'mean_r2', 'std_r2'])","Columns are exactly model, mean_r2, std_r2",Task B7
+outputs/part_b_cv.csv,cv_row_count,ACCEPTANCE,2,0,EQ,len(df),Two cross-validated models,Acceptance B
+outputs/part_b_cv.csv,cv_models_are_top2_by_val_rmse,ACCEPTANCE,1,0,EQ,"int(set(df.model) == set(read('outputs/part_b_metrics.csv').query(""split == 'val' and model != 'mean_baseline'"").nsmallest(2, 'RMSE').model))",CV models are the two best candidates by validation RMSE,Task B7
+outputs/part_b_cv.csv,linear_regression_mean_r2_cv,REFERENCE,0.926,0.01,EQ,get('mean_r2__linear_regression'),Linear regression CV mean R2,Reference table B
+outputs/part_b_cv.csv,gradient_boosting_mean_r2_cv,REFERENCE,0.935,0.01,EQ,get('mean_r2__gradient_boosting'),Gradient boosting CV mean R2,Reference table B
+outputs/part_b_cv.csv,linear_regression_std_r2_cv,REFERENCE,0.0048,0.0001,EQ,get('std_r2__linear_regression'),Linear regression CV std R2,Reference table B
+outputs/part_b_cv.csv,gradient_boosting_std_r2_cv,REFERENCE,0.0044,0.0001,EQ,get('std_r2__gradient_boosting'),Gradient boosting CV std R2,Reference table B
+outputs/part_b_cv.csv,cv_mean_r2_minimum,ACCEPTANCE,0.9,0,GE,df.mean_r2.min(),Each CV model mean R2 >= 0.90,Reference table B
+outputs/part_b_cv.csv,cv_std_r2_maximum,ACCEPTANCE,0.03,0,LE,df.std_r2.max(),Each CV model std R2 <= 0.03,Reference table B
+outputs/part_b_cv.csv,cv_csv_clean,ACCEPTANCE,1,0,EQ,clean_csv(df),No index column; values rounded to 4 decimals,Brief p6 output rule
