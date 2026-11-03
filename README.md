@@ -204,6 +204,43 @@ The three-cluster solution is therefore retained to balance meaningful separatio
 
 7. **Proposed production triggers require calibration:** The monitoring thresholds and retraining schedule are initial recommendations. They should be validated against real shipment volumes, business costs, and operational requirements before deployment.
 
+## Data Findings
+
+### Part A
+
+- **Data quality:** The raw dataset contained 1,224 rows. Removing 24 duplicate rows left 1,200 unique shipments. Cleaning standardized 12 service-type spellings into three categories and handled missing values and invalid weight sentinels.
+- **Overall delays:** 278 shipments were delayed, representing an overall delay rate of **23.17%**.
+- **Service type:** Express had the highest delay rate at **48.97%**, followed by Standard at **20.56%** and Economy at **8.57%**.
+- **Hub tier:** Delay rates increased from **4.00% for Tier 1** to **21.50% for Tier 2** and **44.00% for Tier 3**.
+- **Distance:** Delay rates increased with distance: **2.19%** for 0-200 km, **13.68%** for 201-400 km, **43.64%** for 401-600 km, and **85.23%** for distances above 600 km.
+- **Correlation:** The three strongest absolute correlations with `delivery_hours` were `promised_hours` (**+0.8372**), `distance_km` (**+0.4013**) and `n_stops` (**+0.3247**).
+- **Declared value:** The original filled declared-value column had a mean of **INR 1,533.0542** and median of **INR 1,121.5000**. After log transformation, these became **7.0277** and **7.0224**, respectively. The much smaller mean-median gap indicates that the transformation reduces skewness.
+
+### Part B
+
+- **Baseline:** The mean-prediction baseline achieved a validation R² of **-0.0212**, indicating little predictive value.
+- **Validation winner:** Linear Regression achieved the lowest validation RMSE of **4.8912 hours** and an R² of **0.9313**. Gradient Boosting was close, with an RMSE of **4.9165 hours** and R² of **0.9306**.
+- **Decision Tree bias-variance:** Depth 1 showed high bias, with training and validation RMSE of **11.6334** and **12.1324** hours. Unlimited depth showed high variance, with training RMSE of **0.0000** and validation RMSE of **7.7890** hours.
+- **Boosting learning rate:** A learning rate of **0.1** performed best (validation RMSE **4.9165** hours). At **0.01**, the model learned too slowly; at **1.0**, larger updates reduced performance through overshooting.
+- **Cross-validation:** Five-fold CV favoured Gradient Boosting (mean R² **0.9352**) over Linear Regression (**0.9261**), whereas validation RMSE favoured Linear Regression. Linear Regression was retained because the prescribed selection rule uses the lowest validation RMSE.
+- **Test performance:** The selected Linear Regression model achieved a test RMSE of **4.5235 hours** and R² of **0.9493**.
+
+### Part C
+
+- **Class distribution and baseline:** The stratified split contained 195, 42 and 41 delayed shipments across training, validation and test sets. The blind baseline achieved **0.7667 accuracy** but zero delayed-class recall and F1, making it unsuitable for delay detection.
+- **Feature signal:** The five noise columns collectively contributed approximately **22.45%** of Random Forest feature importance. All five ranked outside the top seven by F-score. The leading features were `distance_km`, `hub_tier`, `hub_daily_capacity`, `n_stops`, `promised_hours`, `rain_flag` and `sale_event_flag`.
+- **Feature selection:** Among the tested feature counts, **k = 7** achieved the highest validation F1 of **0.8333**, compared with 0.6988, 0.7857, 0.8049 and 0.7848 for k = 5, 10, 12 and 17, respectively.
+- **Hyperparameter tuning:** Grid Search and Randomized Search achieved validation F1-scores of **0.7750** and **0.7848**, respectively, below the untuned seven-feature forest's **0.8333**. This suggests that tuning did not improve this experiment; results from a 180-row validation set should nevertheless be interpreted cautiously.
+- **Alert threshold:** The selected threshold was **0.5**, the highest tested threshold with validation recall of at least 0.80. It achieved validation precision of **0.7955** and recall of **0.8333**; increasing the threshold to 0.6 reduced recall below the required level.
+- **Held-out test performance:** At threshold 0.5, test precision was **0.6889**, recall **0.7561** and F1 **0.7209**. Test recall was lower than validation recall, and the test set contained only **41 delayed shipments**.
+
+### Part D
+
+- **Hub profile:** The analysis covered 24 hubs with 50 historical shipments per hub.
+- **Cluster separation:** The across-to-within distance ratio increased from **2.8940 (K = 2)** to **5.3928 (K = 3)**, **6.3047 (K = 4)** and **6.8866 (K = 5)**. The selected three-cluster solution contained **9, 8 and 7 hubs**.
+- **Segment characteristics:** Average delay rates increased across the segments: **Standard (2.57%)**, **Watch (15.50%)** and **Escalate (46.00%)**. Their respective average delivery times were **47.2396**, **56.8137** and **64.6504 hours**.
+- **Tier comparison:** Four hubs differed from the segment expected from their official tier: **HUB07 (Kolkata), HUB13 (Nagpur), HUB15 (Kochi) and HUB22 (Dehradun)**.
+
 ## Project Documentation
 
 | Part | Description | Documentation |
