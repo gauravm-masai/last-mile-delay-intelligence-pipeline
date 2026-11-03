@@ -22,9 +22,17 @@
 
 **Leakage prevention:** Feature selection is kept inside the modelling pipeline during cross-validation. This ensures that the selector is fitted separately on each cross-validation training fold rather than using information from that fold's validation data. Although this differs from fitting the selector once before the search, it preserves the independence of validation folds and avoids feature-selection leakage. 
 
-## Generated outputs
+## Generated Outputs
 
 Part C generates the following files:
+
+- `outputs/part_c_models.csv` - confusion matrices and classification metrics (accuracy, precision, recall, and F1-score) for the blind baseline, Logistic Regression, selected Decision Tree, and default Random Forest.
+- `outputs/part_c_feature_scores.csv` - F-scores, feature rankings, Random Forest feature importances, and noise-feature indicators for all 17 model features.
+- `outputs/part_c_selectk.csv` - validation F1-scores for the five feature-selection experiments using k = 5, 7, 10, 12, and 17.
+- `outputs/part_c_tuning.csv` - results of Grid Search, Randomized Search, and the default Random Forest experiment using seven selected features, including candidate counts, cross-validation results, best parameters, and validation F1-scores.
+- `outputs/part_c_thresholds.csv` - confusion matrices and classification metrics for the nine evaluated alert thresholds from 0.1 to 0.9.
+- `outputs/part_c_final_test.csv` - final classification metrics and confusion matrix on the held-out test set using the selected alert threshold.
+- `outputs/part_c_final_config.csv` - selected feature count, Random Forest hyperparameters, alert threshold, and the winning model configuration used for subsequent packaging.
 
 ## Data Findings
 

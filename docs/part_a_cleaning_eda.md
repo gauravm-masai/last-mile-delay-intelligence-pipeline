@@ -23,7 +23,7 @@ Part A generates the following files:
 - `outputs/part_a_delay_by_group.csv` - shipment counts, delayed counts, and delay rates by service type, hub tier, and distance band.
 - `outputs/part_a_correlations.csv` - correlation matrix used to examine relationships among the modelling columns.
 
-## Data findings
+## Data Findings
 
 **Data quality and preparation**
 

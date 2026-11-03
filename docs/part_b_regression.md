@@ -17,7 +17,7 @@
 - Run five-fold cross-validation on the two best candidates using the same `KFold` configuration.
 - Select the model with the lowest validation RMSE and evaluate its final performance on the held-out test set.
 
-## Generated outputs
+## Generated Outputs
 
 Part B generates the following files:
 

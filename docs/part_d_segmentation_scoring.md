@@ -18,9 +18,29 @@
 - **Model packaging:** Rebuild the final Part C classification pipeline using the prescribed data split and configuration. Save the fitted model, alert threshold, feature order, and imputation values for reuse.
 - **New shipment scoring:** Load the saved model and supporting files, prepare new shipment data using the shared preprocessing and feature engineering functions, calculate delay probabilities, apply the saved threshold, join the hub segments, and assign recommended actions.
 
-## Generated outputs
+## Generated Outputs
 
 Part D generates the following files:
+
+**Hub segmentation and analysis**
+
+- `outputs/hub_profile.csv` - hub-level shipment counts, mean delivery hours, delay rates, mean distance, and mean number of stops for all 24 hubs.
+- `outputs/part_d_separation.csv` - cluster sizes and across-to-within distance ratios for K-Means experiments using K = 2, 3, 4, and 5.
+- `outputs/hub_segments.csv` - hub-to-segment assignments (Standard, Watch, or Escalate), along with hub city and official tier.
+- `outputs/segment_profile.csv` - aggregate operational performance metrics for each of the three hub segments.
+- `outputs/tier_vs_segment_mismatch.csv` - hubs whose observed operational segments differ from the segments implied by their official tiers.
+
+**Model packaging and reload validation**
+
+- `models/delay_model.pkl` - serialized final classification pipeline, including feature selection and the trained Random Forest model.
+- `models/delay_threshold.csv` - selected alert threshold used for shipment scoring.
+- `models/feature_order.csv` - pinned feature order required for consistent model input during prediction.
+- `models/impute_values.csv` - historical median values used to handle missing numeric values in new shipments.
+- `outputs/part_d_reload_check.csv` - comparison of predictions from the original and reloaded models to verify model persistence and prediction consistency.
+
+**New shipment scoring**
+
+- `outputs/new_shipment_actions.csv` - shipment-level delay probabilities, alert flags, hub segments, and recommended operational actions for the 48 new shipments.
 
 ## Data Findings
 
