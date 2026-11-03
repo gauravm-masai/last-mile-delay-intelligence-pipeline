@@ -36,6 +36,22 @@ Note - The data is synthetic. Delhivery's real shipment records are never used. 
 
 ## Setup and Execution (How to Run)
 
+### Prerequisites
+
+Before running the project, ensure the following are installed:
+
+1. **Git** - Required to clone the repository and pull updates.
+   ```bash
+   git --version
+   ```
+
+2. **Python 3.14.4** - Required to run the project scripts. Verify the installation:
+   ```bash
+   python --version
+   ```
+
+### Execution
+
 Run the commands from the repository root.
 
 **1. Get the latest version from GitHub**
