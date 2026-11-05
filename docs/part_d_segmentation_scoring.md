@@ -1,6 +1,6 @@
 [← Back to Project Overview](../README.md)
 
-# Part D - Hub Segmentation, Model Packaging and Scoring
+# Part D: Hub Segmentation, Model Packaging and Scoring
 
 ## Objectives
 
@@ -69,7 +69,7 @@ The separation ratio increases as the number of clusters increases, indicating g
 
 However, the K = 4 and K = 5 solutions each contain clusters with fewer than six hubs. These smaller groups would contain too few hubs to justify separate operational playbooks.
 
-Therefore, **K = 3 is retained as the business-defined solution**because it provides good cluster separation while maintaining practical group sizes. The three segments contain 7, 8, and 9 hubs, respectively.
+Therefore, **K = 3 is retained as the business-defined solution** because it provides good cluster separation while maintaining practical group sizes. The three segments contain 7, 8, and 9 hubs, respectively.
 
 **Operational segment profiles**
 

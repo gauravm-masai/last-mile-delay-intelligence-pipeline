@@ -1,6 +1,6 @@
 [← Back to Project Overview](../README.md)
 
-# Part C - Delay Classifier and Alert Threshold
+# Part C: Delay Classifier and Alert Threshold
 
 ## Objectives
 
