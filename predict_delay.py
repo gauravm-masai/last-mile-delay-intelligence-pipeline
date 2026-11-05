@@ -41,7 +41,6 @@ def predict_delay(new_shipments, hub_segments, model, X_new, threshold):
     return results
 
 def assign_action(predictions):
-
     # Assign action
     predictions["action"] = np.select(
         [

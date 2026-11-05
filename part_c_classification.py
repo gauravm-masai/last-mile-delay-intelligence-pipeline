@@ -120,40 +120,40 @@ def compare_classifiers(X_train, X_val, y_train, y_val):
     return models, results_df
 
 def analyze_feature_signal(X_train, y_train):
-    # 1. Fit selector on training data
+    # Fit selector on training data
     selector = SelectKBest(score_func=f_classif, k="all")
     selector.fit(X_train, y_train)
 
-    # 2. Transform training data
+    # Transform training data
     X_train_selected = selector.transform(X_train)
 
-    # 3. Fit Random Forest on the transformed training data
+    # Fit Random Forest on the transformed training data
     rf_model = RandomForestClassifier(
         n_estimators=100,
         random_state=42
     )
     rf_model.fit(X_train_selected, y_train)
 
-    # 4. Get F-scores and Random Forest feature importances
+    # Get F-scores and Random Forest feature importances
     feature_scores = pd.DataFrame({
         "feature": X_train.columns,
         "f_score": selector.scores_,
         "rf_importance": rf_model.feature_importances_
     })
 
-    # 5. Rank features: rank 1 is the highest F-score
+    # Rank features: rank 1 is the highest F-score
     feature_scores["f_rank"] = (
         feature_scores["f_score"]
         .rank(method="min", ascending=False)
         .astype(int)
     )
 
-    # 6. Identify noise columns
+    # Identify noise columns
     feature_scores["is_noise"] = (
         feature_scores["feature"].isin(NOISE_COLUMNS)
     )
 
-    # 7. Arrange columns
+    # Arrange columns
     feature_scores = feature_scores[
         ["feature", "f_score", "f_rank", "rf_importance", "is_noise"]
     ]
@@ -197,7 +197,7 @@ def evaluate_selectk(X_train, X_val, y_train, y_val):
     return selectk_results
 
 def tune_random_forest(X_train, X_val, y_train, y_val):
-    # 1. Create pipeline to avoid data leakage into CV folds
+    # Create pipeline to avoid data leakage into CV folds
     pipeline_default_forest = Pipeline([
         ("selector", SelectKBest(score_func=f_classif, k=7)),
         ("model", RandomForestClassifier(
@@ -213,14 +213,14 @@ def tune_random_forest(X_train, X_val, y_train, y_val):
         ("model", RandomForestClassifier(random_state=42))
     ])
 
-    # 2. Define hyperparameter search space
+    # Define hyperparameter search space
     param_grid = {
         "model__n_estimators": [50, 100, 150],
         "model__max_depth": [4, 6, 8],
         "model__min_samples_leaf": [1, 5, 10]
     }
 
-    # 3. Define candidate searches
+    # Define candidate searches
     searches = {
         "grid_search": GridSearchCV(
             estimator=pipeline_search,
@@ -242,7 +242,7 @@ def tune_random_forest(X_train, X_val, y_train, y_val):
     chosen_from = None
     chosen_params = None
 
-    # 4. Run each search and evaluate on validation data
+    # Run each search and evaluate on validation data
     for search_name, search in searches.items():
         #Fit only on training data
         search.fit(X_train, y_train)
@@ -273,7 +273,7 @@ def tune_random_forest(X_train, X_val, y_train, y_val):
             "val_f1": round(val_f1, 4)
         })
 
-    # 5. Evaluate the untuned forest on the same seven features
+    # Evaluate the untuned forest on the same seven features
     pipeline_default_forest.fit(X_train, y_train)
 
     default_predictions = pipeline_default_forest.predict(X_val)
@@ -310,7 +310,7 @@ def tune_random_forest(X_train, X_val, y_train, y_val):
 
     results_df = pd.DataFrame(results, columns=columns)
 
-    # 6. Fit the selected configuration on the original training data
+    # Fit the selected configuration on the original training data
     final_model = Pipeline([
         ("selector", SelectKBest(score_func=f_classif, k=7)),
         ("model", RandomForestClassifier(
@@ -324,16 +324,16 @@ def tune_random_forest(X_train, X_val, y_train, y_val):
     return results_df, final_model, chosen_from, chosen_params
 
 def select_alert_threshold(X_val, y_val, final_model):
-    # 1. Get validation probabilities for the positive class
+    # Get validation probabilities for the positive class
     probabilities = final_model.predict_proba(X_val)[:, 1]
 
-    # 2. Define exact threshold values
+    # Define exact threshold values
     thresholds = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
     results = []
     alert_threshold = 0.1
 
-    # 3. Evaluate each threshold
+    # Evaluate each threshold
     for threshold in thresholds:
         y_pred = (probabilities >= threshold).astype(int)
 
@@ -355,11 +355,11 @@ def select_alert_threshold(X_val, y_val, final_model):
             "f1": round(f1_score(y_val, y_pred, zero_division=0), 4)
         })
 
-        # 4. Keep the highest threshold meeting the recall requirement
+        # Keep the highest threshold meeting the recall requirement
         if recall >= 0.80:
             alert_threshold = threshold
 
-    # 5. Save threshold comparison results
+    # Save threshold comparison results
     columns = [
         "threshold", "TN", "FP", "FN", "TP",
         "accuracy", "precision", "recall", "f1"
@@ -370,13 +370,13 @@ def select_alert_threshold(X_val, y_val, final_model):
     return results_df, alert_threshold
 
 def evaluate_final_test(X_test, y_test, final_model, threshold):
-    # 1. Predict test probabilities exactly once
+    # Predict test probabilities exactly once
     probabilities = final_model.predict_proba(X_test)[:, 1]
 
-    # 2. Apply the selected threshold
+    # Apply the selected threshold
     y_pred = (probabilities >= threshold).astype(int)
 
-    # 3. Calculate test metrics
+    # Calculate test metrics
     tn, fp, fn, tp = confusion_matrix(
         y_test, y_pred, labels=[0, 1]
     ).ravel()

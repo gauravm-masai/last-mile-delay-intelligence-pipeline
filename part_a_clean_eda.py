@@ -203,7 +203,6 @@ if __name__ == "__main__":
         before_metrics
     )
 
-    # Generate the delay evidence and correlation outputs.
     delay_evidence = generate_delay_evidence(modelling_table)
     correlations = generate_correlations(modelling_table)
 

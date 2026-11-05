@@ -509,9 +509,9 @@ def preflight_checks():
     print("PASS: pre-flight checks completed.")
 
 def run_pipeline():
-    # Phase 2: Generate data and run the implementation scripts.
+    # Generate data and run the implementation scripts.
     print("\n" + "#" * 72)
-    print("PHASE 2: DATA GENERATION AND PIPELINE EXECUTION")
+    print("PHASE: DATA GENERATION AND PIPELINE EXECUTION")
     print("#" * 72)
 
     for name, command in PIPELINE_STEPS:

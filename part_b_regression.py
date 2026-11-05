@@ -127,7 +127,6 @@ def evaluate_tree_depths(
         else int(best_tree_row["max_depth"])
     )
 
-    #print(f"Best tree depth - Validation metrics: {best_depth}")
     return tree_depth_df, best_depth
 
 def evaluate_learning_rate(

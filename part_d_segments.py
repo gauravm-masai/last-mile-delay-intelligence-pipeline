@@ -112,14 +112,14 @@ def generate_separation_evidence(hub_profile):
     return separation_df
 
 def create_hub_segments(hubs, hub_profile):
-    # 1. Calculate mean delay rate for each cluster
+    # Calculate mean delay rate for each cluster
     cluster_delay_rates = (
         hub_profile.groupby("cluster")["delay_rate"]
         .mean()
         .sort_values()
     )
 
-    # 2. Assign business segment names in that order
+    # Assign business segment names in that order
     segment_names = ["Standard", "Watch", "Escalate"]
 
     cluster_to_segment = {
@@ -132,7 +132,7 @@ def create_hub_segments(hubs, hub_profile):
 
     hub_profile["segment"] = hub_profile["cluster"].map(cluster_to_segment)
 
-    # 4. Create hub_segments.csv
+    # Create hub_segments.csv
     hub_segments = hub_profile[["hub_id", "segment"]].merge(
         hubs[["hub_id", "hub_city", "hub_tier"]],
         on="hub_id",
