@@ -15,20 +15,20 @@ NOISE_COLUMNS = ["label_print_batch", "scanner_build_no", "tape_roll_no", "stick
 def clean_shipments(raw, medians=None):
     """Clean shipment data and fill missing numeric values with medians."""
 
-    # 1. Drop exact duplicate rows
+    # Drop exact duplicate rows
     clean_df = raw.drop_duplicates().copy()
 
-    # 2. Standardize service_type
+    # Standardize service_type
     clean_df["service_type"] = (
         clean_df["service_type"]
         .str.strip()
         .str.title()
     )
 
-    # 3. Replace missing payment_mode values
+    # Replace missing payment_mode values
     clean_df["payment_mode"] = clean_df["payment_mode"].fillna("Unknown")
 
-    # 4. Convert declared_value to numeric INR
+    # Convert declared_value to numeric INR
     clean_df["declared_value_inr"] = pd.to_numeric(
         clean_df["declared_value"]
         .astype("string")
@@ -40,19 +40,19 @@ def clean_shipments(raw, medians=None):
 
     clean_df = clean_df.drop(columns=["declared_value"])
 
-    # 5. Convert dispatch_time to datetime
+    # Convert dispatch_time to datetime
     clean_df["dispatch_time"] = pd.to_datetime(
         clean_df["dispatch_time"],
         errors="coerce",
     )
 
-    # 6. Treat scanner-fault weights as missing
+    # Treat scanner-fault weights as missing
     clean_df.loc[
         clean_df["parcel_weight_kg"] > 100,
         "parcel_weight_kg",
     ] = np.nan
 
-    # 7. Calculate or reuse the medians
+    # Calculate or reuse the medians
     median_columns = [
         "distance_km",
         "parcel_weight_kg",
@@ -90,7 +90,7 @@ def clean_shipments(raw, medians=None):
 def build_features(clean, hubs):
     """Attach hub information and create shipment features."""
 
-    # 1. Attach hub information using a left merge
+    # Attach hub information using a left merge
     hub_columns = [
         "hub_id",
         "hub_city",
@@ -106,29 +106,29 @@ def build_features(clean, hubs):
         validate="many_to_one"
     )
 
-    # 2. Map service types to promised delivery hours
+    # Map service types to promised delivery hours
     features_df["promised_hours"] = (
         features_df["service_type"]
         .map(PROMISED_HOURS)
         .astype("int")
     )
 
-    # 3. Create COD indicator
+    # Create COD indicator
     features_df["is_cod"] = np.where(
         features_df["payment_mode"] == "COD",1,0
     )
 
-    # 4. Identify weekend dispatches (Saturday = 5, Sunday = 6)
+    # Identify weekend dispatches (Saturday = 5, Sunday = 6)
     features_df["is_weekend"] = np.where(
         features_df["dispatch_time"].dt.dayofweek >= 5,1,0
     )
 
-    # 5. Extract dispatch hour
+    # Extract dispatch hour
     features_df["dispatch_hour"] = (
         features_df["dispatch_time"].dt.hour.astype("int")
     )
 
-    # 6. Log-transform declared value
+    # Log-transform declared value
     features_df["log_declared_value"] = np.log(
         features_df["declared_value_inr"]
     )
