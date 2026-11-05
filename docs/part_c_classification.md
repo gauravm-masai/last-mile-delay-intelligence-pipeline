@@ -14,13 +14,13 @@
 
 - Split the data into training, validation and test sets using two-stage stratified splitting.
 - Evaluate the blind baseline and trained models using confusion matrices, accuracy, precision, recall and F1-score.
-- Rank features using F-scores and Random Forest feature importance, including the combined importance of the five noise columns.
+- Rank features using F-scores and Random Forest feature importance. Also calculate the combined importance of the five noise columns.
 - Compare validation F1-scores for different values of `k` in the feature-selection experiment.
 - Compare the default Random Forest with grid search and randomized search.
 - Evaluate thresholds from 0.1 to 0.9 and select the highest threshold that achieves validation recall of at least 0.80, using 0.1 if none qualifies.
 - Evaluate the selected configuration once on the held-out test set.
 
-**Leakage prevention:** Feature selection is kept inside the modelling pipeline during cross-validation. This ensures that the selector is fitted separately on each cross-validation training fold rather than using information from that fold's validation data. Although this differs from fitting the selector once before the search, it preserves the independence of validation folds and avoids feature-selection leakage. 
+**Leakage prevention:** Feature selection is included inside the modelling pipeline during cross-validation. This ensures that the selector is fitted separately on each training fold without using information from its validation fold. This approach prevents feature-selection leakage and ensures that cross-validation results are evaluated fairly.
 
 ## Generated Outputs
 
@@ -40,7 +40,7 @@ Part C generates the following files:
 
 The prescribed stratified split contains 1,200 shipments: 840 training, 180 validation and 180 test rows. The delayed-parcel counts are 195, 42 and 41, respectively.
 
-The blind baseline predicts every parcel as on time. It achieves accuracy of **0.7667**, but identifies no delayed parcels: its recall and F1-score for the delayed class are both zero. This demonstrates why accuracy alone is insufficient for the operational objective.
+The blind baseline predicts every parcel as on time. It achieves accuracy of **0.7667**, but identifies no delayed parcels: its recall and F1-score for the delayed class are both zero. This shows why accuracy alone is not sufficient for identifying delayed shipments.
 
 | Model | Validation accuracy | Precision | Recall | F1-score |
 |---|---:|---:|---:|---:|
@@ -64,7 +64,7 @@ The seven highest-ranked features by F-score are:
 6. `rain_flag`
 7. `sale_event_flag`
 
-The five noise columns collectively account for approximately **22.45%** of Random Forest feature importance. Each noise column ranks outside the top seven by F-score. This illustrates that a feature can receive some importance from a model without being among the strongest features under the univariate F-score ranking.
+The five noise columns collectively account for approximately **22.45%** of Random Forest feature importance. Each noise column ranks outside the top seven by F-score. This shows that a feature can receive some importance in a model even if it does not rank among the strongest features based on its individual F-score.
 
 **Feature-selection experiment**
 
@@ -78,7 +78,7 @@ The validation F1-scores for the required feature counts were:
 | 12 | 0.8049 |
 | 17 | 0.7848 |
 
-The best result was achieved with **seven features**, with a validation F1-score of **0.8333**. This selected feature count was used in the subsequent default-forest comparison and final configuration.
+The best result was achieved with **seven features**, with a validation F1-score of **0.8333**. The seven selected features were used in the subsequent Random Forest experiment and final configuration.
 
 **Hyperparameter tuning**
 
@@ -92,13 +92,13 @@ The grid search evaluated 27 candidate configurations across five folds, for 135
 
 Grid Search and Randomized Search were evaluated using five-fold cross-validation. The default Random Forest using seven selected features was a separate experiment and did not run cross-validation.
 
-Neither tuning search improved validation F1 over the default forest using the selected seven features. The results therefore support retaining the simpler default configuration for this experiment rather than assuming that hyperparameter tuning must improve performance.
+Neither tuning search improved validation F1 over the default forest using the selected seven features. The results indicate that hyperparameter tuning did not improve validation performance in this experiment. The default Random Forest using seven features therefore remains the preferred configuration.
 
 **Reference benchmark discrepancy**
 
-The PDF benchmark for `default_rf_validation_f1` is **0.800**, with tolerance **±0.001**. The generated value for `random_forest_default`, which uses all 17 features, is **0.7848**. This does not match the benchmark.
+The reference benchmark for `default_rf_validation_f1` is **0.800**, with tolerance **±0.001**. The generated value for `random_forest_default`, which uses all 17 features, is **0.7848**. This does not match the benchmark.
 
-However, the generated value exceeds the separate minimum acceptance criterion of **0.65**. These are distinct checks: meeting the minimum does not mean the benchmark matched. The reference value remains unchanged, and the discrepancy is retained for transparent reporting.
+However, the generated value exceeds the separate minimum acceptance criterion of **0.65**. These are separate checks. Passing the minimum acceptance criterion does not mean that the reference benchmark was matched. The reference value remains unchanged, and the discrepancy is retained for transparent reporting.
 
 The seven-feature default-forest result of **0.8333** is a separate experiment; it must not be substituted for the all-feature default Random Forest result when reporting the benchmark comparison.
 
@@ -108,7 +108,7 @@ The threshold experiment evaluates values from 0.1 to 0.9. The selected threshol
 
 At threshold 0.5, validation recall is **0.8333**, with precision **0.7955**. At threshold 0.6, recall falls to **0.7619**, below the required 0.80. Thus, 0.5 satisfies the selection rule while 0.6 does not.
 
-Lower thresholds generally identify more delayed parcels but generate more false positives. Higher thresholds can improve precision, but risk missing additional delays. The chosen threshold reflects the project's recall requirement rather than simply maximizing accuracy.
+Lower thresholds generally identify more delayed parcels but generate more false positives. Higher thresholds can improve precision, but risk missing additional delays. The threshold is selected based on the required recall of at least 0.80, rather than maximizing accuracy.
 
 **Final held-out test evaluation**
 

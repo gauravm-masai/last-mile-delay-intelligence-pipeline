@@ -6,7 +6,7 @@
 - Establish a baseline for predicting shipment delivery hours.
 - Train and compare Linear Regression, Decision Tree, Random Forest, and Gradient Boosting models.
 - Study decision tree depth and gradient boosting learning rate to understand underfitting, overfitting, and model performance.
-- Use cross-validation to assess the stability of the best candidate models and evaluate the selected model on the test set.
+- Use cross-validation to compare the best candidate models and evaluate the selected model on the test set.
 
 ## High Level Approach
 - Split the modelling dataset into training (840 rows), validation (180 rows), and test (180 rows).
@@ -14,7 +14,7 @@
 - Evaluate a mean-prediction baseline using validation data.
 - Compare decision trees across eight depth configurations and gradient boosting across three learning rates.
 - Evaluate four regression candidates using MAE, MSE, RMSE, and R².
-- Run five-fold cross-validation on the two best candidates using the same `KFold` configuration.
+- Run five-fold cross-validation on the two selected candidates using the same `KFold` configuration.
 - Select the model with the lowest validation RMSE and evaluate its final performance on the held-out test set.
 
 ## Generated Outputs
@@ -33,15 +33,15 @@ Part B generates the following files:
 
 - **Baseline:** The mean-prediction baseline achieved a validation R² of **-0.0212**, close to zero. It provides little predictive value compared with the trained regression models.
 - **Validation winner:** Linear Regression achieved the lowest validation RMSE at **4.8912 hours**, with an R² of **0.9313**. Gradient Boosting was close behind, with an RMSE of **4.9165 hours** and R² of **0.9306**.
-- **Other models:** Random Forest achieved an R² of **0.9141**, while the Decision Tree achieved **0.8867**. All four trained candidates substantially outperformed the baseline.
+- **Other models:** Random Forest achieved an R² of **0.9141**, while the Decision Tree achieved **0.8867**. All four trained models performed considerably better than the baseline.
 - **Final test evaluation:** Linear Regression was evaluated on the held-out test set once, achieving an RMSE of **4.5235 hours** and an R² of **0.9493**.
 
 **Decision tree depth and bias-variance trade-off**
 
 - The best depth was **6**, with a validation RMSE of **6.2796 hours**.
-- At depth 1, training RMSE was **11.6334** and validation RMSE was **12.1324**, a gap of **0.4990 hours**. Both errors are high relative to the best tree, indicating underfitting and high bias.
-- At unlimited depth, training RMSE fell to **0.0000**, while validation RMSE rose to **7.7890**. The gap of **7.7890 hours** indicates overfitting and high variance.
-- Depth 1's validation RMSE exceeded the best depth's RMSE by **5.8528 hours**. Increasing tree depth improves performance initially, but deeper trees eventually generalize less well.
+- At depth 1, training RMSE was **11.6334** and validation RMSE was **12.1324**, a gap of **0.4990 hours**. Both errors are high compared with the best-performing tree, indicating underfitting and high bias.
+- At unlimited depth, training RMSE fell to **0.0000**, while validation RMSE rose to **7.7890**. This large gap indicates overfitting and high variance.
+- Depth 1's validation RMSE exceeded the best depth's RMSE by **5.8528 hours**. Increasing tree depth initially improves performance, but deeper trees eventually start to overfit.
 
 **Gradient Boosting learning-rate experiment**
 
@@ -57,8 +57,8 @@ A learning rate of **0.1** performed best. At **0.01**, the model learns too slo
 
 - Five-fold cross-validation produced a mean R² of **0.9261** for Linear Regression, with a standard deviation of **0.0048**.
 - Gradient Boosting achieved a slightly higher mean R² of **0.9352**, with a standard deviation of **0.0044**.
-- The cross-validation ranking therefore favours Gradient Boosting, while validation RMSE favours Linear Regression. Both models show stable cross-validation scores, with low standard deviations.
-- **Linear Regression remains the selected model** because the assignment specifies selecting the candidate with the lowest validation RMSE. The model was then evaluated once on the held-out test set.
+- The cross-validation ranking therefore favours Gradient Boosting, while validation RMSE favours Linear Regression. Both models have low cross-validation standard deviations, indicating consistent performance across the five folds.
+- **Linear Regression is retained as the final model** because the assignment requires selecting the model with the lowest validation RMSE. The model was then evaluated once on the held-out test set.
 
 ## Validations
 
@@ -66,7 +66,7 @@ A learning rate of **0.1** performed best. At **0.01**, the model learns too slo
 
 Part B checks the prescribed train-validation-test split, training-only scaling, regression metric consistency, decision-tree depth experiments, Gradient Boosting learning rates, cross-validation results, and the final test evaluation.
 
-The generated outputs are compared with the reference values and acceptance criteria in the Capstone PDF. The reference benchmarks below are retained unchanged; generated values are reported separately.
+The generated outputs are compared with the reference values and acceptance criteria in the Capstone PDF. The reference values are kept unchanged, and the generated values are reported separately.
 
 ### Reference metrics compared with generated outputs
 
